@@ -189,7 +189,7 @@ export default async function CompanyPage({ params }: Props) {
                     {review.author.fullName}
                   </span>
                   <span className="inline-flex items-center gap-1 text-[13px] text-[var(--color-navy)]">
-                    <Star className="size-3.5 text-[var(--color-primary)]" aria-hidden />
+                    <Star className="size-4 text-[var(--color-primary)]" aria-hidden />
                     {review.rating}
                   </span>
                 </div>

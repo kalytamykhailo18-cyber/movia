@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Eye, MessageSquare, Heart, MessageCircle, Mail, Users, FileText, TrendingUp } from 'lucide-react'
+import { Eye, MessageSquare, Heart, Mail, Users, FileText, TrendingUp } from 'lucide-react'
+import { WhatsAppIcon } from '@/components/ui/whatsapp-icon'
 import { getCompanySummary, getDefaultCompany } from '@/server/analytics'
 import { StatCard } from '@/components/dashboard/stat-card'
 import { TrendChart } from '@/components/dashboard/trend-chart'
@@ -119,7 +120,7 @@ export default async function DashboardPage() {
           <StatCard
             label="Clics en WhatsApp"
             value={summary.totals.whatsappClicks}
-            icon={<MessageCircle className="size-5" />}
+            icon={<WhatsAppIcon className="size-5" />}
             tone="success"
             testId="kpi-whatsapp"
           />

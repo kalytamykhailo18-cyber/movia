@@ -123,9 +123,9 @@ export default async function BillingPage() {
                       <td className="px-5 py-3">
                         <span className="inline-flex items-center gap-1.5 text-[var(--color-navy)]">
                           {payment.method === 'pse' ? (
-                            <Landmark className="size-3.5" aria-hidden />
+                            <Landmark className="size-4" aria-hidden />
                           ) : (
-                            <CreditCard className="size-3.5" aria-hidden />
+                            <CreditCard className="size-4" aria-hidden />
                           )}
                           {payment.method === 'pse' ? 'PSE' : 'Tarjeta'}
                         </span>
@@ -148,7 +148,7 @@ export default async function BillingPage() {
                             className="inline-flex items-center gap-1.5 text-[var(--color-primary)]"
                             data-testid="invoice-number"
                           >
-                            <Download className="size-3.5" aria-hidden />
+                            <Download className="size-4" aria-hidden />
                             {payment.invoiceNumber}
                           </span>
                         ) : (

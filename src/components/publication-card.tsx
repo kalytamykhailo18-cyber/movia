@@ -88,7 +88,7 @@ export function PublicationCard({
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-[var(--color-text-muted)]">
             {item.cityName ? (
               <span className="inline-flex items-center gap-1">
-                <MapPin className="size-3.5" aria-hidden />
+                <MapPin className="size-4" aria-hidden />
                 {item.cityName}
               </span>
             ) : null}
@@ -98,18 +98,18 @@ export function PublicationCard({
           <div className="flex items-center justify-between border-t border-[var(--color-border)] pt-2">
             <span className="inline-flex min-w-0 items-center gap-1 text-[12px] text-[var(--color-navy)]">
               {item.companyVerified ? (
-                <BadgeCheck className="size-3.5 shrink-0 text-[var(--color-primary)]" aria-hidden />
+                <BadgeCheck className="size-4 shrink-0 text-[var(--color-primary)]" aria-hidden />
               ) : null}
               <span className="truncate">{item.companyName ?? 'Persona natural'}</span>
             </span>
 
             <span className="flex shrink-0 items-center gap-2.5 text-[11px] text-[var(--color-text-muted)]">
               <span className="inline-flex items-center gap-1">
-                <Eye className="size-3.5" aria-hidden />
+                <Eye className="size-4" aria-hidden />
                 {item.viewCount}
               </span>
               <span className="inline-flex items-center gap-1">
-                <MessageSquare className="size-3.5" aria-hidden />
+                <MessageSquare className="size-4" aria-hidden />
                 {item.leadCount}
               </span>
             </span>

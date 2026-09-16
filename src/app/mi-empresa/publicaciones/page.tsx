@@ -68,7 +68,7 @@ export default async function PublicationsPage() {
                       data-testid="performance-title"
                     >
                       <span className="line-clamp-2">{row.title}</span>
-                      <ExternalLink className="mt-0.5 size-3.5 shrink-0" aria-hidden />
+                      <ExternalLink className="mt-0.5 size-4 shrink-0" aria-hidden />
                     </Link>
 
                     <p className="mt-1 text-[14px] font-medium text-[var(--color-navy)]">

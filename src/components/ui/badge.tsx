@@ -48,37 +48,37 @@ export function Badge({
 export function VerifiedBadge({ status }: { status: string }) {
   if (status === 'approved') {
     return (
-      <Badge tone="verified" icon={<BadgeCheck className="size-3.5" aria-hidden />}>
+      <Badge tone="verified" icon={<BadgeCheck className="size-4" aria-hidden />}>
         Empresa verificada
       </Badge>
     )
   }
   if (status === 'pending') {
     return (
-      <Badge tone="pending" icon={<Clock className="size-3.5" aria-hidden />}>
+      <Badge tone="pending" icon={<Clock className="size-4" aria-hidden />}>
         Verificacion pendiente
       </Badge>
     )
   }
   if (status === 'rejected') {
     return (
-      <Badge tone="rejected" icon={<XCircle className="size-3.5" aria-hidden />}>
+      <Badge tone="rejected" icon={<XCircle className="size-4" aria-hidden />}>
         No verificada
       </Badge>
     )
   }
   return (
-    <Badge tone="neutral" icon={<Clock className="size-3.5" aria-hidden />}>
+    <Badge tone="neutral" icon={<Clock className="size-4" aria-hidden />}>
       Requiere revision
     </Badge>
   )
 }
 
 const COMPANY_BADGE: Record<string, { label: string; icon: React.ReactNode }> = {
-  verified: { label: 'Verificada', icon: <BadgeCheck className="size-3.5" aria-hidden /> },
-  top_seller: { label: 'Top seller', icon: <Star className="size-3.5" aria-hidden /> },
-  fast_response: { label: 'Respuesta rapida', icon: <Zap className="size-3.5" aria-hidden /> },
-  veteran: { label: 'Anos en MOVIA', icon: <Calendar className="size-3.5" aria-hidden /> },
+  verified: { label: 'Verificada', icon: <BadgeCheck className="size-4" aria-hidden /> },
+  top_seller: { label: 'Top seller', icon: <Star className="size-4" aria-hidden /> },
+  fast_response: { label: 'Respuesta rapida', icon: <Zap className="size-4" aria-hidden /> },
+  veteran: { label: 'Anos en MOVIA', icon: <Calendar className="size-4" aria-hidden /> },
 }
 
 export function CompanyBadges({ badges }: { badges: string[] }) {

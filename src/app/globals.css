@@ -77,6 +77,14 @@ textarea:focus-visible {
   border-radius: inherit;
 }
 
+
+/* Los iconos vienen en un lienzo de 24 px. Con trazo 1.5 el borde cae sobre
+   un pixel completo a 16 px y se ve nitido en vez de difuminado. */
+svg.lucide {
+  stroke-width: 1.5;
+  shape-rendering: geometricPrecision;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

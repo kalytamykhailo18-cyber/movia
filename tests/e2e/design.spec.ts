@@ -193,6 +193,29 @@ test.describe('Manual de marca - identidad', () => {
     expect(bg).toBe(NAVY)
   })
 
+  test('el boton de WhatsApp usa el glifo de la marca, no uno generico', async ({ page }) => {
+    await page.goto('/buscar')
+    await page.getByTestId('publication-card').first().click()
+
+    const icon = page.getByTestId('contact-whatsapp').locator('svg')
+    await expect(icon).toHaveCount(1)
+
+    // El glifo de marca es solido y no pertenece a la familia lineal.
+    const shape = await icon.evaluate((el) => ({
+      fill: el.getAttribute('fill'),
+      lucide: el.classList.contains('lucide'),
+    }))
+
+    expect(shape.fill).toBe('currentColor')
+    expect(shape.lucide).toBe(false)
+  })
+
+  test('los iconos lineales usan un trazo que cae en pixel completo', async ({ page }) => {
+    await page.goto('/')
+    const stroke = await page.locator('svg.lucide').first().evaluate((el) => getComputedStyle(el).strokeWidth)
+    expect(stroke).toBe('1.5px')
+  })
+
   test('la paleta declarada coincide con el manual', async ({ page }) => {
     await page.goto('/')
 

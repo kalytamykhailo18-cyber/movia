@@ -48,7 +48,7 @@ export function CompletenessBar({
 
       {hint && !compact ? (
         <p className="mt-2 flex items-start gap-1.5 text-[12px] text-[var(--color-text-muted)]">
-          <Info className="mt-0.5 size-3.5 shrink-0 text-[var(--color-primary)]" aria-hidden />
+          <Info className="mt-0.5 size-4 shrink-0 text-[var(--color-primary)]" aria-hidden />
           {hint}
         </p>
       ) : null}

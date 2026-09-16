@@ -45,11 +45,11 @@ export function TrendChart({ data }: { data: Point[] }) {
         <h2 className="text-[18px] font-semibold text-[var(--color-navy)]">Tendencia de los ultimos 30 dias</h2>
         <div className="flex items-center gap-4 text-[12px]">
           <span className="inline-flex items-center gap-1.5 text-[var(--color-text-muted)]">
-            <span className="size-2.5 rounded-full bg-[var(--color-primary)]" />
+            <span className="size-3 rounded-full bg-[var(--color-primary)]" />
             Visualizaciones
           </span>
           <span className="inline-flex items-center gap-1.5 text-[var(--color-text-muted)]">
-            <span className="size-2.5 rounded-full bg-[var(--color-accent)]" />
+            <span className="size-3 rounded-full bg-[var(--color-accent)]" />
             Contactos
           </span>
         </div>

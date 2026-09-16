@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageCircle, Mail, Send, Check } from 'lucide-react'
+import { Mail, Send, Check } from 'lucide-react'
+import { WhatsAppIcon } from '@/components/ui/whatsapp-icon'
 import { Button } from '@/components/ui/button'
 import { toastVariants, accordionVariants, motionEnabled } from '@/lib/motion'
 
@@ -89,7 +90,7 @@ export function ContactPanel({
           disabled={!sellerPhone}
           data-testid="contact-whatsapp"
         >
-          <MessageCircle className="size-4" aria-hidden />
+          <WhatsAppIcon className="size-4" />
           WhatsApp
         </Button>
 
