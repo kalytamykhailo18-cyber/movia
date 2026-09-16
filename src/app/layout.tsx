@@ -4,6 +4,7 @@ import { env } from '@/lib/env'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { ServiceWorker } from '@/components/service-worker'
+import { getSessionUser } from '@/lib/auth'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
@@ -37,12 +38,14 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const user = await getSessionUser()
+
   return (
     <html lang={env.locale.locale.split('-')[0]} className={inter.variable}>
       <body className="flex min-h-dvh flex-col bg-[var(--color-background)] antialiased">
         <ServiceWorker enabled={env.pwa.enabled} />
-        <SiteHeader />
+        <SiteHeader user={user} />
         <main className="mx-auto w-full max-w-[1200px] flex-1 px-4 pb-16 pt-6 md:px-6">{children}</main>
         <SiteFooter />
       </body>

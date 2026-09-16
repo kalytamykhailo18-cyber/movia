@@ -1,7 +1,19 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
+
+const SELLER = { email: 'empresa1@movia.co', password: 'Demo2026' }
+
+// El panel exige sesion, asi que cada prueba entra como el vendedor demo.
+async function loginAsSeller(page: Page) {
+  await page.goto('/ingresar')
+  await page.getByTestId('login-email').fill(SELLER.email)
+  await page.getByTestId('login-password').fill(SELLER.password)
+  await page.getByTestId('login-submit').click()
+  await expect(page).toHaveURL(/\/mi-empresa/)
+}
 
 test.describe('Mi Empresa - resumen', () => {
   test.beforeEach(async ({ page }) => {
+    await loginAsSeller(page)
     await page.goto('/mi-empresa')
   })
 
@@ -65,6 +77,7 @@ test.describe('Mi Empresa - resumen', () => {
 
 test.describe('Mi Empresa - rendimiento por publicacion', () => {
   test.beforeEach(async ({ page }) => {
+    await loginAsSeller(page)
     await page.goto('/mi-empresa/publicaciones')
   })
 
@@ -105,6 +118,7 @@ test.describe('Mi Empresa - rendimiento por publicacion', () => {
 
 test.describe('Mi Empresa - contactos recibidos', () => {
   test.beforeEach(async ({ page }) => {
+    await loginAsSeller(page)
     await page.goto('/mi-empresa/contactos')
   })
 
@@ -129,6 +143,7 @@ test.describe('Mi Empresa - contactos recibidos', () => {
 
 test.describe('Mi Empresa - facturacion', () => {
   test.beforeEach(async ({ page }) => {
+    await loginAsSeller(page)
     await page.goto('/mi-empresa/facturacion')
   })
 
@@ -167,7 +182,7 @@ test.describe('Mi Empresa - facturacion', () => {
 
 test.describe('Navegacion del panel', () => {
   test('recorre las cuatro secciones', async ({ page }) => {
-    await page.goto('/mi-empresa')
+    await loginAsSeller(page)
 
     // En movil la barra de secciones se desplaza en horizontal, igual que al deslizarla con el dedo.
     async function openSection(testId: string) {
@@ -195,6 +210,7 @@ test.describe('Navegacion del panel', () => {
 
 test.describe('Ciclo completo: contacto se refleja en analitica', () => {
   test('un contacto nuevo aparece en el panel del vendedor', async ({ page }) => {
+    await loginAsSeller(page)
     await page.goto('/mi-empresa/contactos')
     const before = Number(await page.getByTestId('leads-total').innerText())
 

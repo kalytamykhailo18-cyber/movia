@@ -75,9 +75,17 @@ contactos que alimenta la analitica.
 
 Accesos:
 
-- Administrador: `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD`
-- Empresas: `empresa1@movia.co` a `empresa5@movia.co` / `SEED_DEMO_PASSWORD`
-- Compradores: `comprador1@movia.co` a `comprador6@movia.co` / `SEED_DEMO_PASSWORD`
+| Perfil | Correo | Clave |
+|---|---|---|
+| Administrador | `admin@movia.co` | `Movia2026` |
+| Empresa vendedora | `empresa1@movia.co` a `empresa5@movia.co` | `Demo2026` |
+| Comprador | `comprador1@movia.co` a `comprador6@movia.co` | `Demo2026` |
+
+Las claves salen de `SEED_ADMIN_PASSWORD` y `SEED_DEMO_PASSWORD` en `.env`.
+
+El administrador entra a `/admin`, donde edita precios, vigencias y cupos de los
+planes, resuelve verificaciones de empresa y suspende cuentas. Lo que cambie en
+tarifas se ve de inmediato en `/planes`.
 
 ## Pruebas
 

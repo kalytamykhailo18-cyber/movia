@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { Eye, MessageSquare, Heart, Clock, ExternalLink } from 'lucide-react'
-import { getPublicationPerformance, getDefaultCompany } from '@/server/analytics'
+import { getPublicationPerformance, getViewerCompany } from '@/server/analytics'
 import { CompletenessBar } from '@/components/ui/completeness-bar'
 import { AnimatedSection } from '@/components/animated-section'
 import { Badge } from '@/components/ui/badge'
@@ -27,8 +27,8 @@ const STATUS_LABEL: Record<string, string> = {
 }
 
 export default async function PublicationsPage() {
-  const company = await getDefaultCompany()
-  if (!company) notFound()
+  const company = await getViewerCompany()
+  if (!company) redirect('/ingresar')
 
   const rows = await getPublicationPerformance(company.id)
 

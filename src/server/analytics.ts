@@ -1,4 +1,5 @@
 import { db } from '@/lib/db'
+import { getSessionUser } from '@/lib/auth'
 import { env } from '@/lib/env'
 import { parseJson } from '@/lib/utils'
 
@@ -264,6 +265,16 @@ export async function getDefaultCompany() {
     orderBy: { createdAt: 'asc' },
     select: { id: true },
   })
+}
+
+// La empresa del panel es la del usuario en sesion. Un administrador sin
+// empresa propia ve la primera, para poder revisar el panel del vendedor.
+export async function getViewerCompany() {
+  const user = await getSessionUser()
+  if (!user) return null
+  if (user.companyId) return { id: user.companyId }
+  if (user.role === 'admin') return getDefaultCompany()
+  return null
 }
 
 export async function getCompanyBilling(companyId: string) {

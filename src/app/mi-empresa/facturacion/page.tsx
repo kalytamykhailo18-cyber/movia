@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { Download, CreditCard, Landmark } from 'lucide-react'
-import { getCompanyBilling, getDefaultCompany } from '@/server/analytics'
+import { getCompanyBilling, getViewerCompany } from '@/server/analytics'
 import { AnimatedSection } from '@/components/animated-section'
 import { Badge } from '@/components/ui/badge'
 import { money, shortDate, relativeDays } from '@/lib/format'
@@ -18,8 +18,8 @@ const STATUS_TONE: Record<string, 'success' | 'pending' | 'danger'> = {
 }
 
 export default async function BillingPage() {
-  const company = await getDefaultCompany()
-  if (!company) notFound()
+  const company = await getViewerCompany()
+  if (!company) redirect('/ingresar')
 
   const { payments, subscription, taxLabel } = await getCompanyBilling(company.id)
 

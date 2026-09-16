@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { Eye, MessageSquare, Heart, Mail, Users, FileText, TrendingUp } from 'lucide-react'
 import { WhatsAppIcon } from '@/components/ui/whatsapp-icon'
-import { getCompanySummary, getDefaultCompany } from '@/server/analytics'
+import { getCompanySummary, getViewerCompany } from '@/server/analytics'
 import { StatCard } from '@/components/dashboard/stat-card'
 import { TrendChart } from '@/components/dashboard/trend-chart'
 import { AnimatedSection } from '@/components/animated-section'
@@ -21,8 +21,8 @@ const SOURCE_LABEL: Record<string, string> = {
 }
 
 export default async function DashboardPage() {
-  const company = await getDefaultCompany()
-  if (!company) notFound()
+  const company = await getViewerCompany()
+  if (!company) redirect('/ingresar')
 
   const summary = await getCompanySummary(company.id)
   if (!summary) notFound()

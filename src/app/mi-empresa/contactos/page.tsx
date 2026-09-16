@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { Mail, MessageSquare } from 'lucide-react'
 import { WhatsAppIcon } from '@/components/ui/whatsapp-icon'
-import { getCompanyLeads, getDefaultCompany } from '@/server/analytics'
+import { getCompanyLeads, getViewerCompany } from '@/server/analytics'
 import { AnimatedSection } from '@/components/animated-section'
 import { Badge } from '@/components/ui/badge'
 import { shortDate } from '@/lib/format'
@@ -19,8 +19,8 @@ const SOURCE: Record<string, { label: string; icon: React.ReactNode; tone: 'succ
 }
 
 export default async function LeadsPage() {
-  const company = await getDefaultCompany()
-  if (!company) notFound()
+  const company = await getViewerCompany()
+  if (!company) redirect('/ingresar')
 
   const { items: leads, total, unread } = await getCompanyLeads(company.id)
 

@@ -4,7 +4,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Heart, MessageSquare, Building2, Plus, Menu, X, LayoutGrid } from 'lucide-react'
+import { Search, Heart, MessageSquare, Building2, Plus, Menu, X, LayoutGrid, LogOut, Shield, UserRound } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import type { SessionUser } from '@/lib/auth'
 import { cn } from '@/lib/utils'
 import { drawerVariants, modalOverlayVariants, tabIndicatorTransition, motionEnabled } from '@/lib/motion'
 
@@ -16,9 +18,16 @@ const NAV = [
   { href: '/mi-empresa', label: 'Mi Empresa', icon: Building2 },
 ]
 
-export function SiteHeader() {
+export function SiteHeader({ user }: { user: SessionUser | null }) {
   const pathname = usePathname()
+  const router = useRouter()
   const [open, setOpen] = useState(false)
+
+  async function logout() {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    router.push('/')
+    router.refresh()
+  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-white">
@@ -63,6 +72,47 @@ export function SiteHeader() {
             <Plus className="size-4" aria-hidden />
             Publicar
           </Link>
+
+          {user ? (
+            <div className="hidden items-center gap-2 lg:flex">
+              {user.role === 'admin' ? (
+                <Link
+                  href="/admin"
+                  data-testid="nav-admin"
+                  className="inline-flex min-h-[44px] items-center gap-1.5 rounded-[var(--radius-input)] border border-[#D1D5DB] px-3 text-[14px] font-medium text-[var(--color-navy)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+                >
+                  <Shield className="size-4" aria-hidden />
+                  Admin
+                </Link>
+              ) : null}
+
+              <span
+                className="inline-flex min-h-[44px] items-center gap-1.5 px-2 text-[14px] text-[var(--color-navy)]"
+                data-testid="session-user"
+              >
+                <UserRound className="size-4" aria-hidden />
+                {user.fullName.split(' ')[0]}
+              </span>
+
+              <button
+                type="button"
+                onClick={logout}
+                data-testid="logout"
+                aria-label="Cerrar sesion"
+                className="inline-flex size-11 items-center justify-center rounded-[var(--radius-input)] text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-danger)]"
+              >
+                <LogOut className="size-4" aria-hidden />
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/ingresar"
+              data-testid="nav-login"
+              className="hidden min-h-[44px] items-center rounded-[var(--radius-input)] border border-[#D1D5DB] px-4 text-[14px] font-medium text-[var(--color-navy)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] lg:inline-flex"
+            >
+              Ingresar
+            </Link>
+          )}
 
           <button
             type="button"
@@ -118,6 +168,41 @@ export function SiteHeader() {
                     {item.label}
                   </Link>
                 ))}
+
+                {user?.role === 'admin' ? (
+                  <Link
+                    href="/admin"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-[var(--radius-input)] px-3 text-[14px] font-medium text-[var(--color-navy)] hover:bg-[var(--color-primary-soft)]"
+                  >
+                    <Shield className="size-4" aria-hidden />
+                    Admin
+                  </Link>
+                ) : null}
+
+                {user ? (
+                  <button
+                    type="button"
+                    data-testid="logout-mobile"
+                    onClick={() => {
+                      setOpen(false)
+                      logout()
+                    }}
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-[var(--radius-input)] px-3 text-left text-[14px] font-medium text-[var(--color-danger)]"
+                  >
+                    <LogOut className="size-4" aria-hidden />
+                    Cerrar sesion
+                  </button>
+                ) : (
+                  <Link
+                    href="/ingresar"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-[var(--radius-input)] px-3 text-[14px] font-medium text-[var(--color-primary)]"
+                  >
+                    <UserRound className="size-4" aria-hidden />
+                    Ingresar
+                  </Link>
+                )}
               </nav>
             </motion.aside>
           </>
