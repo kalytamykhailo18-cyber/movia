@@ -124,6 +124,20 @@ test.describe('Manual de marca - componentes', () => {
 })
 
 test.describe('Manual de marca - identidad', () => {
+  test('el encabezado fijo es opaco y no deja ver el contenido detras', async ({ page }) => {
+    await page.goto('/buscar')
+    await page.evaluate(() => window.scrollBy(0, 600))
+
+    const header = page.locator('header')
+    const style = await header.evaluate((el) => {
+      const s = getComputedStyle(el)
+      return { bg: s.backgroundColor, backdrop: s.backdropFilter }
+    })
+
+    expect(style.bg).toBe('rgb(255, 255, 255)')
+    expect(style.backdrop).toBe('none')
+  })
+
   test('la paleta declarada coincide con el manual', async ({ page }) => {
     await page.goto('/')
 

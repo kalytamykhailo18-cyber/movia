@@ -21,7 +21,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-white">
       <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center gap-4 px-4 md:px-6">
         <Link href="/" className="flex min-h-[44px] shrink-0 items-center" aria-label="MOVIA inicio">
           <img src="/brand/logo-web.png" alt="MOVIA" width={115} height={80} className="h-9 w-auto" />
