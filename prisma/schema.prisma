@@ -1,0 +1,359 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Country {
+  id             String        @id @default(cuid())
+  isoCode        String        @unique
+  name           String
+  currency       String
+  currencySymbol String
+  phonePrefix    String
+  locale         String
+  timezone       String
+  taxRate        Float
+  taxLabel       String
+  active         Boolean       @default(true)
+  cities         City[]
+  users          User[]
+  companies      Company[]
+  publications   Publication[]
+  createdAt      DateTime      @default(now())
+}
+
+model City {
+  id           String        @id @default(cuid())
+  name         String
+  region       String?
+  countryId    String
+  country      Country       @relation(fields: [countryId], references: [id])
+  companies    Company[]
+  publications Publication[]
+
+  @@index([countryId])
+}
+
+model User {
+  id            String        @id @default(cuid())
+  email         String        @unique
+  passwordHash  String
+  fullName      String
+  phone         String?
+  role          String        @default("user")
+  accountType   String        @default("natural")
+  countryId     String
+  country       Country       @relation(fields: [countryId], references: [id])
+  companyId     String?
+  company       Company?      @relation("CompanyMembers", fields: [companyId], references: [id])
+  ownedCompany  Company?      @relation("CompanyOwner")
+  status        String        @default("active")
+  favorites     Favorite[]
+  savedSearches SavedSearch[]
+  leadsSent     Lead[]        @relation("LeadBuyer")
+  reviewsGiven  Review[]      @relation("ReviewAuthor")
+  follows       Follow[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([companyId])
+}
+
+model Company {
+  id                   String         @id @default(cuid())
+  name                 String
+  legalName            String
+  nit                  String         @unique
+  nitCheckDigit        String
+  rut                  String?
+  chamberOfCommerce    String?
+  description          String?
+  logoUrl              String?
+  phone                String?
+  email                String?
+  website              String?
+  address              String?
+  countryId            String
+  country              Country        @relation(fields: [countryId], references: [id])
+  cityId               String?
+  city                 City?          @relation(fields: [cityId], references: [id])
+  verificationStatus   String         @default("pending")
+  verificationNote     String?
+  verifiedAt           DateTime?
+  verificationEvidence String?
+  ownerId              String         @unique
+  owner                User           @relation("CompanyOwner", fields: [ownerId], references: [id])
+  members              User[]         @relation("CompanyMembers")
+  publications         Publication[]
+  subscriptions        Subscription[]
+  payments             Payment[]
+  reviewsReceived      Review[]       @relation("ReviewTarget")
+  followers            Follow[]
+  badges               String         @default("[]")
+  responseTimeMins     Int?
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+
+  @@index([verificationStatus])
+}
+
+model Category {
+  id           String              @id @default(cuid())
+  slug         String              @unique
+  name         String
+  icon         String
+  position     Int                 @default(0)
+  active       Boolean             @default(true)
+  attributes   CategoryAttribute[]
+  publications Publication[]
+}
+
+model CategoryAttribute {
+  id         String   @id @default(cuid())
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  key        String
+  label      String
+  type       String
+  unit       String?
+  options    String   @default("[]")
+  required   Boolean  @default(false)
+  position   Int      @default(0)
+
+  @@unique([categoryId, key])
+}
+
+model Publication {
+  id             String           @id @default(cuid())
+  slug           String           @unique
+  title          String
+  description    String?
+  categoryId     String
+  category       Category         @relation(fields: [categoryId], references: [id])
+  companyId      String?
+  company        Company?         @relation(fields: [companyId], references: [id])
+  brand          String?
+  model          String?
+  year           Int?
+  usageHours     Int?
+  condition      String?
+  price          Float
+  currency       String
+  negotiable     Boolean          @default(false)
+  countryId      String
+  country        Country          @relation(fields: [countryId], references: [id])
+  cityId         String?
+  city           City?            @relation(fields: [cityId], references: [id])
+  latitude       Float?
+  longitude      Float?
+  photos         String           @default("[]")
+  videos         String           @default("[]")
+  documents      String           @default("[]")
+  specs          String           @default("{}")
+  status         String           @default("active")
+  featured       Boolean          @default(false)
+  featuredUntil  DateTime?
+  completeness   Int              @default(0)
+  publishedAt    DateTime         @default(now())
+  expiresAt      DateTime
+  soldAt         DateTime?
+  soldViaMovia   Boolean?
+  viewCount      Int              @default(0)
+  favoriteCount  Int              @default(0)
+  leadCount      Int              @default(0)
+  firstContactAt DateTime?
+  leads          Lead[]
+  favorites      Favorite[]
+  events         AnalyticsEvent[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([status])
+  @@index([categoryId])
+  @@index([companyId])
+  @@index([featured])
+}
+
+model Lead {
+  id            String      @id @default(cuid())
+  publicationId String
+  publication   Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+  buyerId       String?
+  buyer         User?       @relation("LeadBuyer", fields: [buyerId], references: [id])
+  source        String
+  name          String?
+  email         String?
+  phone         String?
+  message       String?
+  readAt        DateTime?
+  createdAt     DateTime    @default(now())
+
+  @@index([publicationId])
+  @@index([source])
+}
+
+model AnalyticsEvent {
+  id            String      @id @default(cuid())
+  publicationId String
+  publication   Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+  type          String
+  sessionId     String?
+  metadata      String      @default("{}")
+  createdAt     DateTime    @default(now())
+
+  @@index([publicationId, type])
+  @@index([createdAt])
+}
+
+model Favorite {
+  id            String      @id @default(cuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  publicationId String
+  publication   Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+
+  @@unique([userId, publicationId])
+}
+
+model Follow {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, companyId])
+}
+
+model SavedSearch {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  query     String
+  filters   String    @default("{}")
+  alerts    Boolean   @default(true)
+  lastRunAt DateTime?
+  createdAt DateTime  @default(now())
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  authorId  String
+  author    User     @relation("ReviewAuthor", fields: [authorId], references: [id])
+  companyId String
+  company   Company  @relation("ReviewTarget", fields: [companyId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String?
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+
+  @@index([companyId, status])
+}
+
+model Plan {
+  id               String         @id @default(cuid())
+  slug             String         @unique
+  name             String
+  description      String?
+  kind             String
+  price            Float
+  currency         String
+  durationDays     Int
+  publicationQuota Int            @default(0)
+  featuredQuota    Int            @default(0)
+  features         String         @default("[]")
+  position         Int            @default(0)
+  active           Boolean        @default(true)
+  subscriptions    Subscription[]
+  payments         Payment[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model Subscription {
+  id         String    @id @default(cuid())
+  companyId  String
+  company    Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  planId     String
+  plan       Plan      @relation(fields: [planId], references: [id])
+  status     String    @default("active")
+  autoRenew  Boolean   @default(true)
+  quotaUsed  Int       @default(0)
+  startedAt  DateTime  @default(now())
+  expiresAt  DateTime
+  canceledAt DateTime?
+  payments   Payment[]
+
+  @@index([companyId, status])
+}
+
+model Payment {
+  id             String        @id @default(cuid())
+  companyId      String?
+  company        Company?      @relation(fields: [companyId], references: [id])
+  planId         String?
+  plan           Plan?         @relation(fields: [planId], references: [id])
+  subscriptionId String?
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+  concept        String
+  amountNet      Float
+  taxAmount      Float
+  amountTotal    Float
+  currency       String
+  method         String
+  gateway        String
+  gatewayRef     String?       @unique
+  status         String        @default("pending")
+  invoiceNumber  String?
+  invoiceUrl     String?
+  paidAt         DateTime?
+  createdAt      DateTime      @default(now())
+
+  @@index([companyId])
+  @@index([status])
+}
+
+model AdBanner {
+  id         String    @id @default(cuid())
+  title      String
+  imageUrl   String
+  linkUrl    String
+  placement  String
+  position   Int       @default(0)
+  active     Boolean   @default(true)
+  startsAt   DateTime  @default(now())
+  endsAt     DateTime?
+  clickCount Int       @default(0)
+  viewCount  Int       @default(0)
+  createdAt  DateTime  @default(now())
+
+  @@index([placement, active])
+}
+
+model Setting {
+  key       String   @id
+  value     String
+  group     String   @default("general")
+  label     String?
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actorEmail String?
+  action     String
+  entity     String
+  entityId   String?
+  payload    String   @default("{}")
+  createdAt  DateTime @default(now())
+
+  @@index([entity, entityId])
+}

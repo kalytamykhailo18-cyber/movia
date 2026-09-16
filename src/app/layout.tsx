@@ -1,0 +1,40 @@
+import type { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
+import { env } from '@/lib/env'
+import { SiteHeader } from '@/components/site-header'
+import { SiteFooter } from '@/components/site-footer'
+import './globals.css'
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+
+export const metadata: Metadata = {
+  title: {
+    default: `${env.ui.brandName} - Marketplace de activos empresariales`,
+    template: `%s | ${env.ui.brandName}`,
+  },
+  description: env.ui.brandClaim,
+  icons: { icon: '/brand/isotipo.png', apple: '/brand/isotipo.png' },
+  openGraph: {
+    type: 'website',
+    siteName: env.ui.brandName,
+    locale: env.locale.locale,
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#111827',
+  width: 'device-width',
+  initialScale: 1,
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang={env.locale.locale.split('-')[0]} className={inter.variable}>
+      <body className="min-h-dvh bg-[var(--color-background)] antialiased">
+        <SiteHeader />
+        <main className="mx-auto w-full max-w-[1200px] px-4 pb-16 pt-6 md:px-6">{children}</main>
+        <SiteFooter />
+      </body>
+    </html>
+  )
+}
