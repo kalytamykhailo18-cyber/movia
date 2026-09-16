@@ -138,6 +138,22 @@ test.describe('Manual de marca - identidad', () => {
     expect(style.backdrop).toBe('none')
   })
 
+  // La barra de secciones solo existe en escritorio.
+  test('el subrayado de la seccion activa se apoya en el borde del encabezado @desktop', async ({ page }) => {
+    await page.goto('/mensajes')
+
+    const gap = await page.evaluate(() => {
+      const header = document.querySelector('header')!.getBoundingClientRect()
+      const indicator = document.querySelector('header nav span.pointer-events-none')
+      if (!indicator) return null
+      return Math.round(header.bottom - indicator.getBoundingClientRect().bottom)
+    })
+
+    expect(gap).not.toBeNull()
+    expect(gap!).toBeLessThanOrEqual(2)
+    expect(gap!).toBeGreaterThanOrEqual(0)
+  })
+
   test('el pie llega al borde inferior en paginas cortas', async ({ page }) => {
     await page.goto('/mensajes')
 

@@ -35,7 +35,7 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'relative rounded-[var(--radius-input)] px-3 py-2 text-[14px] font-medium transition-colors',
+                  'relative flex h-16 items-center px-3 text-[14px] font-medium transition-colors',
                   active
                     ? 'text-[var(--color-primary)]'
                     : 'text-[var(--color-navy)] hover:text-[var(--color-primary)]',
@@ -46,7 +46,7 @@ export function SiteHeader() {
                   <motion.span
                     layoutId="nav-indicator"
                     transition={tabIndicatorTransition}
-                    className="pointer-events-none absolute inset-x-2 -bottom-[13px] h-0.5 rounded-full bg-[var(--color-primary)]"
+                    className="pointer-events-none absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-[var(--color-primary)]"
                   />
                 ) : null}
               </Link>
