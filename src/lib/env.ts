@@ -93,6 +93,9 @@ export const env = {
     localPath: str('STORAGE_LOCAL_PATH', './public/uploads'),
     publicUrl: str('STORAGE_PUBLIC_URL', '/uploads'),
   },
+  pwa: {
+    enabled: bool('PWA_ENABLED', true),
+  },
   ui: {
     brandName: str('UI_BRAND_NAME', 'MOVIA'),
     brandClaim: str('UI_BRAND_CLAIM', ''),

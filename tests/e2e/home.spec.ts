@@ -8,7 +8,11 @@ test.describe('Inicio', () => {
   test('muestra el logo oficial de MOVIA', async ({ page }) => {
     const logo = page.locator('header img[alt="MOVIA"]').first()
     await expect(logo).toBeVisible()
-    await expect(logo).toHaveAttribute('src', '/brand/logo.png')
+    await expect(logo).toHaveAttribute('src', '/brand/logo-web.png')
+
+    // El logo conserva la proporcion del archivo maestro (3000x2088).
+    const box = await logo.boundingBox()
+    expect(box!.width / box!.height).toBeCloseTo(3000 / 2088, 1)
   })
 
   test('muestra el buscador principal con el copy del manual', async ({ page }) => {

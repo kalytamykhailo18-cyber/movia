@@ -13,7 +13,7 @@ export function SiteFooter() {
     <footer className="border-t border-[var(--color-border)] bg-white">
       <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-6 px-4 py-10 md:flex-row md:items-start md:justify-between md:px-6">
         <div className="max-w-sm space-y-3">
-          <img src="/brand/logo.png" alt={env.ui.brandName} className="h-10 w-auto" />
+          <img src="/brand/logo-web.png" alt={env.ui.brandName} width={115} height={80} className="h-10 w-auto" />
           <p className="text-[14px] text-[var(--color-text-muted)]">{env.ui.brandClaim}</p>
         </div>
 

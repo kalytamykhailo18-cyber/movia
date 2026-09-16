@@ -24,7 +24,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center gap-4 px-4 md:px-6">
         <Link href="/" className="flex shrink-0 items-center" aria-label="MOVIA inicio">
-          <img src="/brand/logo.png" alt="MOVIA" className="h-9 w-auto" />
+          <img src="/brand/logo-web.png" alt="MOVIA" width={115} height={80} className="h-9 w-auto" />
         </Link>
 
         <nav className="hidden flex-1 items-center gap-1 lg:flex" aria-label="Principal">
@@ -95,7 +95,7 @@ export function SiteHeader() {
               data-testid="mobile-menu"
             >
               <div className="mb-4 flex items-center justify-between">
-                <img src="/brand/logo.png" alt="MOVIA" className="h-8 w-auto" />
+                <img src="/brand/logo-web.png" alt="MOVIA" width={115} height={80} className="h-8 w-auto" />
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
