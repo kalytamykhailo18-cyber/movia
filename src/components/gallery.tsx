@@ -45,7 +45,7 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
     <>
       <section className="space-y-3" data-testid="gallery">
         <div className="relative overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white">
-          <div className="relative aspect-[4/3] w-full">
+          <div className="relative z-0 aspect-[4/3] w-full">
             <AnimatePresence initial={false} custom={direction} mode="wait">
               <motion.img
                 key={index}
@@ -63,7 +63,7 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
           </div>
 
           <span
-            className="absolute bottom-3 right-3 rounded-full bg-[var(--color-navy)]/80 px-2.5 py-1 text-[12px] font-medium text-white"
+            className="pointer-events-none absolute bottom-3 right-3 z-20 rounded-full bg-[var(--color-navy)]/80 px-2.5 py-1 text-[12px] font-medium text-white"
             data-testid="gallery-counter"
           >
             {index + 1} / {total}
@@ -74,7 +74,7 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
             onClick={() => setZoom(true)}
             aria-label="Ampliar imagen"
             data-testid="gallery-expand"
-            className="absolute right-3 top-3 inline-flex size-11 items-center justify-center rounded-full bg-white/90 text-[var(--color-navy)] transition-colors hover:bg-white"
+            className="absolute right-3 top-3 z-20 inline-flex size-11 items-center justify-center rounded-full bg-white/90 text-[var(--color-navy)] transition-colors hover:bg-white"
           >
             <Expand className="size-4" aria-hidden />
           </button>
@@ -164,19 +164,23 @@ function NavButton({
 }) {
   const Icon = side === 'left' ? ChevronLeft : ChevronRight
   return (
-    <motion.button
-      type="button"
-      onClick={onClick}
-      aria-label={label}
-      data-testid={testId}
-      whileHover={motionEnabled ? { scale: 1.06 } : undefined}
-      whileTap={motionEnabled ? { scale: 0.94 } : undefined}
+    <div
       className={cn(
-        'absolute top-1/2 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[var(--color-navy)] shadow-sm transition-colors hover:bg-white',
+        'absolute top-1/2 z-20 -translate-y-1/2',
         side === 'left' ? 'left-3' : 'right-3',
       )}
     >
-      <Icon className="size-5" aria-hidden />
-    </motion.button>
+      <motion.button
+        type="button"
+        onClick={onClick}
+        aria-label={label}
+        data-testid={testId}
+        whileHover={motionEnabled ? { scale: 1.06 } : undefined}
+        whileTap={motionEnabled ? { scale: 0.94 } : undefined}
+        className="inline-flex size-11 items-center justify-center rounded-full bg-white/90 text-[var(--color-navy)] shadow-sm transition-colors hover:bg-white"
+      >
+        <Icon className="size-5" aria-hidden />
+      </motion.button>
+    </div>
   )
 }

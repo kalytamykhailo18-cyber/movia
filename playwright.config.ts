@@ -23,14 +23,36 @@ export default defineConfig({
   },
 
   projects: [
-    { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },
-    { name: 'mobile', use: { ...devices['Pixel 7'] } },
+    {
+      name: 'desktop',
+      grepInvert: /@mobile/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
+    },
+    {
+      // Ancho y tactil de un telefono real. La emulacion isMobile de Chromium
+      // escala las coordenadas del hit-test y hace imposible pulsar controles
+      // superpuestos, asi que se deja fuera: los breakpoints dependen del ancho.
+      name: 'mobile',
+      grepInvert: /@desktop/,
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 412, height: 915 },
+        hasTouch: true,
+        isMobile: false,
+        deviceScaleFactor: 2,
+      },
+    },
   ],
 
+  // E2E_TARGET=prod compila y sirve como en produccion, sin la latencia de
+  // compilacion bajo demanda del servidor de desarrollo.
   webServer: {
-    command: 'node scripts/next.mjs dev',
+    command:
+      process.env.E2E_TARGET === 'prod'
+        ? 'npm run build && node scripts/next.mjs start'
+        : 'node scripts/next.mjs dev',
     url: BASE_URL,
-    reuseExistingServer: true,
-    timeout: 120000,
+    reuseExistingServer: process.env.E2E_TARGET !== 'prod',
+    timeout: 300000,
   },
 })

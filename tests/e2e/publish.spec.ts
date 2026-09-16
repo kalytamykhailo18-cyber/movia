@@ -4,7 +4,7 @@ import path from 'node:path'
 const FIXTURES = path.join(process.cwd(), 'tests', 'fixtures')
 
 async function uploadCsv(page: import('@playwright/test').Page, file: string) {
-  await expect(page.getByTestId('dropzone')).toHaveAttribute('data-ready', 'true')
+  await expect(page.getByTestId('dropzone')).toHaveAttribute('data-ready', 'true', { timeout: 30000 })
   await page.getByTestId('bulk-file-input').setInputFiles(path.join(FIXTURES, file))
   await expect(page.getByTestId('file-name')).toHaveText(file)
 }

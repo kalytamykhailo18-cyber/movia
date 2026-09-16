@@ -84,9 +84,7 @@ test.describe('Inicio', () => {
   })
 })
 
-test.describe('Inicio en movil', () => {
-  test.skip(({ isMobile }) => !isMobile, 'solo movil')
-
+test.describe('Inicio en movil @mobile', () => {
   test('abre el menu lateral', async ({ page }) => {
     await page.goto('/')
     await page.getByRole('button', { name: /abrir menu/i }).click()

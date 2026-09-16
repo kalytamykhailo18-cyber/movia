@@ -87,8 +87,7 @@ test.describe('Busqueda', () => {
   test('pagina los resultados', async ({ page }) => {
     await page.goto('/buscar')
     const indicator = page.getByTestId('page-indicator')
-    if (!(await indicator.isVisible())) test.skip()
-
+    await expect(indicator).toBeVisible()
     await expect(indicator).toContainText('1 de')
     await page.getByTestId('page-next').click()
     await expect(page).toHaveURL(/page=2/)
@@ -103,9 +102,7 @@ test.describe('Busqueda', () => {
   })
 })
 
-test.describe('Filtros en escritorio', () => {
-  test.skip(({ isMobile }) => isMobile, 'solo escritorio')
-
+test.describe('Filtros en escritorio @desktop', () => {
   test('el panel de filtros esta visible', async ({ page }) => {
     await page.goto('/buscar')
     await expect(page.getByTestId('search-filters')).toBeVisible()
@@ -113,7 +110,7 @@ test.describe('Filtros en escritorio', () => {
 
   test('seleccionar una categoria actualiza la url y los resultados', async ({ page }) => {
     await page.goto('/buscar')
-    await page.getByTestId('filter-category-construccion').click()
+    await page.getByTestId('search-filters').getByTestId('filter-category-construccion').click()
     await expect(page).toHaveURL(/category=construccion/)
     await expect(page.getByTestId('publication-card').first()).toBeVisible()
   })
@@ -125,20 +122,23 @@ test.describe('Filtros en escritorio', () => {
   })
 })
 
-test.describe('Filtros en movil', () => {
-  test.skip(({ isMobile }) => !isMobile, 'solo movil')
-
+test.describe('Filtros en movil @mobile', () => {
   test('abre el panel lateral de filtros', async ({ page }) => {
     await page.goto('/buscar')
     await page.getByTestId('open-filters').click()
-    await expect(page.getByTestId('filters-drawer')).toBeVisible()
-    await expect(page.getByTestId('filter-category-vehiculos')).toBeVisible()
+
+    const drawer = page.getByTestId('filters-drawer')
+    await expect(drawer).toBeVisible()
+    await expect(drawer.getByTestId('filter-category-vehiculos')).toBeVisible()
   })
 
   test('aplica un filtro desde el panel lateral', async ({ page }) => {
     await page.goto('/buscar')
     await page.getByTestId('open-filters').click()
-    await page.getByTestId('filter-category-vehiculos').click()
+
+    const drawer = page.getByTestId('filters-drawer')
+    await drawer.getByTestId('filter-category-vehiculos').click()
     await expect(page).toHaveURL(/category=vehiculos/)
+    await expect(page.getByTestId('publication-card').first()).toBeVisible()
   })
 })

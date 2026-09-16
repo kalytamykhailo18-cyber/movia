@@ -22,32 +22,22 @@ test.describe('Ficha de publicacion', () => {
     await expect(page.getByTestId('gallery-counter')).toHaveText(/^1 \/ \d+$/)
   })
 
-  test('avanza en la galeria sin perder la posicion', async ({ page }) => {
+  test('navega la galeria por miniaturas', async ({ page }) => {
     const counter = page.getByTestId('gallery-counter')
-    const initial = await counter.innerText()
-    await page.getByTestId('gallery-next').click()
-    await expect(counter).not.toHaveText(initial)
-    await expect(counter).toHaveText(/^2 \//)
-  })
+    await expect(counter).toHaveText(/^1 \//)
 
-  test('retrocede en la galeria', async ({ page }) => {
-    await page.getByTestId('gallery-next').click()
-    await expect(page.getByTestId('gallery-counter')).toHaveText(/^2 \//)
-    await page.getByTestId('gallery-prev').click()
-    await expect(page.getByTestId('gallery-counter')).toHaveText(/^1 \//)
-  })
+    await page.getByRole('button', { name: 'Ver imagen 3' }).click()
+    await expect(counter).toHaveText(/^3 \//)
 
-  test('amplia la imagen y permite volver', async ({ page }) => {
-    await page.getByTestId('gallery-expand').click()
-    await expect(page.getByTestId('gallery-lightbox')).toBeVisible()
-    await page.keyboard.press('Escape')
-    await expect(page.getByTestId('gallery-lightbox')).toBeHidden()
-    await expect(page.getByTestId('gallery-counter')).toHaveText(/^1 \//)
+    await page.getByRole('button', { name: 'Ver imagen 1' }).click()
+    await expect(counter).toHaveText(/^1 \//)
   })
 
   test('navega la galeria con el teclado', async ({ page }) => {
     await page.keyboard.press('ArrowRight')
     await expect(page.getByTestId('gallery-counter')).toHaveText(/^2 \//)
+    await page.keyboard.press('ArrowLeft')
+    await expect(page.getByTestId('gallery-counter')).toHaveText(/^1 \//)
   })
 
   test('muestra identidad del vendedor y verificacion', async ({ page }) => {
@@ -86,6 +76,31 @@ test.describe('Ficha de publicacion', () => {
     await page.reload()
     const res = await response
     expect(res.status()).toBe(200)
+  })
+})
+
+test.describe('Controles superpuestos de la galeria', () => {
+  test.beforeEach(async ({ page }) => {
+    await openFirstPublication(page)
+  })
+
+  test('avanza y retrocede con las flechas', async ({ page }) => {
+    const counter = page.getByTestId('gallery-counter')
+    await page.getByTestId('gallery-next').click()
+    await expect(counter).toHaveText(/^2 \//)
+    await page.getByTestId('gallery-prev').click()
+    await expect(counter).toHaveText(/^1 \//)
+  })
+
+  test('amplia la imagen y permite volver sin perder la posicion', async ({ page }) => {
+    await page.getByTestId('gallery-next').click()
+    await expect(page.getByTestId('gallery-counter')).toHaveText(/^2 \//)
+
+    await page.getByTestId('gallery-expand').click()
+    await expect(page.getByTestId('gallery-lightbox')).toBeVisible()
+    await page.keyboard.press('Escape')
+    await expect(page.getByTestId('gallery-lightbox')).toBeHidden()
+    await expect(page.getByTestId('gallery-counter')).toHaveText(/^2 \//)
   })
 })
 

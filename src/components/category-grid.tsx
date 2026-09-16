@@ -2,8 +2,29 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import * as Icons from 'lucide-react'
+import {
+  Factory,
+  Wrench,
+  Truck,
+  HardHat,
+  UtensilsCrossed,
+  Armchair,
+  Cpu,
+  Package,
+  type LucideIcon,
+} from 'lucide-react'
 import { listVariants, cardVariants, motionEnabled } from '@/lib/motion'
+
+const ICONS: Record<string, LucideIcon> = {
+  Factory,
+  Wrench,
+  Truck,
+  HardHat,
+  UtensilsCrossed,
+  Armchair,
+  Cpu,
+  Package,
+}
 
 type CategoryItem = {
   id: string
@@ -23,7 +44,7 @@ export function CategoryGrid({ categories }: { categories: CategoryItem[] }) {
       data-testid="category-grid"
     >
       {categories.map((cat) => {
-        const Icon = (Icons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[cat.icon] ?? Icons.Package
+        const Icon = ICONS[cat.icon] ?? Package
         return (
           <motion.div key={cat.id} variants={motionEnabled ? cardVariants : undefined} whileHover="hover">
             <Link

@@ -46,7 +46,7 @@ export function SiteHeader() {
                   <motion.span
                     layoutId="nav-indicator"
                     transition={tabIndicatorTransition}
-                    className="absolute inset-x-2 -bottom-[13px] h-0.5 rounded-full bg-[var(--color-primary)]"
+                    className="pointer-events-none absolute inset-x-2 -bottom-[13px] h-0.5 rounded-full bg-[var(--color-primary)]"
                   />
                 ) : null}
               </Link>
