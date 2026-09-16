@@ -104,6 +104,28 @@ test.describe('Manual de marca - componentes', () => {
     expect(box!.height).toBeGreaterThanOrEqual(44)
   })
 
+  test('los campos enfocados no muestran contorno duro sino un halo suave', async ({ page }) => {
+    await page.goto('/publicar')
+
+    for (const id of ['field-title', 'field-category', 'field-description']) {
+      const field = page.getByTestId(id)
+      await field.focus()
+
+      // El borde tiene transicion de color, hay que dejar que termine.
+      await expect
+        .poll(() => field.evaluate((el) => getComputedStyle(el).borderTopColor))
+        .toBe(PRIMARY)
+
+      const style = await field.evaluate((el) => {
+        const s = getComputedStyle(el)
+        return { outline: s.outlineStyle, shadow: s.boxShadow }
+      })
+
+      expect(style.outline, `${id} no debe tener contorno`).toBe('none')
+      expect(style.shadow, `${id} debe tener halo`).toContain('rgba(37, 99, 235')
+    }
+  })
+
   test('todo control interactivo cumple el area tactil de 44 px', async ({ page }) => {
     await page.goto('/buscar')
 

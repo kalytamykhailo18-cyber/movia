@@ -51,10 +51,30 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* El manual pide foco visible para navegacion con teclado, pero sin el
+   contorno duro del navegador: se usa un halo suave del azul MOVIA. */
+*:focus {
+  outline: none;
+}
+
 *:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
   border-radius: 4px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+  border-radius: inherit;
 }
 
 @media (prefers-reduced-motion: reduce) {
