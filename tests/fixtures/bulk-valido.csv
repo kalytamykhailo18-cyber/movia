@@ -1,0 +1,4 @@
+titulo,categoria,precio,marca,modelo,anio,horas_uso,condicion,ciudad,descripcion,specs
+Torno paralelo Pinacho S90,maquinaria-industrial,54000000,Pinacho,S90-260,2015,9200,Usado - buen estado,Bogota,Torno paralelo con visualizador digital y plato de tres mordazas revisado,potencia=7.5;voltaje=440V;control=Manual
+Compresor tornillo Kaeser SK25,equipos,38000000,Kaeser,SK25,2018,6400,Usado - operativo,Medellin,Compresor de tornillo con secador integrado y tanque de 300 litros,capacidad=300;material=Acero al carbono;presion=8
+Camion Hino 300 furgon,vehiculos,128000000,Hino,300-816,2019,,Usado - buen estado,Cali,Camion liviano con furgon seco documentos al dia y un solo propietario,kilometraje=165000;combustible=Diesel;capacidadCarga=4

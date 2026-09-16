@@ -1,0 +1,6 @@
+titulo,categoria,precio,marca,modelo,anio,horas_uso,condicion,ciudad,descripcion,specs
+Prensa excentrica 60 toneladas,maquinaria-industrial,42000000,Ross,60T,2014,7800,Usado - operativo,Bogota,Prensa excentrica con embrague neumatico revisado,potencia=11;voltaje=440V;control=Manual
+,equipos,15000000,Generico,X1,2020,100,Nuevo,Cali,Fila sin titulo para validar el reporte de errores,capacidad=100
+Montacargas sin precio,vehiculos,,Toyota,8FG25,2019,3200,Usado - buen estado,Barranquilla,Montacargas sin precio para validar la regla obligatoria,kilometraje=0
+Equipo con categoria invalida,categoria-que-no-existe,25000000,Marca,Modelo,2020,500,Nuevo,Bogota,Fila con categoria inexistente,capacidad=50
+Excavadora con ano imposible,construccion,310000000,Komatsu,PC200,3050,5000,Usado - operativo,Medellin,Fila con ano fuera de rango,alcance=6;capacidadIzaje=2;motor=Komatsu
