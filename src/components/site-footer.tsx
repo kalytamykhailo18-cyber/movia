@@ -10,26 +10,36 @@ const LINKS = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-[var(--color-border)] bg-white">
-      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-6 px-4 py-10 md:flex-row md:items-start md:justify-between md:px-6">
-        <div className="max-w-sm space-y-3">
-          <img src="/brand/logo-web.png" alt={env.ui.brandName} width={115} height={80} className="h-10 w-auto" />
-          <p className="text-[14px] text-[var(--color-text-muted)]">{env.ui.brandClaim}</p>
+    <footer className="bg-[var(--color-navy)]" data-testid="site-footer">
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 px-4 py-12 md:flex-row md:items-start md:justify-between md:px-6">
+        <div className="max-w-sm space-y-4">
+          {/* El archivo maestro lleva el wordmark en navy, asi que sobre fondo
+              oscuro se presenta sobre una superficie clara en lugar de alterarlo. */}
+          <span className="inline-flex rounded-[var(--radius-input)] bg-white px-3 py-2">
+            <img
+              src="/brand/logo-web.png"
+              alt={env.ui.brandName}
+              width={115}
+              height={80}
+              className="h-10 w-auto"
+            />
+          </span>
+          <p className="text-[14px] text-white/70">{env.ui.brandClaim}</p>
         </div>
 
-        <nav className="flex flex-col gap-2" aria-label="Pie de pagina">
+        <nav className="flex flex-col gap-1" aria-label="Pie de pagina">
           {LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="inline-flex min-h-[44px] items-center text-[14px] text-[var(--color-navy)] hover:text-[var(--color-primary)]"
+              className="inline-flex min-h-[44px] items-center text-[14px] text-white/80 transition-colors hover:text-white"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <p className="text-[12px] text-[var(--color-text-muted)]">
+        <p className="text-[12px] text-white/60">
           {env.ui.brandName} - {env.locale.countryName}
         </p>
       </div>

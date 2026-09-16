@@ -40,10 +40,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang={env.locale.locale.split('-')[0]} className={inter.variable}>
-      <body className="min-h-dvh bg-[var(--color-background)] antialiased">
+      <body className="flex min-h-dvh flex-col bg-[var(--color-background)] antialiased">
         <ServiceWorker enabled={env.pwa.enabled} />
         <SiteHeader />
-        <main className="mx-auto w-full max-w-[1200px] px-4 pb-16 pt-6 md:px-6">{children}</main>
+        <main className="mx-auto w-full max-w-[1200px] flex-1 px-4 pb-16 pt-6 md:px-6">{children}</main>
         <SiteFooter />
       </body>
     </html>

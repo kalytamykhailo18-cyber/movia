@@ -138,6 +138,23 @@ test.describe('Manual de marca - identidad', () => {
     expect(style.backdrop).toBe('none')
   })
 
+  test('el pie llega al borde inferior en paginas cortas', async ({ page }) => {
+    await page.goto('/mensajes')
+
+    const gap = await page.evaluate(() => {
+      const footer = document.querySelector('footer')!.getBoundingClientRect()
+      return Math.round(window.innerHeight - footer.bottom)
+    })
+
+    expect(gap).toBeLessThanOrEqual(1)
+  })
+
+  test('el pie usa el navy institucional', async ({ page }) => {
+    await page.goto('/')
+    const bg = await page.locator('footer').evaluate((el) => getComputedStyle(el).backgroundColor)
+    expect(bg).toBe(NAVY)
+  })
+
   test('la paleta declarada coincide con el manual', async ({ page }) => {
     await page.goto('/')
 
