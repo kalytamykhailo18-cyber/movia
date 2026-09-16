@@ -218,7 +218,7 @@ const COMPANIES = [
 type PubSeed = {
   title: string
   category: string
-  company: string
+  company: string | null
   brand: string
   model: string
   year: number
@@ -235,6 +235,37 @@ type PubSeed = {
 }
 
 const PUBLICATIONS: PubSeed[] = [
+  {
+    title: 'Compresor de piston 5 HP con tanque 300 litros',
+    category: 'equipos',
+    company: null,
+    brand: 'Schulz',
+    model: 'MSV 40 Max',
+    year: 2021,
+    usageHours: 900,
+    condition: 'Usado - buen estado',
+    price: 4200000,
+    city: 'Bogota',
+    description:
+      'Compresor de piston de 5 HP con tanque de 300 litros, usado en taller propio de carpinteria. Poco uso, mantenimiento al dia con cambio de aceite reciente. Vendo por cierre del taller.',
+    specs: { capacidad: 300, material: 'Acero al carbono', presion: 10 },
+    photos: 3,
+  },
+  {
+    title: 'Lote de herramienta electrica Bosch profesional',
+    category: 'otros',
+    company: null,
+    brand: 'Bosch',
+    model: 'Professional',
+    year: 2022,
+    condition: 'Usado - buen estado',
+    price: 3800000,
+    city: 'Medellin',
+    description:
+      'Lote de herramienta electrica profesional Bosch: rotomartillo, pulidora, caladora y atornillador, con sus estuches originales. Herramienta de uso personal en buen estado.',
+    specs: { cantidad: 4, estadoLote: 'Usado' },
+    photos: 3,
+  },
   {
     title: 'Torno CNC Mazak Quick Turn 250',
     category: 'maquinaria-industrial',
@@ -851,8 +882,9 @@ async function main() {
 
   for (const pub of PUBLICATIONS) {
     const categoryId = categoryMap.get(pub.category)
-    const companyId = companyMap.get(pub.company)
-    if (!categoryId || !companyId) continue
+    const companyId = pub.company ? companyMap.get(pub.company) : null
+    if (!categoryId) continue
+    if (pub.company && !companyId) continue
 
     const photos = photoSet(pub.photos, slugify(pub.title))
     const documents = pub.documents ? docSet(pub.documents) : []
@@ -880,7 +912,7 @@ async function main() {
         title: pub.title,
         description: pub.description,
         categoryId,
-        companyId,
+        companyId: companyId ?? null,
         brand: pub.brand,
         model: pub.model,
         year: pub.year,

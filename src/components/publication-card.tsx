@@ -77,7 +77,7 @@ export function PublicationCard({
         </div>
 
         <div className="space-y-2 p-4">
-          <h3 className="line-clamp-2 text-[16px] font-semibold leading-snug text-[var(--color-navy)]">
+          <h3 className="line-clamp-2 text-[18px] font-semibold leading-snug text-[var(--color-navy)]">
             {item.title}
           </h3>
 

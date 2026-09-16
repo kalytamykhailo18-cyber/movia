@@ -3,14 +3,18 @@ const SHELL = `${VERSION}-shell`
 const RUNTIME = `${VERSION}-runtime`
 const OFFLINE_URL = '/offline'
 
-const PRECACHE = [OFFLINE_URL, '/brand/logo-web.png', '/brand/icon-192.png']
+const OPTIONAL = ['/brand/logo-web.png', '/brand/icon-192.png']
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches
-      .open(SHELL)
-      .then((cache) => cache.addAll(PRECACHE))
-      .then(() => self.skipWaiting()),
+    (async () => {
+      const cache = await caches.open(SHELL)
+      // La pagina sin conexion es obligatoria; el resto es mejor esfuerzo,
+      // un asset que falle no debe dejar la instalacion a medias.
+      await cache.add(OFFLINE_URL)
+      await Promise.allSettled(OPTIONAL.map((url) => cache.add(url)))
+      await self.skipWaiting()
+    })(),
   )
 })
 
@@ -36,10 +40,20 @@ self.addEventListener('fetch', (event) => {
 
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(async () => {
-        const cached = await caches.match(request)
-        return cached ?? caches.match(OFFLINE_URL)
-      }),
+      (async () => {
+        try {
+          return await fetch(request)
+        } catch {
+          const cached = (await caches.match(request)) ?? (await caches.match(OFFLINE_URL))
+          return (
+            cached ??
+            new Response('Sin conexion', {
+              status: 503,
+              headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+            })
+          )
+        }
+      })(),
     )
     return
   }

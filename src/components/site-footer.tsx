@@ -22,7 +22,7 @@ export function SiteFooter() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-[14px] text-[var(--color-navy)] hover:text-[var(--color-primary)]"
+              className="inline-flex min-h-[44px] items-center text-[14px] text-[var(--color-navy)] hover:text-[var(--color-primary)]"
             >
               {link.label}
             </Link>
