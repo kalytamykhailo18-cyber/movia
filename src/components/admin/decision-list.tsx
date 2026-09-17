@@ -46,7 +46,9 @@ export function VerificationQueue({ companies }: { companies: PendingCompany[] }
       }
 
       setDone((d) => ({ ...d, [id]: decision }))
-      router.refresh()
+      // La fila sale de la lista al refrescar. Se espera un momento para que
+      // el administrador alcance a ver el resultado de su decision.
+      setTimeout(() => router.refresh(), 2000)
     } catch {
       setError('No pudimos registrar la decision')
     } finally {

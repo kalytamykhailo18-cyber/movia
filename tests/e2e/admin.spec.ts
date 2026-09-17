@@ -14,6 +14,33 @@ function toNumber(text: string) {
   return Number(text.replace(/\D/g, ''))
 }
 
+// Cada proyecto necesita su propia empresa pendiente: si comparte la del seed,
+// el primero que la aprueba deja al otro sin nada que revisar.
+async function registerPendingCompany(page: Page, baseURL: string | undefined) {
+  const stamp = `${Date.now()}${Math.floor(Math.random() * 1000)}`
+  const name = `Empresa Revision ${stamp}`
+  const nit = String(800000000 + Math.floor(Math.random() * 99999999))
+
+  const fresh = await page.context().browser()!.newContext({ baseURL })
+  const visitor = await fresh.newPage()
+
+  await visitor.goto('/registro')
+  await visitor.getByTestId('reg-name').fill('Responsable Revision')
+  await visitor.getByTestId('reg-email').fill(`revision.${stamp}@prueba.co`)
+  await visitor.getByTestId('reg-password').fill('ClaveSegura123')
+  await visitor.getByTestId('reg-company').fill(name)
+  await visitor.getByTestId('reg-legal').fill(`${name} S.A.S.`)
+  await visitor.getByTestId('reg-nit').fill(nit)
+
+  const hint = await visitor.getByTestId('digit-hint').innerText()
+  await visitor.getByTestId('reg-check-digit').fill(hint.match(/es (\d)/)![1])
+  await visitor.getByTestId('register-submit').click()
+  await expect(visitor).toHaveURL(/\/mi-empresa/)
+  await fresh.close()
+
+  return { name, nit }
+}
+
 test.describe('Administracion', () => {
   test.beforeEach(async ({ page }) => {
     await loginAsAdmin(page)
@@ -155,22 +182,35 @@ test.describe('Verificacion de empresas', () => {
     await expect(rows.first().getByTestId('verification-nit')).toContainText(/NIT \d+-\d/)
   })
 
-  test('aprobar una empresa le otorga el distintivo publico', async ({ page }) => {
+  test('aprobar una empresa le otorga el distintivo publico', async ({ page, baseURL }) => {
+    const target = await registerPendingCompany(page, baseURL)
+
+    await page.goto('/empresas')
+    await expect(
+      page.getByTestId('company-card').filter({ hasText: target.name }),
+    ).toContainText('Verificacion pendiente')
+
     await page.goto('/admin/verificaciones')
-
-    const rows = page.getByTestId('verification-row')
-    const count = await rows.count()
-    test.skip(count === 0, 'no hay verificaciones pendientes')
-
-    const name = await rows.first().locator('h2').innerText()
-    const nit = (await rows.first().getByTestId('verification-nit').innerText()).match(/NIT (\d+)-/)![1]
-
-    await page.getByTestId(`approve-${nit}`).click()
+    await page.getByTestId(`approve-${target.nit}`).click()
     await expect(page.getByText('Aprobada').first()).toBeVisible()
 
     await page.goto('/empresas')
-    const card = page.getByTestId('company-card').filter({ hasText: name })
-    await expect(card).toContainText('Empresa verificada')
+    await expect(
+      page.getByTestId('company-card').filter({ hasText: target.name }),
+    ).toContainText('Empresa verificada')
+  })
+
+  test('rechazar una empresa la deja sin distintivo', async ({ page, baseURL }) => {
+    const target = await registerPendingCompany(page, baseURL)
+
+    await page.goto('/admin/verificaciones')
+    await page.getByTestId(`reject-${target.nit}`).click()
+    await expect(page.getByText('Rechazada').first()).toBeVisible()
+
+    await page.goto('/empresas')
+    await expect(
+      page.getByTestId('company-card').filter({ hasText: target.name }),
+    ).toContainText('No verificada')
   })
 })
 
