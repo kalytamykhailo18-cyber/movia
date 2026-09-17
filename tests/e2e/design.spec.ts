@@ -10,6 +10,16 @@ function px(value: string) {
   return Number(value.replace('px', ''))
 }
 
+// Publicar y las secciones de cuenta exigen sesion desde que se separo lo
+// publico de lo privado.
+async function ingresar(page: import('@playwright/test').Page) {
+  await page.goto('/ingresar')
+  await page.getByTestId('login-email').fill('empresa1@movia.co')
+  await page.getByTestId('login-password').fill('Demo2026')
+  await page.getByTestId('login-submit').click()
+  await expect(page).toHaveURL(/\/mi-empresa/)
+}
+
 test.describe('Manual de marca - tipografia', () => {
   test('usa Inter en toda la interfaz', async ({ page }) => {
     await page.goto('/')
@@ -69,6 +79,7 @@ test.describe('Manual de marca - componentes', () => {
   })
 
   test('el boton secundario es blanco con texto navy y borde gris', async ({ page }) => {
+    await ingresar(page)
     await page.goto('/publicar')
     const style = await page.getByRole('button', { name: 'Cancelar' }).evaluate((el) => {
       const s = getComputedStyle(el)
@@ -94,6 +105,7 @@ test.describe('Manual de marca - componentes', () => {
   })
 
   test('los campos usan radio 8 y altura tactil minima', async ({ page }) => {
+    await ingresar(page)
     await page.goto('/publicar')
     const field = page.getByTestId('field-title')
 
@@ -105,6 +117,7 @@ test.describe('Manual de marca - componentes', () => {
   })
 
   test('los campos enfocados no muestran contorno duro sino un halo suave', async ({ page }) => {
+    await ingresar(page)
     await page.goto('/publicar')
 
     for (const id of ['field-title', 'field-category', 'field-description']) {
@@ -162,6 +175,7 @@ test.describe('Manual de marca - identidad', () => {
 
   // La barra de secciones solo existe en escritorio.
   test('el subrayado de la seccion activa se apoya en el borde del encabezado @desktop', async ({ page }) => {
+    await ingresar(page)
     await page.goto('/mensajes')
 
     const gap = await page.evaluate(() => {

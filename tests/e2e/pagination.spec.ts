@@ -102,6 +102,11 @@ test.describe('Paginacion en listados publicos', () => {
   test('los controles cumplen el area tactil minima', async ({ page }) => {
     await page.goto('/buscar')
 
+    // Hay que esperar a que la paginacion este en pantalla: medir antes da
+    // alturas en cero porque el bloque todavia no tiene layout.
+    await expect(page.getByTestId('pagination')).toBeVisible()
+    await expect(page.getByTestId('pagination-next')).toBeVisible()
+
     const altos = await page
       .getByTestId('pagination')
       .locator('button')

@@ -93,7 +93,10 @@ test.describe('Inicio en movil @mobile', () => {
     await page.goto('/')
     await page.getByRole('button', { name: /abrir menu/i }).click()
     await expect(page.getByTestId('mobile-menu')).toBeVisible()
-    await expect(page.getByTestId('mobile-menu').getByRole('link', { name: 'Mi Empresa' })).toBeVisible()
+
+    // Sin sesion el cajon ofrece lo publico y el acceso a ingresar.
+    await expect(page.getByTestId('mobile-menu').getByRole('link', { name: 'Buscar' })).toBeVisible()
+    await expect(page.getByTestId('mobile-menu').getByRole('link', { name: 'Ingresar' })).toBeVisible()
   })
 
   test('no genera scroll horizontal', async ({ page }) => {
