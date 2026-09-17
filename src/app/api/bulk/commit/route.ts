@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import { db } from '@/lib/db'
 import { commitBulkRows, type BulkPreview } from '@/server/bulk-upload'
+import { getSessionUser } from '@/lib/auth'
 
 const schema = z.object({
   companyId: z.string().min(1).optional(),
@@ -15,6 +15,11 @@ const schema = z.object({
 })
 
 export async function POST(req: Request) {
+  const user = await getSessionUser()
+  if (!user) {
+    return NextResponse.json({ error: 'Debes iniciar sesion para publicar' }, { status: 401 })
+  }
+
   const body = await req.json().catch(() => null)
   const parsed = schema.safeParse(body)
 
@@ -22,12 +27,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Datos invalidos' }, { status: 400 })
   }
 
-  const companyId =
-    parsed.data.companyId ??
-    (await db.company.findFirst({ where: { verificationStatus: 'approved' }, select: { id: true } }))?.id
-
+  // El inventario queda a nombre de la empresa de quien lo sube.
+  const companyId = user.companyId
   if (!companyId) {
-    return NextResponse.json({ error: 'No hay empresa disponible' }, { status: 404 })
+    return NextResponse.json(
+      { error: 'La carga masiva es para cuentas de empresa' },
+      { status: 403 },
+    )
   }
 
   const preview = parsed.data.preview as BulkPreview

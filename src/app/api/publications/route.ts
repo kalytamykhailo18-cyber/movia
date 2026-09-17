@@ -4,6 +4,7 @@ import { db } from '@/lib/db'
 import { env } from '@/lib/env'
 import { slugify } from '@/lib/utils'
 import { scoreCompleteness } from '@/lib/completeness'
+import { getSessionUser } from '@/lib/auth'
 
 const schema = z.object({
   title: z.string().trim().min(3).max(160),
@@ -22,6 +23,11 @@ const schema = z.object({
 })
 
 export async function POST(req: Request) {
+  const user = await getSessionUser()
+  if (!user) {
+    return NextResponse.json({ error: 'Debes iniciar sesion para publicar' }, { status: 401 })
+  }
+
   const body = await req.json().catch(() => null)
   const parsed = schema.safeParse(body)
 
@@ -64,10 +70,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Pais no configurado' }, { status: 500 })
   }
 
-  const company = await db.company.findFirst({
-    where: { verificationStatus: 'approved' },
-    select: { id: true },
-  })
+  // La publicacion queda a nombre de quien la crea. Sin empresa es una
+  // publicacion de persona natural, que el modelo admite.
+  const companyId = user.companyId
 
   const photos = data.photos ?? []
   const completeness = scoreCompleteness({
@@ -93,7 +98,7 @@ export async function POST(req: Request) {
       title: data.title,
       description: data.description ?? null,
       categoryId: category.id,
-      companyId: company?.id ?? null,
+      companyId,
       brand: data.brand ?? null,
       model: data.model ?? null,
       year: data.year ?? null,
@@ -115,6 +120,8 @@ export async function POST(req: Request) {
 
   await db.auditLog.create({
     data: {
+      actorId: user.id,
+      actorEmail: user.email,
       action: 'publication_create',
       entity: 'publication',
       entityId: publication.id,

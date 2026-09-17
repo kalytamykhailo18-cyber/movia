@@ -4,7 +4,7 @@ import { jwtVerify } from 'jose'
 const COOKIE = process.env.SESSION_COOKIE_NAME ?? 'movia_session'
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET ?? 'change-me-in-production')
 
-const PROTECTED = ['/mi-empresa', '/admin']
+const PROTECTED = ['/mi-empresa', '/admin', '/publicar']
 
 // Corre antes de renderizar: sin esto el navegador alcanza a pintar la pagina
 // privada y despues salta al ingreso, que se ve como un parpadeo.
@@ -37,5 +37,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/mi-empresa/:path*', '/admin/:path*'],
+  matcher: ['/mi-empresa/:path*', '/admin/:path*', '/publicar/:path*'],
 }

@@ -3,6 +3,17 @@ import path from 'node:path'
 
 const FIXTURES = path.join(process.cwd(), 'tests', 'fixtures')
 
+const VENDEDOR = { email: 'empresa1@movia.co', password: 'Demo2026' }
+
+// Publicar exige sesion: la publicacion queda a nombre de quien la crea.
+async function ingresarComoVendedor(page: import('@playwright/test').Page) {
+  await page.goto('/ingresar')
+  await page.getByTestId('login-email').fill(VENDEDOR.email)
+  await page.getByTestId('login-password').fill(VENDEDOR.password)
+  await page.getByTestId('login-submit').click()
+  await expect(page).toHaveURL(/\/mi-empresa/)
+}
+
 async function uploadCsv(page: import('@playwright/test').Page, file: string) {
   await expect(page.getByTestId('dropzone')).toHaveAttribute('data-ready', 'true', { timeout: 30000 })
   await page.getByTestId('bulk-file-input').setInputFiles(path.join(FIXTURES, file))
@@ -11,6 +22,7 @@ async function uploadCsv(page: import('@playwright/test').Page, file: string) {
 
 test.describe('Alta de publicacion', () => {
   test.beforeEach(async ({ page }) => {
+    await ingresarComoVendedor(page)
     await page.goto('/publicar')
   })
 
@@ -149,6 +161,7 @@ test.describe('Alta de publicacion', () => {
 
 test.describe('Carga masiva', () => {
   test.beforeEach(async ({ page }) => {
+    await ingresarComoVendedor(page)
     await page.goto('/publicar/masivo')
   })
 
@@ -224,15 +237,31 @@ test.describe('Carga masiva', () => {
 })
 
 test.describe('Validaciones de la api de publicaciones', () => {
-  test('rechaza precio negativo', async ({ request }) => {
+  test('no deja publicar sin sesion', async ({ request }) => {
     const res = await request.post('/api/publications', {
+      data: { title: 'Activo sin sesion', categoryId: 'x', price: 1000 },
+    })
+    expect(res.status()).toBe(401)
+  })
+
+  test('no deja cargar inventario sin sesion', async ({ request }) => {
+    const res = await request.post('/api/bulk/commit', {
+      data: { preview: { totalRows: 1, validRows: 1, invalidRows: 0, issues: [], rows: [] } },
+    })
+    expect(res.status()).toBe(401)
+  })
+
+  test('rechaza precio negativo', async ({ page }) => {
+    await ingresarComoVendedor(page)
+    const res = await page.request.post('/api/publications', {
       data: { title: 'Activo de prueba', categoryId: 'x', price: -100 },
     })
     expect(res.status()).toBe(400)
   })
 
-  test('rechaza categoria inexistente', async ({ request }) => {
-    const res = await request.post('/api/publications', {
+  test('rechaza categoria inexistente', async ({ page }) => {
+    await ingresarComoVendedor(page)
+    const res = await page.request.post('/api/publications', {
       data: { title: 'Activo de prueba', categoryId: 'no-existe', price: 1000000 },
     })
     expect(res.status()).toBe(404)
