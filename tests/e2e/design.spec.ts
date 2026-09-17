@@ -352,3 +352,46 @@ test.describe('Paneles sin desborde horizontal en movil @mobile', () => {
     })
   }
 })
+
+test.describe('El encabezado cabe con sesion iniciada @desktop', () => {
+  // Con sesion el encabezado suma los controles de cuenta, que es cuando
+  // empezaba a desbordar en pantallas de portatil.
+  const ANCHOS = [1024, 1280, 1366, 1440, 1536]
+
+  for (const ancho of ANCHOS) {
+    test(`a ${ancho}px no desborda ni se parte la barra`, async ({ browser, baseURL }) => {
+      const ctx = await browser.newContext({ baseURL, viewport: { width: ancho, height: 900 } })
+      const page = await ctx.newPage()
+
+      await page.goto('/ingresar')
+      await page.getByTestId('login-email').fill('admin@movia.co')
+      await page.getByTestId('login-password').fill('Movia2026')
+      await page.getByTestId('login-submit').click()
+      await expect(page).toHaveURL(/\/admin/)
+
+      const medidas = await page.evaluate(() => {
+        const doc = document.documentElement
+        const barra = document.querySelector('header > div')!.getBoundingClientRect()
+        const enlaces = Array.from(document.querySelectorAll('header nav a')).map((a) => {
+          const r = a.getBoundingClientRect()
+          return { alto: Math.round(r.height), derecha: Math.round(r.right) }
+        })
+        return {
+          desborde: doc.scrollWidth - doc.clientWidth,
+          barraDerecha: Math.round(barra.right),
+          enlaces,
+        }
+      })
+
+      expect(medidas.desborde, `desborda ${medidas.desborde}px`).toBeLessThanOrEqual(1)
+
+      for (const enlace of medidas.enlaces) {
+        // Una sola linea: si el texto se parte, el alto pasa de la barra.
+        expect(enlace.alto, 'un enlace del menu se partio en dos lineas').toBeLessThanOrEqual(64)
+        expect(enlace.derecha).toBeLessThanOrEqual(medidas.barraDerecha + 1)
+      }
+
+      await ctx.close()
+    })
+  }
+})

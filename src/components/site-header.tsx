@@ -36,7 +36,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
           <img src="/brand/logo-web.png" alt="MOVIA" width={115} height={80} className="h-9 w-auto" />
         </Link>
 
-        <nav className="hidden flex-1 items-center gap-1 lg:flex" aria-label="Principal">
+        <nav className="hidden items-center gap-1 xl:flex" aria-label="Principal">
           {NAV.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`)
             return (
@@ -44,7 +44,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'relative flex h-16 items-center px-3 text-[14px] font-medium transition-colors',
+                  'relative flex h-16 items-center whitespace-nowrap px-2.5 text-[14px] font-medium transition-colors',
                   active
                     ? 'text-[var(--color-primary)]'
                     : 'text-[var(--color-navy)] hover:text-[var(--color-primary)]',
@@ -63,7 +63,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
           })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-2">
           <Link
             href="/publicar"
             data-testid="nav-publish"
@@ -74,11 +74,12 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
           </Link>
 
           {user ? (
-            <div className="hidden items-center gap-2 lg:flex">
+            <div className="hidden items-center gap-2 xl:flex">
               {user.role === 'admin' ? (
                 <Link
                   href="/admin"
                   data-testid="nav-admin"
+                  title="Administracion"
                   className="inline-flex min-h-[44px] items-center gap-1.5 rounded-[var(--radius-input)] border border-[#D1D5DB] px-3 text-[14px] font-medium text-[var(--color-navy)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
                 >
                   <Shield className="size-4" aria-hidden />
@@ -87,7 +88,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
               ) : null}
 
               <span
-                className="inline-flex min-h-[44px] items-center gap-1.5 px-2 text-[14px] text-[var(--color-navy)]"
+                className="hidden min-h-[44px] items-center gap-1.5 whitespace-nowrap px-2 text-[14px] text-[var(--color-navy)] 2xl:inline-flex"
                 data-testid="session-user"
               >
                 <UserRound className="size-4" aria-hidden />
@@ -108,7 +109,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
             <Link
               href="/ingresar"
               data-testid="nav-login"
-              className="hidden min-h-[44px] items-center rounded-[var(--radius-input)] border border-[#D1D5DB] px-4 text-[14px] font-medium text-[var(--color-navy)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] lg:inline-flex"
+              className="hidden min-h-[44px] items-center whitespace-nowrap rounded-[var(--radius-input)] border border-[#D1D5DB] px-4 text-[14px] font-medium text-[var(--color-navy)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] xl:inline-flex"
             >
               Ingresar
             </Link>
@@ -118,7 +119,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Abrir menu"
-            className="inline-flex size-11 items-center justify-center rounded-[var(--radius-input)] border border-[var(--color-border)] lg:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-[var(--radius-input)] border border-[var(--color-border)] xl:hidden"
           >
             <Menu className="size-5" aria-hidden />
           </button>
@@ -134,14 +135,14 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
               animate="show"
               exit="exit"
               onClick={() => setOpen(false)}
-              className="fixed inset-0 z-40 bg-[var(--color-navy)]/40 lg:hidden"
+              className="fixed inset-0 z-40 bg-[var(--color-navy)]/40 xl:hidden"
             />
             <motion.aside
               variants={drawerVariants}
               initial="hidden"
               animate="show"
               exit="exit"
-              className="fixed inset-y-0 left-0 z-50 w-[280px] border-r border-[var(--color-border)] bg-white p-4 lg:hidden"
+              className="fixed inset-y-0 left-0 z-50 w-[280px] border-r border-[var(--color-border)] bg-white p-4 xl:hidden"
               data-testid="mobile-menu"
             >
               <div className="mb-4 flex items-center justify-between">
