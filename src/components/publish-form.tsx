@@ -118,7 +118,10 @@ export function PublishForm({ categories, cities }: { categories: Category[]; ci
   return (
     <form onSubmit={submit} className="space-y-6" data-testid="publish-form">
       <motion.aside
-        className="sticky top-20 z-10 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-4"
+        // Queda pegada justo debajo del encabezado, sin hueco por donde se
+        // vea pasar el formulario, y con el azul claro que el manual reserva
+        // para tarjetas informativas.
+        className="sticky top-16 z-20 rounded-[var(--radius-card)] border border-[#BFDBFE] bg-[var(--color-primary-soft)] p-4 shadow-[var(--shadow-card-hover)]"
         layout
       >
         <CompletenessBar score={completeness.score} hint={completeness.nextBestAction} />

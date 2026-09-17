@@ -21,6 +21,35 @@ test.describe('Alta de publicacion', () => {
     await expect(bar).toContainText(/sube al menos 3 fotos/i)
   })
 
+  test('el indicador de calidad se distingue del formulario y no deja ver detras', async ({
+    page,
+  }) => {
+    await page.getByTestId('field-title').scrollIntoViewIfNeeded()
+    await page.evaluate(() => window.scrollBy(0, 420))
+    await page.waitForTimeout(400)
+
+    const medidas = await page.evaluate(() => {
+      const barra = document.querySelector('[data-testid="completeness"]')!.closest('aside')!
+      const estilo = getComputedStyle(barra)
+      const caja = barra.getBoundingClientRect()
+      const encabezado = document.querySelector('header')!.getBoundingClientRect()
+      return {
+        fondo: estilo.backgroundColor,
+        sombra: estilo.boxShadow,
+        borde: estilo.borderTopColor,
+        huecoConEncabezado: Math.round(caja.top - encabezado.bottom),
+      }
+    })
+
+    // Fondo propio, no el blanco de las tarjetas del formulario.
+    expect(medidas.fondo).toBe('rgb(239, 246, 255)')
+    expect(medidas.sombra).not.toBe('none')
+    expect(medidas.borde).not.toBe('rgb(229, 231, 235)')
+
+    // Pegada al encabezado: sin franja por donde se vea pasar el formulario.
+    expect(medidas.huecoConEncabezado).toBeLessThanOrEqual(1)
+  })
+
   test('el indicador sube al completar campos', async ({ page }) => {
     await page.getByTestId('field-title').fill('Torno CNC Mazak Quick Turn 250')
     await page.getByTestId('field-price').fill('185000000')

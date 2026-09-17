@@ -26,7 +26,7 @@ export function CompletenessBar({
   return (
     <div className={cn('w-full', className)} data-testid="completeness">
       <div className="flex items-baseline justify-between gap-2">
-        <span className="text-[12px] font-medium text-[var(--color-text-muted)]">
+        <span className="text-[13px] font-semibold text-[var(--color-navy)]">
           Publicacion {score}% completa
         </span>
         {!compact && score < 100 ? (
@@ -34,7 +34,7 @@ export function CompletenessBar({
         ) : null}
       </div>
 
-      <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-[var(--color-border)]">
+      <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-white">
         <motion.div
           className="h-full origin-left rounded-full"
           style={{ background: tone }}
