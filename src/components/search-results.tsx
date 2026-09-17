@@ -73,7 +73,6 @@ export function SearchResults({
         total={total}
         pageSize={pageSize}
         label="publicaciones"
-        compact
         testId="pagination-top"
       />
 

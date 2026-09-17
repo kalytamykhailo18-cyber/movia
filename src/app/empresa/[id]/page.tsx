@@ -175,7 +175,6 @@ export default async function CompanyPage({ params, searchParams }: Props) {
           total={meta.total}
           pageSize={meta.pageSize}
           label="publicaciones"
-          compact
           testId="pagination-top"
         />
 

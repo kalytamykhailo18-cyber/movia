@@ -87,12 +87,11 @@ test.describe('Busqueda', () => {
   test('pagina los resultados', async ({ page }) => {
     await page.goto('/buscar')
 
-    const indicador = page.getByTestId('pagination-top-indicator')
-    await expect(indicador).toContainText('1 de')
+    await expect(page.getByTestId('pagination-top-page-1')).toHaveAttribute('aria-current', 'page')
 
     await page.getByTestId('pagination-top-next').click()
     await expect(page).toHaveURL(/page=2/)
-    await expect(page.getByTestId('pagination-top-indicator')).toContainText('2 de')
+    await expect(page.getByTestId('pagination-top-page-2')).toHaveAttribute('aria-current', 'page')
   })
 
   test('combina termino y filtro de categoria', async ({ page }) => {

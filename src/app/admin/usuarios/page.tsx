@@ -50,7 +50,6 @@ export default async function AdminUsersPage({ searchParams }: Props) {
         total={meta.total}
         pageSize={meta.pageSize}
         label="usuarios"
-        compact
         testId="pagination-top"
       />
 

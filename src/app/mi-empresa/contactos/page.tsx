@@ -50,7 +50,6 @@ export default async function LeadsPage({ searchParams }: Props) {
         total={total}
         pageSize={pageSize}
         label="contactos"
-        compact
         testId="pagination-top"
       />
 

@@ -12,7 +12,6 @@ type Props = {
   total: number
   pageSize: number
   param?: string
-  compact?: boolean
   label?: string
   testId?: string
 }
@@ -49,7 +48,6 @@ export function Pagination({
   total,
   pageSize,
   param = 'page',
-  compact = false,
   label = 'resultados',
   testId = 'pagination',
 }: Props) {
@@ -73,14 +71,14 @@ export function Pagination({
 
   return (
     <nav
-      className={cn(
-        'flex flex-wrap items-center justify-between gap-3',
-        compact ? 'pb-1' : 'pt-2',
-      )}
+      className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
       aria-label="Paginacion"
       data-testid={testId}
     >
-      <p className="text-[13px] text-[var(--color-text-muted)]" data-testid={`${testId}-range`}>
+      <p
+        className="text-center text-[13px] text-[var(--color-text-muted)] sm:text-left"
+        data-testid={`${testId}-range`}
+      >
         Mostrando <span className="font-medium text-[var(--color-navy)]">{desde}</span>
         {' a '}
         <span className="font-medium text-[var(--color-navy)]">{hasta}</span>
@@ -88,7 +86,7 @@ export function Pagination({
         <span className="font-medium text-[var(--color-navy)]">{total}</span> {label}
       </p>
 
-      <div className="flex items-center gap-1">
+      <div className="flex flex-wrap items-center justify-center gap-1 sm:justify-end">
         <Arrow
           side="prev"
           disabled={page <= 1}
@@ -96,55 +94,46 @@ export function Pagination({
           testId={`${testId}-prev`}
         />
 
-        {compact ? (
-          <span
-            className="px-3 text-[13px] text-[var(--color-text-muted)]"
-            data-testid={`${testId}-indicator`}
-          >
-            {page} de {totalPages}
-          </span>
-        ) : (
-          <ul className="flex items-center gap-1" data-testid={`${testId}-pages`}>
-            {pageWindow(page, totalPages).map((value, index) =>
-              value === 'gap' ? (
-                <li
-                  key={`gap-${index}`}
-                  aria-hidden
-                  className="px-1 text-[13px] text-[var(--color-text-muted)]"
+        <ul className="flex flex-wrap items-center justify-center gap-1" data-testid={`${testId}-pages`}>
+          {pageWindow(page, totalPages).map((value, index) =>
+            value === 'gap' ? (
+              <li
+                key={`gap-${index}`}
+                aria-hidden
+                className="px-1 text-[13px] text-[var(--color-text-muted)]"
+              >
+                &hellip;
+              </li>
+            ) : (
+              <li key={value}>
+                <button
+                  type="button"
+                  onClick={() => go(value)}
+                  aria-current={value === page ? 'page' : undefined}
+                  aria-label={`Pagina ${value}`}
+                  data-testid={`${testId}-page-${value}`}
+                  className={cn(
+                    'relative inline-flex size-11 items-center justify-center rounded-[var(--radius-input)] text-[14px] tabular-nums transition-colors',
+                    value === page
+                      ? 'font-semibold text-white'
+                      : 'text-[var(--color-navy)] hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)]',
+                  )}
                 >
-                  &hellip;
-                </li>
-              ) : (
-                <li key={value}>
-                  <button
-                    type="button"
-                    onClick={() => go(value)}
-                    aria-current={value === page ? 'page' : undefined}
-                    aria-label={`Pagina ${value}`}
-                    data-testid={`${testId}-page-${value}`}
-                    className={cn(
-                      'relative inline-flex size-11 items-center justify-center rounded-[var(--radius-input)] text-[14px] tabular-nums transition-colors',
-                      value === page
-                        ? 'font-semibold text-white'
-                        : 'text-[var(--color-navy)] hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)]',
-                    )}
-                  >
-                    {value === page && motionEnabled ? (
-                      <motion.span
-                        layoutId={`${testId}-active`}
-                        transition={tabIndicatorTransition}
-                        className="pointer-events-none absolute inset-0 rounded-[var(--radius-input)] bg-[var(--color-primary)]"
-                      />
-                    ) : value === page ? (
-                      <span className="pointer-events-none absolute inset-0 rounded-[var(--radius-input)] bg-[var(--color-primary)]" />
-                    ) : null}
-                    <span className="relative">{value}</span>
-                  </button>
-                </li>
-              ),
-            )}
-          </ul>
-        )}
+                  {value === page && motionEnabled ? (
+                    <motion.span
+                      layoutId={`${testId}-active`}
+                      transition={tabIndicatorTransition}
+                      className="pointer-events-none absolute inset-0 rounded-[var(--radius-input)] bg-[var(--color-primary)]"
+                    />
+                  ) : value === page ? (
+                    <span className="pointer-events-none absolute inset-0 rounded-[var(--radius-input)] bg-[var(--color-primary)]" />
+                  ) : null}
+                  <span className="relative">{value}</span>
+                </button>
+              </li>
+            ),
+          )}
+        </ul>
 
         <Arrow
           side="next"

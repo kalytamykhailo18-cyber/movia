@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
+import { buscarEnListado } from './helpers'
 
 const ADMIN = { email: 'admin@movia.co', password: 'Movia2026' }
 
@@ -185,16 +186,25 @@ test.describe('Verificacion de empresas', () => {
   test('aprobar una empresa le otorga el distintivo publico', async ({ page, baseURL }) => {
     const target = await registerPendingCompany(page, baseURL)
 
-    await page.goto('/empresas')
+    const antes = await buscarEnListado(page, '/empresas', (p) =>
+      p.getByTestId('company-card').filter({ hasText: target.name }),
+    )
+    expect(antes, 'la empresa recien creada deberia aparecer en el listado').toBe(true)
     await expect(
       page.getByTestId('company-card').filter({ hasText: target.name }),
     ).toContainText('Verificacion pendiente')
 
-    await page.goto('/admin/verificaciones')
+    const enCola = await buscarEnListado(page, '/admin/verificaciones', (p) =>
+      p.getByTestId(`approve-${target.nit}`),
+    )
+    expect(enCola, 'la empresa deberia estar en la cola de revision').toBe(true)
     await page.getByTestId(`approve-${target.nit}`).click()
     await expect(page.getByText('Aprobada').first()).toBeVisible()
 
-    await page.goto('/empresas')
+    const despues = await buscarEnListado(page, '/empresas', (p) =>
+      p.getByTestId('company-card').filter({ hasText: target.name }),
+    )
+    expect(despues).toBe(true)
     await expect(
       page.getByTestId('company-card').filter({ hasText: target.name }),
     ).toContainText('Empresa verificada')
@@ -203,11 +213,17 @@ test.describe('Verificacion de empresas', () => {
   test('rechazar una empresa la deja sin distintivo', async ({ page, baseURL }) => {
     const target = await registerPendingCompany(page, baseURL)
 
-    await page.goto('/admin/verificaciones')
+    const enCola = await buscarEnListado(page, '/admin/verificaciones', (p) =>
+      p.getByTestId(`reject-${target.nit}`),
+    )
+    expect(enCola).toBe(true)
     await page.getByTestId(`reject-${target.nit}`).click()
     await expect(page.getByText('Rechazada').first()).toBeVisible()
 
-    await page.goto('/empresas')
+    const encontrada = await buscarEnListado(page, '/empresas', (p) =>
+      p.getByTestId('company-card').filter({ hasText: target.name }),
+    )
+    expect(encontrada).toBe(true)
     await expect(
       page.getByTestId('company-card').filter({ hasText: target.name }),
     ).toContainText('No verificada')
@@ -233,6 +249,11 @@ test.describe('Gestion de usuarios', () => {
   test('suspender un usuario le impide iniciar sesion', async ({ page, browser }) => {
     const target = 'comprador6@movia.co'
 
+    const encontrado = await buscarEnListado(page, '/admin/usuarios', (p) =>
+      p.getByTestId(`toggle-${target}`),
+    )
+    expect(encontrado, 'el usuario deberia aparecer en alguna pagina').toBe(true)
+
     await page.getByTestId(`toggle-${target}`).click()
     await expect(
       page.getByTestId('user-row').filter({ hasText: target }),
@@ -249,7 +270,6 @@ test.describe('Gestion de usuarios', () => {
     await fresh.close()
 
     // se reactiva para dejar el demo como estaba
-    await page.reload()
     await page.getByTestId(`toggle-${target}`).click()
     await expect(
       page.getByTestId('user-row').filter({ hasText: target }),

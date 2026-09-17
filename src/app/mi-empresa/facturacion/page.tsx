@@ -103,7 +103,6 @@ export default async function BillingPage({ searchParams }: Props) {
                 total={total}
                 pageSize={pageSize}
                 label="pagos"
-                compact
                 testId="pagination-top"
               />
             </div>

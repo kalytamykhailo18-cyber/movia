@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { buscarEnListado } from './helpers'
 
 test.describe('Integridad de la navegacion', () => {
   test('ningun enlace del encabezado o del pie lleva a una pagina inexistente', async ({
@@ -123,11 +124,16 @@ test.describe('Perfil publico de empresa', () => {
   })
 
   test('el listado distingue empresas verificadas de pendientes', async ({ page }) => {
-    await page.goto('/empresas')
-    const cards = page.getByTestId('company-card')
-    expect(await cards.count()).toBeGreaterThan(1)
-    await expect(page.getByText('Empresa verificada').first()).toBeVisible()
-    await expect(page.getByText('Verificacion pendiente').first()).toBeVisible()
+    // El listado esta paginado, asi que cada estado puede caer en otra pagina.
+    const hayVerificada = await buscarEnListado(page, '/empresas', (p) =>
+      p.getByTestId('company-card').filter({ hasText: 'Empresa verificada' }),
+    )
+    expect(hayVerificada, 'deberia existir al menos una empresa verificada').toBe(true)
+
+    const hayPendiente = await buscarEnListado(page, '/empresas', (p) =>
+      p.getByTestId('company-card').filter({ hasText: 'Verificacion pendiente' }),
+    )
+    expect(hayPendiente, 'deberia existir al menos una empresa pendiente').toBe(true)
   })
 })
 

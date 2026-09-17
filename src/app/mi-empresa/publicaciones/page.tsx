@@ -55,7 +55,6 @@ export default async function PublicationsPage({ searchParams }: Props) {
         total={resultado.total}
         pageSize={resultado.pageSize}
         label="publicaciones"
-        compact
         testId="pagination-top"
       />
 

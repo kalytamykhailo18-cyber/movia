@@ -53,7 +53,6 @@ export default async function AdminVerificationsPage({ searchParams }: Props) {
         total={meta.total}
         pageSize={meta.pageSize}
         label="empresas por revisar"
-        compact
         testId="pagination-top"
       />
 

@@ -26,7 +26,7 @@ export default async function CompaniesPage({ searchParams }: Props) {
   const companies = await db.company.findMany({
     skip: pagina.skip,
     take: pagina.take,
-    orderBy: [{ verificationStatus: 'asc' }, { createdAt: 'asc' }],
+    orderBy: [{ verificationStatus: 'asc' }, { createdAt: 'desc' }],
     select: {
       id: true,
       name: true,
@@ -54,7 +54,6 @@ export default async function CompaniesPage({ searchParams }: Props) {
         total={meta.total}
         pageSize={meta.pageSize}
         label="empresas"
-        compact
         testId="pagination-top"
       />
 
