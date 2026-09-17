@@ -7,6 +7,9 @@ import { CompletenessBar } from '@/components/ui/completeness-bar'
 import { AnimatedSection } from '@/components/animated-section'
 import { Badge } from '@/components/ui/badge'
 import { money, shortDate } from '@/lib/format'
+import { Pagination } from '@/components/ui/pagination'
+import { resolvePage } from '@/lib/paginate'
+import { env } from '@/lib/env'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,11 +29,16 @@ const STATUS_LABEL: Record<string, string> = {
   withdrawn: 'Retirada',
 }
 
-export default async function PublicationsPage() {
+type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
+
+export default async function PublicationsPage({ searchParams }: Props) {
+  const query = await searchParams
   const company = await getViewerCompany()
   if (!company) redirect('/ingresar')
 
-  const rows = await getPublicationPerformance(company.id)
+  const pagina = resolvePage(query.page, env.search.listPageSize)
+  const resultado = await getPublicationPerformance(company.id, pagina)
+  const rows = resultado.items
 
   return (
     <div className="space-y-6">
@@ -40,6 +48,16 @@ export default async function PublicationsPage() {
           Que resultado genero cada publicacion: quien la vio, la guardo y te contacto.
         </p>
       </header>
+
+      <Pagination
+        page={resultado.page}
+        totalPages={resultado.totalPages}
+        total={resultado.total}
+        pageSize={resultado.pageSize}
+        label="publicaciones"
+        compact
+        testId="pagination-top"
+      />
 
       <AnimatedSection>
         <div className="space-y-3" data-testid="performance-list">
@@ -129,6 +147,14 @@ export default async function PublicationsPage() {
           ))}
         </div>
       </AnimatedSection>
+
+      <Pagination
+        page={resultado.page}
+        totalPages={resultado.totalPages}
+        total={resultado.total}
+        pageSize={resultado.pageSize}
+        label="publicaciones"
+      />
     </div>
   )
 }

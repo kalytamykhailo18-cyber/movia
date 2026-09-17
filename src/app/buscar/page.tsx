@@ -57,6 +57,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           total={result.total}
           page={result.page}
           totalPages={result.totalPages}
+          pageSize={result.pageSize}
           query={query.q ?? ''}
         />
       </Suspense>

@@ -1,16 +1,30 @@
 import type { Metadata } from 'next'
 import { db } from '@/lib/db'
 import { VerificationQueue } from '@/components/admin/decision-list'
+import { Pagination } from '@/components/ui/pagination'
+import { resolvePage, pageMeta } from '@/lib/paginate'
+import { env } from '@/lib/env'
 import { PageIntro } from '@/components/page-intro'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = { title: 'Verificaciones' }
 
-export default async function AdminVerificationsPage() {
+type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
+
+export default async function AdminVerificationsPage({ searchParams }: Props) {
+  const query = await searchParams
+  const pagina = resolvePage(query.page, env.search.listPageSize)
+
+  const where = { verificationStatus: { in: ['pending', 'review'] } }
+  const total = await db.company.count({ where })
+  const meta = pageMeta(total, pagina)
+
   const companies = await db.company.findMany({
-    where: { verificationStatus: { in: ['pending', 'review'] } },
+    where,
     orderBy: { createdAt: 'asc' },
+    skip: pagina.skip,
+    take: pagina.take,
     select: {
       id: true,
       name: true,
@@ -33,6 +47,16 @@ export default async function AdminVerificationsPage() {
         </p>
       </PageIntro>
 
+      <Pagination
+        page={meta.page}
+        totalPages={meta.totalPages}
+        total={meta.total}
+        pageSize={meta.pageSize}
+        label="empresas por revisar"
+        compact
+        testId="pagination-top"
+      />
+
       <VerificationQueue
         companies={companies.map((c) => ({
           id: c.id,
@@ -45,6 +69,14 @@ export default async function AdminVerificationsPage() {
           cityName: c.city?.name ?? null,
           ownerEmail: c.owner.email,
         }))}
+      />
+
+      <Pagination
+        page={meta.page}
+        totalPages={meta.totalPages}
+        total={meta.total}
+        pageSize={meta.pageSize}
+        label="empresas por revisar"
       />
     </div>
   )

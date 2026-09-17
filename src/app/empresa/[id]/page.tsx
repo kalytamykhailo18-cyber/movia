@@ -9,10 +9,15 @@ import { toCard } from '@/server/publications'
 import { PublicationCard } from '@/components/publication-card'
 import { AnimatedSection } from '@/components/animated-section'
 import { VerifiedBadge, CompanyBadges } from '@/components/ui/badge'
+import { Pagination } from '@/components/ui/pagination'
+import { resolvePage, pageMeta } from '@/lib/paginate'
 
 export const dynamic = 'force-dynamic'
 
-type Props = { params: Promise<{ id: string }> }
+type Props = {
+  params: Promise<{ id: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
 
 const CARD_SELECT = {
   id: true,
@@ -64,16 +69,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function CompanyPage({ params }: Props) {
+export default async function CompanyPage({ params, searchParams }: Props) {
   const { id } = await params
+  const query = await searchParams
   const company = await getCompany(id)
   if (!company) notFound()
+
+  const pagina = resolvePage(query.page, env.search.companyPageSize)
+  const totalPublicaciones = await db.publication.count({
+    where: { companyId: company.id, status: 'active' },
+  })
+  const meta = pageMeta(totalPublicaciones, pagina)
 
   const publications = await db.publication.findMany({
     where: { companyId: company.id, status: 'active' },
     select: CARD_SELECT,
     orderBy: [{ featured: 'desc' }, { publishedAt: 'desc' }],
-    take: 12,
+    skip: pagina.skip,
+    take: pagina.take,
   })
 
   const ratings = company.reviewsReceived.map((r) => r.rating)
@@ -132,7 +145,7 @@ export default async function CompanyPage({ params }: Props) {
           <Fact
             icon={<FileText className="size-3.5" />}
             label="Publicaciones activas"
-            value={String(publications.length)}
+            value={String(totalPublicaciones)}
           />
           <Fact
             icon={<Users className="size-3.5" />}
@@ -156,9 +169,19 @@ export default async function CompanyPage({ params }: Props) {
         <h2 className="mb-4 text-[24px] font-semibold text-[var(--color-navy)]">
           Activos publicados
         </h2>
+        <Pagination
+          page={meta.page}
+          totalPages={meta.totalPages}
+          total={meta.total}
+          pageSize={meta.pageSize}
+          label="publicaciones"
+          compact
+          testId="pagination-top"
+        />
+
         {publications.length ? (
           <div
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
             data-testid="company-publications"
           >
             {publications.map((item, i) => (
@@ -173,6 +196,16 @@ export default async function CompanyPage({ params }: Props) {
             Esta empresa no tiene publicaciones activas en este momento.
           </p>
         )}
+
+        <div className="mt-4">
+          <Pagination
+            page={meta.page}
+            totalPages={meta.totalPages}
+            total={meta.total}
+            pageSize={meta.pageSize}
+            label="publicaciones"
+          />
+        </div>
       </AnimatedSection>
 
       {company.reviewsReceived.length ? (

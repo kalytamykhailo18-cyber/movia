@@ -2,6 +2,7 @@ import { db } from '@/lib/db'
 import { getSessionUser } from '@/lib/auth'
 import { env } from '@/lib/env'
 import { parseJson } from '@/lib/utils'
+import { resolvePage, pageMeta, type Page } from '@/lib/paginate'
 
 const EVENT_TYPES = {
   view: 'view',
@@ -178,10 +179,15 @@ export type PublicationPerformance = {
   conversionRate: number
 }
 
-export async function getPublicationPerformance(companyId: string): Promise<PublicationPerformance[]> {
+export async function getPublicationPerformance(companyId: string, pagina?: Page) {
+  const page = pagina ?? resolvePage(1, env.search.listPageSize)
+  const total = await db.publication.count({ where: { companyId } })
+
   const publications = await db.publication.findMany({
     where: { companyId },
     orderBy: [{ status: 'asc' }, { publishedAt: 'desc' }],
+    skip: page.skip,
+    take: page.take,
     select: {
       id: true,
       slug: true,
@@ -201,7 +207,7 @@ export async function getPublicationPerformance(companyId: string): Promise<Publ
     },
   })
 
-  return publications.map((pub) => {
+  const items = publications.map((pub) => {
     const count = (type: string) => pub.events.filter((e) => e.type === type).length
     const daysActive = Math.max(1, Math.floor((Date.now() - pub.publishedAt.getTime()) / 86400000))
 
@@ -230,16 +236,20 @@ export async function getPublicationPerformance(companyId: string): Promise<Publ
       conversionRate: pub.viewCount ? Number(((pub.leadCount / pub.viewCount) * 100).toFixed(1)) : 0,
     }
   })
+
+  return { items, ...pageMeta(total, page) }
 }
 
-export async function getCompanyLeads(companyId: string, limit = 50) {
+export async function getCompanyLeads(companyId: string, pagina?: Page) {
+  const page = pagina ?? resolvePage(1, env.search.listPageSize)
   const where = { publication: { companyId } }
 
   const [items, total, unread] = await Promise.all([
     db.lead.findMany({
       where,
       orderBy: { createdAt: 'desc' },
-      take: limit,
+      skip: page.skip,
+      take: page.take,
       select: {
         id: true,
         source: true,
@@ -256,7 +266,7 @@ export async function getCompanyLeads(companyId: string, limit = 50) {
     db.lead.count({ where: { ...where, readAt: null } }),
   ])
 
-  return { items, total, unread }
+  return { items, unread, ...pageMeta(total, page) }
 }
 
 export async function getDefaultCompany() {
@@ -277,12 +287,16 @@ export async function getViewerCompany() {
   return null
 }
 
-export async function getCompanyBilling(companyId: string) {
+export async function getCompanyBilling(companyId: string, pagina?: Page) {
+  const page = pagina ?? resolvePage(1, env.search.listPageSize)
+  const total = await db.payment.count({ where: { companyId } })
+
   const [payments, subscription] = await Promise.all([
     db.payment.findMany({
       where: { companyId },
       orderBy: { createdAt: 'desc' },
-      take: 20,
+      skip: page.skip,
+      take: page.take,
       select: {
         id: true,
         concept: true,
@@ -312,5 +326,5 @@ export async function getCompanyBilling(companyId: string) {
     }),
   ])
 
-  return { payments, subscription, taxLabel: env.tax.label }
+  return { payments, subscription, taxLabel: env.tax.label, ...pageMeta(total, page) }
 }

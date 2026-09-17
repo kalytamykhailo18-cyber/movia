@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { SearchX } from 'lucide-react'
 import { PublicationCard, type PublicationCardData } from '@/components/publication-card'
 import { Button } from '@/components/ui/button'
+import { Pagination } from '@/components/ui/pagination'
 import { listVariants, motionEnabled } from '@/lib/motion'
 
 const SORTS = [
@@ -19,12 +20,14 @@ export function SearchResults({
   total,
   page,
   totalPages,
+  pageSize,
   query,
 }: {
   items: PublicationCardData[]
   total: number
   page: number
   totalPages: number
+  pageSize: number
   query: string
 }) {
   const router = useRouter()
@@ -64,6 +67,18 @@ export function SearchResults({
         </select>
       </div>
 
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        total={total}
+        pageSize={pageSize}
+        label="publicaciones"
+        compact
+        testId="pagination-top"
+      />
+
+      <div className="mt-4" />
+
       <AnimatePresence mode="wait">
         {items.length ? (
           <motion.div
@@ -102,31 +117,16 @@ export function SearchResults({
         )}
       </AnimatePresence>
 
-      {totalPages > 1 ? (
-        <nav className="mt-8 flex items-center justify-center gap-2" aria-label="Paginacion">
-          <Button
-            variant="secondary"
-            size="sm"
-            disabled={page <= 1}
-            onClick={() => setParam('page', String(page - 1))}
-            data-testid="page-prev"
-          >
-            Anterior
-          </Button>
-          <span className="px-3 text-[14px] text-[var(--color-text-muted)]" data-testid="page-indicator">
-            {page} de {totalPages}
-          </span>
-          <Button
-            variant="secondary"
-            size="sm"
-            disabled={page >= totalPages}
-            onClick={() => setParam('page', String(page + 1))}
-            data-testid="page-next"
-          >
-            Siguiente
-          </Button>
-        </nav>
-      ) : null}
+      <div className="mt-8">
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          total={total}
+          pageSize={pageSize}
+          label="publicaciones"
+        />
+      </div>
+
     </div>
   )
 }

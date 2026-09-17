@@ -64,6 +64,8 @@ export const env = {
   search: {
     pageSize: num('SEARCH_PAGE_SIZE', 12),
     maxPageSize: num('SEARCH_MAX_PAGE_SIZE', 48),
+    listPageSize: num('LIST_PAGE_SIZE', 10),
+    companyPageSize: num('COMPANY_PAGE_SIZE', 9),
   },
   payment: {
     gateway: str('PAYMENT_GATEWAY', 'wompi'),

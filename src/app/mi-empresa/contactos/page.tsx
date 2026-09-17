@@ -7,6 +7,9 @@ import { getCompanyLeads, getViewerCompany } from '@/server/analytics'
 import { AnimatedSection } from '@/components/animated-section'
 import { Badge } from '@/components/ui/badge'
 import { shortDate } from '@/lib/format'
+import { Pagination } from '@/components/ui/pagination'
+import { resolvePage } from '@/lib/paginate'
+import { env } from '@/lib/env'
 
 export const dynamic = 'force-dynamic'
 
@@ -18,11 +21,18 @@ const SOURCE: Record<string, { label: string; icon: React.ReactNode; tone: 'succ
   chat: { label: 'Chat interno', icon: <MessageSquare className="size-3.5" />, tone: 'neutral' },
 }
 
-export default async function LeadsPage() {
+type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
+
+export default async function LeadsPage({ searchParams }: Props) {
+  const query = await searchParams
   const company = await getViewerCompany()
   if (!company) redirect('/ingresar')
 
-  const { items: leads, total, unread } = await getCompanyLeads(company.id)
+  const pagina = resolvePage(query.page, env.search.listPageSize)
+  const { items: leads, total, unread, page, totalPages, pageSize } = await getCompanyLeads(
+    company.id,
+    pagina,
+  )
 
   return (
     <div className="space-y-6">
@@ -31,9 +41,18 @@ export default async function LeadsPage() {
         <p className="mt-1 text-[16px] text-[var(--color-text-muted)]">
           <span data-testid="leads-total">{total}</span> contactos registrados
           {unread ? `, ${unread} sin leer` : ''}.
-          {total > leads.length ? ` Mostrando los ${leads.length} mas recientes.` : ''}
         </p>
       </header>
+
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        total={total}
+        pageSize={pageSize}
+        label="contactos"
+        compact
+        testId="pagination-top"
+      />
 
       <AnimatedSection>
         {leads.length ? (
@@ -45,6 +64,7 @@ export default async function LeadsPage() {
                   key={lead.id}
                   className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-4"
                   data-testid="lead-item"
+                  data-lead-id={lead.id}
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0">
@@ -98,6 +118,14 @@ export default async function LeadsPage() {
           </div>
         )}
       </AnimatedSection>
+
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        total={total}
+        pageSize={pageSize}
+        label="contactos"
+      />
     </div>
   )
 }

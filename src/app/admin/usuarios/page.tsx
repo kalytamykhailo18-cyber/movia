@@ -2,18 +2,28 @@ import type { Metadata } from 'next'
 import { db } from '@/lib/db'
 import { requireAdmin } from '@/lib/auth'
 import { UserList } from '@/components/admin/decision-list'
+import { Pagination } from '@/components/ui/pagination'
+import { resolvePage, pageMeta } from '@/lib/paginate'
+import { env } from '@/lib/env'
 import { PageIntro } from '@/components/page-intro'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = { title: 'Usuarios' }
 
-export default async function AdminUsersPage() {
+type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
+
+export default async function AdminUsersPage({ searchParams }: Props) {
   const admin = await requireAdmin()
+  const query = await searchParams
+  const pagina = resolvePage(query.page, env.search.listPageSize)
+  const total = await db.user.count()
+  const meta = pageMeta(total, pagina)
 
   const users = await db.user.findMany({
     orderBy: [{ role: 'asc' }, { createdAt: 'asc' }],
-    take: 100,
+    skip: pagina.skip,
+    take: pagina.take,
     select: {
       id: true,
       email: true,
@@ -34,6 +44,16 @@ export default async function AdminUsersPage() {
         </p>
       </PageIntro>
 
+      <Pagination
+        page={meta.page}
+        totalPages={meta.totalPages}
+        total={meta.total}
+        pageSize={meta.pageSize}
+        label="usuarios"
+        compact
+        testId="pagination-top"
+      />
+
       <UserList
         currentUserId={admin.id}
         users={users.map((u) => ({
@@ -45,6 +65,14 @@ export default async function AdminUsersPage() {
           status: u.status,
           companyName: u.company?.name ?? null,
         }))}
+      />
+
+      <Pagination
+        page={meta.page}
+        totalPages={meta.totalPages}
+        total={meta.total}
+        pageSize={meta.pageSize}
+        label="usuarios"
       />
     </div>
   )

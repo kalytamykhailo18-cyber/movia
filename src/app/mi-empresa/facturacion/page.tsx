@@ -6,6 +6,8 @@ import { AnimatedSection } from '@/components/animated-section'
 import { Badge } from '@/components/ui/badge'
 import { money, shortDate, relativeDays } from '@/lib/format'
 import { env } from '@/lib/env'
+import { Pagination } from '@/components/ui/pagination'
+import { resolvePage } from '@/lib/paginate'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,11 +19,16 @@ const STATUS_TONE: Record<string, 'success' | 'pending' | 'danger'> = {
   declined: 'danger',
 }
 
-export default async function BillingPage() {
+type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
+
+export default async function BillingPage({ searchParams }: Props) {
+  const query = await searchParams
   const company = await getViewerCompany()
   if (!company) redirect('/ingresar')
 
-  const { payments, subscription, taxLabel } = await getCompanyBilling(company.id)
+  const pagina = resolvePage(query.page, env.search.listPageSize)
+  const { payments, subscription, taxLabel, page, totalPages, total, pageSize } =
+    await getCompanyBilling(company.id, pagina)
 
   return (
     <div className="space-y-6">
@@ -88,6 +95,18 @@ export default async function BillingPage() {
             <p className="mt-1 text-[13px] text-[var(--color-text-muted)]">
               El precio mostrado incluye {taxLabel} de {Math.round(env.tax.rate * 100)}%.
             </p>
+
+            <div className="mt-3">
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                total={total}
+                pageSize={pageSize}
+                label="pagos"
+                compact
+                testId="pagination-top"
+              />
+            </div>
           </div>
 
           {payments.length ? (
@@ -165,6 +184,18 @@ export default async function BillingPage() {
               Aun no tienes pagos registrados.
             </p>
           )}
+
+          {totalPages > 1 ? (
+            <div className="border-t border-[var(--color-border)] p-5">
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                total={total}
+                pageSize={pageSize}
+                label="pagos"
+              />
+            </div>
+          ) : null}
         </section>
       </AnimatedSection>
     </div>

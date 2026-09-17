@@ -6,13 +6,26 @@ import { parseJson } from '@/lib/utils'
 import { shortDate } from '@/lib/format'
 import { AnimatedSection } from '@/components/animated-section'
 import { VerifiedBadge, CompanyBadges } from '@/components/ui/badge'
+import { Pagination } from '@/components/ui/pagination'
+import { resolvePage, pageMeta } from '@/lib/paginate'
+import { env } from '@/lib/env'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = { title: 'Empresas verificadas' }
 
-export default async function CompaniesPage() {
+type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> }
+
+export default async function CompaniesPage({ searchParams }: Props) {
+  const query = await searchParams
+  const pagina = resolvePage(query.page, env.search.companyPageSize)
+
+  const total = await db.company.count()
+  const meta = pageMeta(total, pagina)
+
   const companies = await db.company.findMany({
+    skip: pagina.skip,
+    take: pagina.take,
     orderBy: [{ verificationStatus: 'asc' }, { createdAt: 'asc' }],
     select: {
       id: true,
@@ -34,6 +47,16 @@ export default async function CompaniesPage() {
           Empresas con identidad validada por NIT y Camara de Comercio.
         </p>
       </header>
+
+      <Pagination
+        page={meta.page}
+        totalPages={meta.totalPages}
+        total={meta.total}
+        pageSize={meta.pageSize}
+        label="empresas"
+        compact
+        testId="pagination-top"
+      />
 
       <AnimatedSection>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" data-testid="companies-list">
@@ -88,6 +111,14 @@ export default async function CompaniesPage() {
           ))}
         </div>
       </AnimatedSection>
+
+      <Pagination
+        page={meta.page}
+        totalPages={meta.totalPages}
+        total={meta.total}
+        pageSize={meta.pageSize}
+        label="empresas"
+      />
     </div>
   )
 }
