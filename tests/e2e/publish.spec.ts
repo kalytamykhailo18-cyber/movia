@@ -6,6 +6,17 @@ const FIXTURES = path.join(process.cwd(), 'tests', 'fixtures')
 const VENDEDOR = { email: 'empresa1@movia.co', password: 'Demo2026' }
 
 // Publicar exige sesion: la publicacion queda a nombre de quien la crea.
+const FOTOS = ['foto-activo.jpg', 'foto-activo-2.jpg', 'foto-activo-3.jpg']
+
+// Las fotos se suben de verdad: el formulario ya no genera imagenes.
+async function subirFotos(page: import('@playwright/test').Page, cuantas: number) {
+  const antes = await page.getByTestId('photo-item').count()
+  await page
+    .getByTestId('photo-input')
+    .setInputFiles(FOTOS.slice(0, cuantas).map((f) => path.join(FIXTURES, f)))
+  await expect(page.getByTestId('photo-item')).toHaveCount(antes + cuantas, { timeout: 30000 })
+}
+
 async function ingresarComoVendedor(page: import('@playwright/test').Page) {
   await page.goto('/ingresar')
   await page.getByTestId('login-email').fill(VENDEDOR.email)
@@ -92,7 +103,7 @@ test.describe('Alta de publicacion', () => {
     await page.getByTestId('spec-voltaje').selectOption('220V')
     await page.getByTestId('spec-peso').fill('1100')
 
-    for (let i = 0; i < 3; i++) await page.getByTestId('add-photo').click()
+    await subirFotos(page, 3)
 
     await expect(page.getByTestId('completeness')).toContainText(/9[0-9]% completa|100% completa/)
   })
@@ -111,12 +122,31 @@ test.describe('Alta de publicacion', () => {
   })
 
   test('agrega y quita fotografias', async ({ page }) => {
-    await page.getByTestId('add-photo').click()
-    await page.getByTestId('add-photo').click()
+    await subirFotos(page, 2)
     await expect(page.getByTestId('photo-item')).toHaveCount(2)
 
     await page.getByRole('button', { name: /quitar foto 1/i }).click()
     await expect(page.getByTestId('photo-item')).toHaveCount(1)
+  })
+
+  test('rechaza una imagen demasiado pequena', async ({ page }) => {
+    await page
+      .getByTestId('photo-input')
+      .setInputFiles(path.join(FIXTURES, 'foto-pequena.jpg'))
+
+    await expect(page.getByTestId('publish-error')).toContainText(/muy pequena/i)
+    await expect(page.getByTestId('photo-item')).toHaveCount(0)
+  })
+
+  test('la foto subida queda servida y optimizada', async ({ page }) => {
+    await subirFotos(page, 1)
+
+    const src = await page.getByTestId('photo-item').first().locator('img').getAttribute('src')
+    expect(src).toMatch(/^\/uploads\/\d{4}\/\d{2}\/[\w-]+\.webp$/)
+
+    const res = await page.request.get(src!)
+    expect(res.status()).toBe(200)
+    expect(res.headers()['content-type']).toBe('image/webp')
   })
 
   test('publica un activo y redirige a su ficha', async ({ page }) => {
@@ -135,7 +165,7 @@ test.describe('Alta de publicacion', () => {
       .getAttribute('value')
     await page.getByTestId('field-category').selectOption(categoryValue!)
 
-    await page.getByTestId('add-photo').click()
+    await subirFotos(page, 1)
 
     await page.getByTestId('publish-submit').click()
 
