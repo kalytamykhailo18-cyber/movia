@@ -1,0 +1,1822 @@
+/* =========================================================================
+   MOVIA - Hoja de los maquetados
+   Solo para las maquetas de design/mockups. El codigo de produccion usa
+   Tailwind; aqui se escribe CSS plano para que los valores se lean sin
+   traducir. Cada valor sale de design/tokens/movia-tokens.css.
+   ========================================================================= */
+
+@import url('../tokens/movia-tokens.css');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-navy);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 4px;
+}
+
+.contenedor {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+/* Etiqueta tecnica. El recurso tipografico que sostiene el caracter de
+   ficha tecnica en todo el producto. */
+.etiqueta {
+  display: block;
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.etiqueta--navy {
+  color: var(--color-navy-muted);
+}
+
+.cifra {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-tight);
+}
+
+/* =========================================================================
+   ENCABEZADO
+   Blanco y opaco. La prueba design.spec.ts exige exactamente eso: sin
+   translucidez ni desenfoque detras.
+   ========================================================================= */
+
+.encabezado {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-rail);
+}
+
+.encabezado__barra {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  height: 68px;
+}
+
+.encabezado__logo {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+}
+
+.encabezado__logo img {
+  height: 34px;
+  width: auto;
+}
+
+.encabezado__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-right: auto;
+}
+
+.nav-enlace {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: var(--tap-min);
+  padding-inline: var(--space-3);
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-input);
+  transition: color var(--duration-fast) linear;
+}
+
+.nav-enlace:hover {
+  color: var(--color-navy);
+}
+
+.nav-enlace[aria-current='page'] {
+  color: var(--color-navy);
+  font-weight: 600;
+}
+
+/* Indicador de seccion activa. Es el angulo del isotipo, no un subrayado
+   recto: primera aparicion del recurso de marca. Se apoya en el borde
+   inferior del encabezado. */
+.nav-enlace[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: -1px;
+  height: 3px;
+  background: var(--color-primary);
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+
+.encabezado__acciones {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.encabezado__menu {
+  display: none;
+}
+
+/* =========================================================================
+   BOTONES
+   ========================================================================= */
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--tap-min);
+  padding-inline: var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-input);
+  font-size: var(--text-small);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) linear,
+    border-color var(--duration-fast) linear,
+    color var(--duration-fast) linear;
+}
+
+.boton--principal {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.boton--principal:hover {
+  background: var(--color-primary-hover);
+}
+
+.boton--principal:active {
+  background: #1e40af;
+}
+
+.boton--principal:disabled {
+  background: #93b4f5;
+  color: #eff6ff;
+  cursor: not-allowed;
+}
+
+.boton--secundario {
+  background: var(--color-surface);
+  color: var(--color-navy);
+  border-color: #d1d5db;
+}
+
+.boton--secundario:hover {
+  border-color: var(--color-navy);
+}
+
+.boton--secundario:disabled {
+  color: #9ca3af;
+  border-color: var(--color-border);
+  cursor: not-allowed;
+}
+
+/* Sobre navy el boton secundario no puede ser blanco: taparia la banda. */
+.boton--fantasma {
+  background: transparent;
+  color: #ffffff;
+  border-color: var(--color-navy-line);
+}
+
+.boton--fantasma:hover {
+  border-color: var(--color-primary-bright);
+  background: rgba(96, 165, 250, 0.08);
+}
+
+.boton--whatsapp {
+  background: var(--color-success);
+  color: #ffffff;
+}
+
+.boton--whatsapp:hover {
+  background: #15803d;
+}
+
+.boton--grande {
+  min-height: 52px;
+  padding-inline: var(--space-6);
+  font-size: var(--text-body);
+}
+
+.boton--bloque {
+  width: 100%;
+}
+
+/* =========================================================================
+   BANDA NAVY
+   El cambio estructural: el navy deja de ser una tarjeta redondeada
+   flotando sobre gris y pasa a ser el marco del producto. La pagina
+   empieza en navy y el catalogo sale de el.
+
+   El borde inferior lleva el angulo del isotipo. Segunda aparicion del
+   recurso de marca.
+   ========================================================================= */
+
+.banda {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-navy);
+  color: #ffffff;
+  padding-block: var(--space-16);
+}
+
+.banda__marca {
+  position: absolute;
+  top: -80px;
+  right: -90px;
+  width: 560px;
+  opacity: 0.07;
+  pointer-events: none;
+  user-select: none;
+}
+
+.banda__contenido {
+  position: relative;
+  max-width: 760px;
+}
+
+.banda__epigrafe {
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-primary-bright);
+}
+
+.banda h1 {
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-display);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+.banda h1 .resalte {
+  color: var(--color-primary-bright);
+}
+
+.banda__entrada {
+  margin: var(--space-4) 0 0;
+  max-width: 560px;
+  font-size: 17px;
+  line-height: var(--leading-body);
+  color: var(--color-navy-muted);
+}
+
+/* Buscador */
+.buscador {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-8);
+  max-width: 640px;
+}
+
+.buscador__campo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 0;
+  height: 56px;
+  padding-inline: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid transparent;
+  border-radius: var(--radius-input);
+  transition: box-shadow var(--duration-fast) linear;
+}
+
+.buscador__campo:focus-within {
+  box-shadow: var(--focus-ring-navy);
+}
+
+.buscador__campo svg {
+  flex: none;
+  color: var(--color-text-muted);
+}
+
+.buscador__campo input {
+  flex: 1;
+  align-self: stretch;
+  min-height: var(--tap-min);
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: var(--text-body);
+  color: var(--color-navy);
+}
+
+.buscador__campo input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.buscador .boton {
+  height: 56px;
+  min-height: 56px;
+  padding-inline: var(--space-8);
+  font-size: var(--text-body);
+}
+
+.sugerencias {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.sugerencias > .etiqueta {
+  margin-right: var(--space-1);
+}
+
+.pastilla {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  padding-inline: var(--space-4);
+  border: 1px solid var(--color-navy-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: var(--text-tiny);
+  font-weight: 500;
+  color: #e2e8f0;
+  transition:
+    border-color var(--duration-fast) linear,
+    color var(--duration-fast) linear;
+}
+
+.pastilla:hover {
+  border-color: var(--color-primary-bright);
+  color: #ffffff;
+}
+
+/* Cifras del hero. Se leen como panel de instrumentos, no como texto. */
+.indicadores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  margin: var(--space-12) 0 0;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-navy-line);
+}
+
+.indicador dd {
+  margin: var(--space-2) 0 0;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+}
+
+/* =========================================================================
+   SECCIONES
+   ========================================================================= */
+
+.principal {
+  padding-block: var(--space-12) var(--space-16);
+}
+
+.seccion + .seccion {
+  margin-top: var(--space-section-lg);
+}
+
+.seccion__cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.seccion__cabecera h2 {
+  margin: 0;
+  font-size: var(--text-section);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.seccion__cabecera p {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+}
+
+.enlace-seccion {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-min);
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.enlace-seccion:hover {
+  color: var(--color-primary-hover);
+}
+
+/* =========================================================================
+   CATEGORIAS
+   Fila densa en vez de ocho tarjetas iguales con mucho aire. El conteo se
+   trata como dato tecnico, no como texto pequeno.
+   ========================================================================= */
+
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.categoria {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 64px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  transition:
+    border-color var(--duration-base) linear,
+    box-shadow var(--duration-base) linear;
+}
+
+.categoria:hover {
+  border-color: #bfdbfe;
+  box-shadow: var(--shadow-card-hover);
+}
+
+.categoria__icono {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-input);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.categoria__texto {
+  min-width: 0;
+}
+
+.categoria__nombre {
+  display: block;
+  font-size: var(--text-small);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-navy);
+}
+
+.categoria__conteo {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--text-tiny);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+/* =========================================================================
+   TARJETA DE PUBLICACION
+   Radio 12, borde 1px gris: lo fija el manual y lo verifica design.spec.ts.
+   Lo que cambia es el interior. La franja de especificaciones es el aporte
+   real: el comprador llega sabiendo el modelo y compara cifras, asi que las
+   cifras tienen que estar en la tarjeta y no detras de un clic.
+   ========================================================================= */
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.tarjeta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color var(--duration-base) linear,
+    box-shadow var(--duration-base) linear;
+}
+
+.tarjeta:hover {
+  border-color: #bfdbfe;
+  box-shadow: var(--shadow-card-hover);
+}
+
+.tarjeta__foto {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--color-background);
+  overflow: hidden;
+}
+
+.tarjeta__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.tarjeta:hover .tarjeta__foto img {
+  transform: scale(1.03);
+}
+
+.tarjeta__sinfoto {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: var(--text-tiny);
+  color: var(--color-text-muted);
+}
+
+/* Insignia de destacado. Tercera y ultima aparicion del angulo de marca.
+   Tres usos por pagina es deliberado: mas lo volveria decorativo. */
+.insignia-destacado {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding-inline: var(--space-3) var(--space-4);
+  background: var(--color-navy);
+  color: #ffffff;
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+
+.tarjeta__cuerpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-4);
+}
+
+.tarjeta__titulo a,
+.destacada__titulo a {
+  display: block;
+  min-height: 2.7em;
+}
+
+.tarjeta__titulo {
+  margin: 0;
+  font-size: var(--text-card);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-navy);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.7em;
+}
+
+.tarjeta__precio {
+  margin: var(--space-3) 0 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-display);
+  color: var(--color-navy);
+}
+
+.tarjeta__impuesto {
+  margin: 6px 0 0;
+  font-size: var(--text-tiny);
+  color: var(--color-text-muted);
+}
+
+/* Franja de especificaciones. Tres datos fijos por categoria: son los que
+   decide un comprador industrial antes de abrir la ficha. */
+.especificaciones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.especificaciones > div {
+  min-width: 0;
+}
+
+.especificaciones dt {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.especificaciones dd {
+  margin: 5px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tarjeta .especificaciones {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tarjeta__lugar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-tiny);
+  color: var(--color-text-muted);
+}
+
+.tarjeta__lugar span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* La condicion no cabe como tercera columna de cifras en la tarjeta
+   estrecha, y es un dato cualitativo, no numerico: va como distintivo. */
+.chip-estado {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding-inline: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-navy);
+  white-space: nowrap;
+}
+
+/* Franja del vendedor. Fondo #F8FAFC exigido por design.spec.ts. */
+.vendedor-franja {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding: 10px var(--space-4);
+  background: var(--color-background);
+  border-top: 1px solid var(--color-border);
+}
+
+.vendedor-franja__nombre {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: var(--text-tiny);
+  font-weight: 600;
+  color: var(--color-navy);
+}
+
+.vendedor-franja__nombre span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vendedor-franja__nombre svg {
+  flex: none;
+  color: var(--color-primary);
+}
+
+.vendedor-franja__metricas {
+  display: inline-flex;
+  flex: none;
+  gap: var(--space-3);
+  font-size: var(--text-label);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+.vendedor-franja__metricas span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Persona natural: se nombra, no se disfraza de empresa. */
+.vendedor-franja__nombre--natural {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* =========================================================================
+   TARJETA DESTACADA
+   Destacado se paga, asi que tiene que verse distinto, no solo llevar un
+   sello. Formato apaisado a dos columnas y el doble de superficie.
+   ========================================================================= */
+
+.rejilla--destacados {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.destacada {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color var(--duration-base) linear,
+    box-shadow var(--duration-base) linear;
+}
+
+.destacada:hover {
+  border-color: #bfdbfe;
+  box-shadow: var(--shadow-card-hover);
+}
+
+.destacada__foto {
+  position: relative;
+  background: var(--color-background);
+  overflow: hidden;
+}
+
+.destacada__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.destacada__cuerpo {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+}
+
+.destacada__titulo {
+  margin: 0;
+  font-size: var(--text-subtitle);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+}
+
+.destacada__precio {
+  margin: var(--space-2) 0 0;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-display);
+}
+
+.destacada .especificaciones {
+  margin-top: var(--space-3);
+}
+
+.destacada__pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+/* =========================================================================
+   SELLO DE VERIFICACION
+   ========================================================================= */
+
+.sello {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding-inline: var(--space-2);
+  border-radius: 999px;
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.sello--verificada {
+  background: var(--color-verified-soft);
+  color: #1e40af;
+}
+
+.sello--activa {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.sello--neutra {
+  background: var(--color-border);
+  color: #374151;
+}
+
+.sello--espera {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+/* =========================================================================
+   EMPRESAS VERIFICADAS
+   Filas, no tarjetas: son un directorio, no un catalogo.
+   ========================================================================= */
+
+.empresas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.empresa {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  transition: border-color var(--duration-base) linear;
+}
+
+.empresa:hover {
+  border-color: #bfdbfe;
+}
+
+.empresa__inicial {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-input);
+  background: var(--color-navy);
+  color: #ffffff;
+  font-size: var(--text-subtitle);
+  font-weight: 700;
+}
+
+.empresa__datos {
+  min-width: 0;
+  flex: 1;
+}
+
+.empresa__nombre {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-body);
+  font-weight: 600;
+}
+
+.empresa__meta {
+  margin: 2px 0 0;
+  font-size: var(--text-tiny);
+  color: var(--color-text-muted);
+}
+
+.empresa__conteo {
+  flex: none;
+  text-align: right;
+}
+
+.empresa__conteo strong {
+  display: block;
+  font-size: var(--text-subtitle);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* =========================================================================
+   LLAMADA FINAL
+   ========================================================================= */
+
+.llamada {
+  position: relative;
+  overflow: hidden;
+  margin-top: var(--space-section-lg);
+  padding: var(--space-16) var(--space-8);
+  background: var(--color-navy);
+  color: #ffffff;
+  border-radius: var(--radius-card);
+  text-align: center;
+}
+
+.llamada h2 {
+  margin: 0;
+  font-size: var(--text-section);
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+}
+
+.llamada p {
+  margin: var(--space-3) auto 0;
+  max-width: 520px;
+  color: var(--color-navy-muted);
+}
+
+.llamada .boton {
+  margin-top: var(--space-6);
+}
+
+/* =========================================================================
+   PIE
+   ========================================================================= */
+
+.pie {
+  background: var(--color-navy);
+  color: var(--color-navy-muted);
+  padding-block: var(--space-12);
+}
+
+.pie__rejilla {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: var(--space-8);
+}
+
+.pie__marca img {
+  height: 44px;
+  width: auto;
+  /* Provisional: no hay version clara del logo entre los archivos
+     suministrados y el manual la exige para fondos oscuros. El filtro
+     no redibuja la M, solo la pasa a blanco. Sustituir en cuanto el
+     cliente entregue el archivo claro. */
+  filter: brightness(0) invert(1);
+}
+
+.pie__marca p {
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-small);
+  max-width: 280px;
+}
+
+.pie h3 {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.pie ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pie li + li {
+  margin-top: var(--space-1);
+}
+
+.pie a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  font-size: var(--text-small);
+  transition: color var(--duration-fast) linear;
+}
+
+.pie a:hover {
+  color: #ffffff;
+}
+
+.pie__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-12);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-navy-line);
+  font-size: var(--text-tiny);
+}
+
+/* =========================================================================
+   FICHA DE PUBLICACION
+   ========================================================================= */
+
+.miga {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block: var(--space-4);
+  font-size: var(--text-tiny);
+  color: var(--color-text-muted);
+}
+
+.miga a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+}
+
+.miga a:hover {
+  color: var(--color-primary);
+}
+
+.miga [aria-current] {
+  color: var(--color-navy);
+}
+
+.ficha {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: var(--space-6);
+  align-items: start;
+  padding-bottom: var(--space-16);
+}
+
+.ficha__columna {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+/* Galeria. El manual la define como el centro de la ficha. */
+.galeria__principal {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.galeria__principal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.galeria__contador {
+  position: absolute;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding-inline: var(--space-3);
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.82);
+  color: #ffffff;
+  font-size: var(--text-label);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.galeria__flecha {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-navy);
+  transition: border-color var(--duration-fast) linear;
+}
+
+.galeria__flecha:hover {
+  border-color: var(--color-navy);
+}
+
+.galeria__flecha--previa {
+  left: var(--space-3);
+}
+
+.galeria__flecha--siguiente {
+  right: var(--space-3);
+}
+
+.galeria__ampliar {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: grid;
+  place-items: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-navy);
+}
+
+.galeria__tiras {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.galeria__tira {
+  flex: none;
+  width: 84px;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background: var(--color-background);
+}
+
+.galeria__tira img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.galeria__tira[aria-current='true'] {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+/* Bloque de precio. Navy, porque el precio es lo que se compara y tiene
+   que ganar a la fotografia. Lo exige tambien design.spec.ts. */
+.bloque-precio {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-6);
+  background: var(--color-navy);
+  color: #ffffff;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+}
+
+.bloque-precio__marca {
+  position: absolute;
+  top: -40px;
+  right: -30px;
+  width: 200px;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.bloque-precio__sellos {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.bloque-precio h1 {
+  position: relative;
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-title);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+.bloque-precio__valor {
+  position: relative;
+  margin: var(--space-4) 0 0;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-display);
+}
+
+.bloque-precio__impuesto {
+  position: relative;
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-tiny);
+  color: var(--color-navy-muted);
+}
+
+/* Datos principales, pegados al bloque de precio para que se lean como una
+   sola pieza: identidad del activo arriba, cifras debajo. */
+.datos-clave {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--space-5) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
+}
+
+.datos-clave > div {
+  min-width: 0;
+}
+
+.datos-clave dd {
+  margin: 6px 0 0;
+  font-size: var(--text-small);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-navy);
+}
+
+.panel {
+  padding: var(--space-5) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.panel h2 {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-subtitle);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+}
+
+.panel p {
+  margin: 0;
+  white-space: pre-line;
+}
+
+/* Ficha tecnica. Es el contenido por el que existe la pagina, asi que se
+   trata como tabla de datos y no como lista decorada. */
+.tabla-ficha {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+}
+
+.tabla-ficha th,
+.tabla-ficha td {
+  padding: 11px var(--space-3);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tabla-ficha tr:last-child th,
+.tabla-ficha tr:last-child td {
+  border-bottom: 0;
+}
+
+.tabla-ficha th {
+  width: 44%;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.tabla-ficha td {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--color-navy);
+}
+
+.tabla-ficha tbody tr:nth-child(odd) {
+  background: var(--color-background);
+}
+
+.documentos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.documentos li + li {
+  margin-top: var(--space-1);
+}
+
+.documentos a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--tap-min);
+  padding-inline: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  font-size: var(--text-small);
+  font-weight: 500;
+  transition: border-color var(--duration-fast) linear;
+}
+
+.documentos a:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.documentos svg {
+  flex: none;
+  color: var(--color-primary);
+}
+
+/* Columna lateral */
+.lateral {
+  position: sticky;
+  top: 84px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.vendedor__nombre {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-subtitle);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+}
+
+.vendedor__nombre:hover {
+  color: var(--color-primary);
+}
+
+.vendedor__sellos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.vendedor__datos {
+  margin: var(--space-4) 0 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  font-size: 13px;
+}
+
+.vendedor__datos > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 28px;
+}
+
+.vendedor__datos dt {
+  color: var(--color-text-muted);
+}
+
+.vendedor__datos dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.aviso-nit {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding: var(--space-3);
+  background: var(--color-primary-soft);
+  border-radius: var(--radius-input);
+  font-size: var(--text-tiny);
+  line-height: 1.5;
+  color: #1e40af;
+}
+
+.aviso-nit svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+.contacto__acciones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.contacto__nota {
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-tiny);
+  color: var(--color-text-muted);
+}
+
+/* Barra de contacto fija en movil. El contacto es la conversion de la
+   ficha y en movil queda a cuatro pantallas de scroll del precio. */
+.barra-contacto {
+  display: none;
+}
+
+/* =========================================================================
+   RESPONSIVE
+   Puntos de corte: 1024 (tablet) y 640 (telefono). La maqueta se revisa a
+   1280 y a 412.
+   ========================================================================= */
+
+@media (max-width: 1024px) {
+  .ficha {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lateral {
+    position: static;
+  }
+
+  .categorias {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .rejilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pie__rejilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --container-pad: 16px;
+    --space-section-lg: 32px;
+  }
+
+  .encabezado__barra {
+    height: 60px;
+    gap: var(--space-3);
+  }
+
+  .encabezado__nav {
+    display: none;
+  }
+
+  .encabezado__logo {
+    margin-right: auto;
+  }
+
+  .encabezado__logo img {
+    height: 30px;
+  }
+
+  .encabezado__menu {
+    display: grid;
+    place-items: center;
+    width: var(--tap-min);
+    height: var(--tap-min);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-input);
+    color: var(--color-navy);
+  }
+
+  .encabezado__acciones .boton--secundario {
+    display: none;
+  }
+
+  .banda {
+    padding-block: var(--space-8) var(--space-12);
+  }
+
+  .banda__marca {
+    top: auto;
+    bottom: -60px;
+    right: -120px;
+    width: 340px;
+    opacity: 0.06;
+  }
+
+  .banda h1 {
+    font-size: var(--text-title);
+  }
+
+  .banda__entrada {
+    font-size: var(--text-body);
+  }
+
+  .buscador {
+    flex-direction: column;
+    margin-top: var(--space-6);
+  }
+
+  .buscador .boton {
+    width: 100%;
+  }
+
+  .indicadores {
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+
+  .indicador dd {
+    font-size: 26px;
+  }
+
+  .principal {
+    padding-block: var(--space-8) var(--space-12);
+  }
+
+  .seccion__cabecera {
+    margin-bottom: var(--space-4);
+  }
+
+  .seccion__cabecera h2 {
+    font-size: var(--text-section-sm);
+  }
+
+  /* Dos columnas, no una. Una sola tarjeta por pantalla obligaba a
+     recorrer 9040 px de inicio. */
+  .categorias {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .categoria {
+    min-height: 56px;
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-2);
+  }
+
+  .categoria__icono {
+    width: 32px;
+    height: 32px;
+  }
+
+  .categoria__nombre {
+    font-size: var(--text-tiny);
+  }
+
+  .rejilla,
+  .rejilla--destacados {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  /* La destacada conserva el formato apaisado en movil: sigue leyendose
+     distinta de una publicacion normal, que es para lo que se paga. */
+  .destacada {
+    grid-template-columns: 132px minmax(0, 1fr);
+  }
+
+  .destacada__cuerpo {
+    padding: var(--space-3);
+  }
+
+  .destacada__titulo {
+    font-size: var(--text-card);
+  }
+
+  .destacada__precio {
+    font-size: 22px;
+  }
+
+  .destacada .especificaciones {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .destacada__pie {
+    flex-wrap: wrap;
+  }
+
+  .empresas {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .llamada {
+    padding: var(--space-12) var(--space-4);
+  }
+
+  .llamada h2 {
+    font-size: var(--text-section-sm);
+  }
+
+  .pie__rejilla {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+
+  .pie__legal {
+    margin-top: var(--space-8);
+  }
+
+  .bloque-precio {
+    padding: var(--space-4);
+  }
+
+  .bloque-precio h1 {
+    font-size: var(--text-section-sm);
+  }
+
+  .bloque-precio__valor {
+    font-size: var(--text-title);
+  }
+
+  .datos-clave {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: var(--space-4);
+    gap: var(--space-3);
+  }
+
+  .panel {
+    padding: var(--space-4);
+  }
+
+  .galeria__tira {
+    width: 64px;
+  }
+
+  /* El pie de la ficha deja sitio a la barra fija. */
+  .ficha {
+    padding-bottom: 88px;
+  }
+
+  .contacto__acciones {
+    display: none;
+  }
+
+  .barra-contacto {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom, 0px));
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -4px 16px rgba(17, 24, 39, 0.08);
+  }
+
+  .barra-contacto .boton {
+    padding-inline: var(--space-2);
+    font-size: var(--text-tiny);
+  }
+}
+
+/* =========================================================================
+   MARCADOR DE FOTOGRAFIA
+
+   No existe fotografia real del catalogo todavia: en produccion las 24
+   publicaciones del seed apuntan a /api/placeholder y cuatro tarjetas del
+   inicio muestran "Sin fotografia". Estas maquetas no inventan fotos.
+
+   En su lugar el hueco se disena: proporcion correcta, campo navy muy
+   bajo en contraste con el angulo de la marca, glifo de la categoria y
+   referencia de la publicacion. Sirve para dos cosas a la vez, sostener
+   la maqueta y resolver un estado que el producto va a tener siempre.
+   ========================================================================= */
+
+.marcador {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(
+      var(--angle-brand),
+      rgba(37, 99, 235, 0.05) 0 1px,
+      transparent 1px 14px
+    ),
+    linear-gradient(160deg, #eef2f7 0%, #e4eaf2 100%);
+  color: #94a3b8;
+}
+
+.marcador svg {
+  width: 34%;
+  max-width: 96px;
+  height: auto;
+  opacity: 0.45;
+}
+
+.marcador__ref {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  color: #94a3b8;
+}
+
+.marcador--vacio svg {
+  opacity: 0.3;
+}
+
+.marcador__aviso {
+  position: absolute;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+}
+
+/* =========================================================================
+   ESTADO DE CARGA
+   El manual, seccion 6, exige que hover, focus, disabled y loading esten
+   definidos. El boton conserva su ancho para que la interfaz no salte, la
+   etiqueta se mantiene legible y el giro sustituye al icono final.
+   ========================================================================= */
+
+.boton[aria-busy='true'] {
+  cursor: progress;
+  pointer-events: none;
+}
+
+.boton[aria-busy='true'] svg {
+  display: none;
+}
+
+.boton[aria-busy='true']::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 999px;
+  opacity: 0.85;
+  animation: movia-giro 640ms linear infinite;
+}
+
+@keyframes movia-giro {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boton[aria-busy='true']::after {
+    animation-duration: 2400ms;
+  }
+}
