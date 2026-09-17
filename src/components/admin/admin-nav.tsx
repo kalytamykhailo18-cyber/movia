@@ -18,7 +18,7 @@ export function AdminNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="lg:sticky lg:top-24 lg:self-start" aria-label="Administracion">
+    <nav className="min-w-0 lg:sticky lg:top-24 lg:self-start" aria-label="Administracion">
       <ul className="movia-scrollbar flex gap-1 overflow-x-auto lg:flex-col lg:overflow-visible">
         {ITEMS.map((item) => {
           const active = pathname === item.href

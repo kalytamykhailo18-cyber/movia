@@ -283,3 +283,72 @@ test.describe('Manual de marca - identidad', () => {
     await expect(card.locator('svg.lucide-badge-check')).toHaveCount(0)
   })
 })
+
+test.describe('Sin desborde horizontal en movil @mobile', () => {
+  const PUBLICAS = [
+    '/',
+    '/buscar',
+    '/categorias',
+    '/planes',
+    '/empresas',
+    '/publicar',
+    '/publicar/masivo',
+    '/registro',
+    '/ingresar',
+    '/favoritos',
+    '/mensajes',
+  ]
+
+  for (const path of PUBLICAS) {
+    test(`${path} cabe en el ancho del telefono`, async ({ page }) => {
+      await page.goto(path)
+
+      const medidas = await page.evaluate(() => {
+        const doc = document.documentElement
+        const footer = document.querySelector('footer')?.getBoundingClientRect()
+        return {
+          desborde: doc.scrollWidth - doc.clientWidth,
+          anchoVisible: doc.clientWidth,
+          anchoPie: footer ? Math.round(footer.width) : null,
+        }
+      })
+
+      expect(medidas.desborde, `${path} se sale ${medidas.desborde}px`).toBeLessThanOrEqual(1)
+      if (medidas.anchoPie !== null) {
+        expect(medidas.anchoPie).toBeGreaterThanOrEqual(medidas.anchoVisible - 1)
+      }
+    })
+  }
+})
+
+test.describe('Paneles sin desborde horizontal en movil @mobile', () => {
+  const PRIVADAS = [
+    { path: '/mi-empresa', user: 'empresa1@movia.co' },
+    { path: '/mi-empresa/publicaciones', user: 'empresa1@movia.co' },
+    { path: '/mi-empresa/contactos', user: 'empresa1@movia.co' },
+    { path: '/mi-empresa/facturacion', user: 'empresa1@movia.co' },
+    { path: '/admin', user: 'admin@movia.co' },
+    { path: '/admin/planes', user: 'admin@movia.co' },
+    { path: '/admin/verificaciones', user: 'admin@movia.co' },
+    { path: '/admin/usuarios', user: 'admin@movia.co' },
+  ]
+
+  for (const caso of PRIVADAS) {
+    test(`${caso.path} cabe en el ancho del telefono`, async ({ page }) => {
+      await page.goto('/ingresar')
+      await page.getByTestId('login-email').fill(caso.user)
+      await page.getByTestId('login-password').fill(
+        caso.user.startsWith('admin') ? 'Movia2026' : 'Demo2026',
+      )
+      await page.getByTestId('login-submit').click()
+      await expect(page).toHaveURL(/\/(admin|mi-empresa)/)
+
+      await page.goto(caso.path)
+
+      const desborde = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      )
+      expect(desborde, `${caso.path} se sale ${desborde}px`).toBeLessThanOrEqual(1)
+    })
+  }
+})

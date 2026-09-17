@@ -29,7 +29,7 @@ export function DashboardNav() {
   }, [pathname])
 
   return (
-    <nav className="scroll-mt-24 lg:sticky lg:top-24 lg:self-start" aria-label="Mi Empresa">
+    <nav className="min-w-0 scroll-mt-24 lg:sticky lg:top-24 lg:self-start" aria-label="Mi Empresa">
       <ul
         ref={listRef}
         className="movia-scrollbar flex gap-1 overflow-x-auto lg:flex-col lg:overflow-visible"
