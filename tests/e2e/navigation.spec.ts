@@ -104,8 +104,12 @@ test.describe('Planes y precios', () => {
 
 test.describe('Perfil publico de empresa', () => {
   test('muestra identidad, verificacion y publicaciones activas', async ({ page }) => {
-    await page.goto('/empresas')
-    await page.getByTestId('company-card').first().click()
+    // Se entra por el vendedor de una publicacion: asi la empresa tiene
+    // inventario seguro, a diferencia de la primera del directorio.
+    await page.goto('/buscar')
+    await page.getByTestId('publication-card').first().click()
+    await expect(page).toHaveURL(/\/publicacion\//)
+    await page.getByTestId('seller-name').click()
 
     await expect(page).toHaveURL(/\/empresa\//)
     await expect(page.getByTestId('company-header')).toBeVisible()

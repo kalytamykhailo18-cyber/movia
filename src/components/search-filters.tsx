@@ -268,7 +268,7 @@ function FilterOption({
       data-testid={testId}
       aria-pressed={active}
       className={cn(
-        'flex w-full items-center justify-between rounded-[var(--radius-input)] px-2 py-2 text-left text-[14px] transition-colors',
+        'flex min-h-[44px] w-full items-center justify-between rounded-[var(--radius-input)] px-2 py-2 text-left text-[14px] transition-colors',
         active
           ? 'bg-[var(--color-primary-soft)] font-medium text-[var(--color-primary)]'
           : 'text-[var(--color-navy)] hover:bg-[var(--color-background)]',
