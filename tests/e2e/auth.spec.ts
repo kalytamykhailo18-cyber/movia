@@ -274,3 +274,59 @@ test.describe('El menu refleja lo que la cuenta puede hacer', () => {
     await expect(publicar).toHaveAttribute('href', /\/ingresar/)
   })
 })
+
+test.describe('Cada cuenta ve y alcanza lo suyo', () => {
+  const NATURAL = { email: 'comprador1@movia.co', password: 'Demo2026' }
+  const ADMIN = { email: 'admin@movia.co', password: 'Movia2026' }
+
+  test('una persona natural no queda rebotando entre panel e ingreso', async ({ page }) => {
+    await page.goto('/ingresar')
+    await page.getByTestId('login-email').fill(NATURAL.email)
+    await page.getByTestId('login-password').fill(NATURAL.password)
+    await page.getByTestId('login-submit').click()
+
+    // Sin panel de empresa, aterriza en el catalogo, no en un bucle.
+    await expect(page).toHaveURL(/\/buscar/)
+
+    await page.goto('/mi-empresa')
+    await expect(page.getByTestId('panel-requiere-empresa')).toBeVisible()
+    await expect(page).toHaveURL(/\/mi-empresa/)
+  })
+
+  test('una persona natural no ve Mi Empresa en el menu @desktop', async ({ page }) => {
+    await page.goto('/ingresar')
+    await page.getByTestId('login-email').fill(NATURAL.email)
+    await page.getByTestId('login-password').fill(NATURAL.password)
+    await page.getByTestId('login-submit').click()
+    await expect(page).toHaveURL(/\/buscar/)
+
+    const menu = page.getByRole('navigation', { name: 'Principal' })
+    await expect(menu.getByRole('link', { name: 'Mi Empresa' })).toHaveCount(0)
+    await expect(menu.getByRole('link', { name: 'Favoritos' })).toBeVisible()
+  })
+
+  test('una empresa aterriza en su panel', async ({ page }) => {
+    await login(page, SELLER)
+    await expect(page).toHaveURL(/\/mi-empresa/)
+    await expect(page.getByTestId('company-name')).toBeVisible()
+  })
+
+  test('el administrador aterriza en administracion', async ({ page }) => {
+    await page.goto('/ingresar')
+    await page.getByTestId('login-email').fill(ADMIN.email)
+    await page.getByTestId('login-password').fill(ADMIN.password)
+    await page.getByTestId('login-submit').click()
+    await expect(page).toHaveURL(/\/admin/)
+  })
+
+  test('una persona natural que pide administracion va al catalogo', async ({ page }) => {
+    await page.goto('/ingresar')
+    await page.getByTestId('login-email').fill(NATURAL.email)
+    await page.getByTestId('login-password').fill(NATURAL.password)
+    await page.getByTestId('login-submit').click()
+    await expect(page).toHaveURL(/\/buscar/)
+
+    await page.goto('/admin')
+    await expect(page).toHaveURL(/\/buscar/)
+  })
+})

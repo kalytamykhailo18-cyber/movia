@@ -35,7 +35,7 @@ export function LoginForm() {
         return
       }
 
-      router.push(destino ?? (json.role === 'admin' ? '/admin' : '/mi-empresa'))
+      router.push(destino ?? json.destino ?? '/buscar')
       router.refresh()
     } catch {
       setError('No pudimos iniciar sesion')

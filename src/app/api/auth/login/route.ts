@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
   const user = await db.user.findUnique({
     where: { email: parsed.data.email.toLowerCase() },
-    select: { id: true, passwordHash: true, status: true, role: true },
+    select: { id: true, passwordHash: true, status: true, role: true, companyId: true },
   })
 
   // Mismo mensaje para correo inexistente y clave incorrecta: no revela cuentas.
@@ -33,5 +33,10 @@ export async function POST(req: Request) {
   }
 
   await createSession(user.id)
-  return NextResponse.json({ ok: true, role: user.role })
+
+  // Una persona natural no tiene panel de empresa: mandarla alli la dejaba
+  // rebotando entre el panel y el ingreso.
+  const destino = user.role === 'admin' ? '/admin' : user.companyId ? '/mi-empresa' : '/buscar'
+
+  return NextResponse.json({ ok: true, role: user.role, destino })
 }

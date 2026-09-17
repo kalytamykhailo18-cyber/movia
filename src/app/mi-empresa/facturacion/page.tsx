@@ -24,7 +24,7 @@ type Props = { searchParams: Promise<Record<string, string | string[] | undefine
 export default async function BillingPage({ searchParams }: Props) {
   const query = await searchParams
   const company = await getViewerCompany()
-  if (!company) redirect('/ingresar')
+  if (!company) redirect('/buscar')
 
   const pagina = resolvePage(query.page, env.search.listPageSize)
   const { payments, subscription, taxLabel, page, totalPages, total, pageSize } =

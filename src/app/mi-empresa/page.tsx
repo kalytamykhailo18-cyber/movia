@@ -22,7 +22,7 @@ const SOURCE_LABEL: Record<string, string> = {
 
 export default async function DashboardPage() {
   const company = await getViewerCompany()
-  if (!company) redirect('/ingresar')
+  if (!company) redirect('/buscar')
 
   const summary = await getCompanySummary(company.id)
   if (!summary) notFound()

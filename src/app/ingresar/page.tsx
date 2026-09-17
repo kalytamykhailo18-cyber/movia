@@ -11,7 +11,10 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = { title: 'Ingresar' }
 
 export default async function LoginPage() {
-  if (await getSessionUser()) redirect('/mi-empresa')
+  const sesion = await getSessionUser()
+  if (sesion) {
+    redirect(sesion.role === 'admin' ? '/admin' : sesion.companyId ? '/mi-empresa' : '/buscar')
+  }
 
   return (
     <div className="mx-auto max-w-md space-y-6">

@@ -19,7 +19,7 @@ const NAV = [
   { href: '/categorias', label: 'Categorias', icon: LayoutGrid, requiereSesion: false },
   { href: '/favoritos', label: 'Favoritos', icon: Heart, requiereSesion: true },
   { href: '/mensajes', label: 'Mensajes', icon: MessageSquare, requiereSesion: true },
-  { href: '/mi-empresa', label: 'Mi Empresa', icon: Building2, requiereSesion: true },
+  { href: '/mi-empresa', label: 'Mi Empresa', icon: Building2, requiereSesion: true, requiereEmpresa: true },
 ]
 
 export function SiteHeader({ user }: { user: SessionUser | null }) {
@@ -27,7 +27,12 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
 
-  const secciones = NAV.filter((item) => !item.requiereSesion || user)
+  const puedeVerPanel = Boolean(user?.companyId) || user?.role === 'admin'
+  const secciones = NAV.filter((item) => {
+    if (item.requiereSesion && !user) return false
+    if ('requiereEmpresa' in item && item.requiereEmpresa && !puedeVerPanel) return false
+    return true
+  })
 
   // Publicar conserva su protagonismo para el visitante, pero lo lleva
   // directo al ingreso en vez de rebotarlo despues de pulsar.

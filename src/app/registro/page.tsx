@@ -11,7 +11,10 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = { title: 'Crear cuenta' }
 
 export default async function RegisterPage() {
-  if (await getSessionUser()) redirect('/mi-empresa')
+  const sesion = await getSessionUser()
+  if (sesion) {
+    redirect(sesion.role === 'admin' ? '/admin' : sesion.companyId ? '/mi-empresa' : '/buscar')
+  }
 
   const cities = await db.city.findMany({ orderBy: { name: 'asc' }, select: { id: true, name: true } })
 
