@@ -34,13 +34,16 @@ type CategoryItem = {
   _count: { publications: number }
 }
 
+// Ocho tarjetas cuadradas con mucho aire ocupaban una pantalla entera para
+// decir ocho palabras. En fila densa el conteo pasa a ser un dato util y se
+// recupera una pantalla de recorrido.
 export function CategoryGrid({ categories }: { categories: CategoryItem[] }) {
   return (
     <motion.div
       variants={motionEnabled ? listVariants : undefined}
       initial="hidden"
       animate="show"
-      className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8"
+      className="grid grid-cols-2 gap-3 lg:grid-cols-4"
       data-testid="category-grid"
     >
       {categories.map((cat) => {
@@ -50,13 +53,19 @@ export function CategoryGrid({ categories }: { categories: CategoryItem[] }) {
             <Link
               href={`/buscar?category=${cat.slug}`}
               data-testid="category-item"
-              className="flex h-full flex-col items-center gap-2 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-4 text-center shadow-[var(--shadow-card)] transition-colors hover:border-[var(--color-primary)]"
+              className="flex h-full min-h-16 items-center gap-3 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-[var(--pad-cell)] transition-[border-color,box-shadow] duration-200 hover:border-[#BFDBFE] hover:shadow-[var(--shadow-card-hover)] sm:px-[var(--pad-card)]"
             >
-              <span className="flex size-10 items-center justify-center rounded-full bg-[var(--color-primary-soft)]">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-[var(--radius-input)] bg-[var(--color-primary-soft)]">
                 <Icon className="size-5 text-[var(--color-primary)]" />
               </span>
-              <span className="text-[13px] font-medium leading-tight text-[var(--color-navy)]">{cat.name}</span>
-              <span className="text-[11px] text-[var(--color-text-muted)]">{cat._count.publications}</span>
+              <span className="min-w-0">
+                <span className="block text-[14px] font-semibold leading-tight text-[var(--color-navy)]">
+                  {cat.name}
+                </span>
+                <span className="mt-0.5 block text-[12px] tabular-nums text-[var(--color-text-muted)]">
+                  {cat._count.publications} activos
+                </span>
+              </span>
             </Link>
           </motion.div>
         )

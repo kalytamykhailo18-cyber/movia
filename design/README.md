@@ -52,10 +52,26 @@ que tendrá el producto.
 - Los dos anteriores en SVG si es posible.
 - Fotografía real del catálogo. Hoy todo apunta a `/api/placeholder`.
 
-## Si se aprueba
+## Estado: ya aplicado al producto
 
-Fase 2: llevar los tokens a `src/app/globals.css` y aplicar la dirección a los
-componentes reales (`hero-search`, `publication-card`, `category-grid`,
-`gallery`, `contact-panel`, `site-header`, `site-footer` y la ficha). Las
-maquetas ya respetan todo lo que comprueba `tests/e2e/design.spec.ts`, así que
-la suite no debería moverse.
+La dirección **ya está implementada** en los componentes reales, no sólo en las
+maquetas. Archivos tocados:
+
+```
+src/app/globals.css                  tokens de extension, rellenos, etiqueta tecnica
+src/app/page.tsx                     inicio
+src/app/publicacion/[slug]/page.tsx  ficha
+src/components/hero-search.tsx       banda navy a sangre
+src/components/publication-card.tsx  tarjeta con ficha visible y variante destacada
+src/components/category-grid.tsx     fila densa
+src/components/site-footer.tsx       logo en claro y columnas etiquetadas
+src/server/publications.ts           ano y horas viajan con la tarjeta
+src/app/empresa/[id]/page.tsx        mismo select, para no romper el tipo
+```
+
+Las maquetas de `mockups/` se conservan como referencia de la propuesta y para
+comparar. Donde difieren del producto es por datos, no por diseño: la maqueta
+dibuja 2 destacados y 4 ultimas publicaciones, y el producto trae 4 y 8.
+
+La suite de Mykhailo sigue verde: `tests/e2e/design.spec.ts` pasa entera en
+escritorio y en movil, que es lo que verifica el cumplimiento del manual.

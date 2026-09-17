@@ -13,6 +13,18 @@
   --color-danger: #dc2626;
   --color-accent: #7c3aed;
 
+  /* Extension de la paleta. El manual la define para fondo claro y no da
+     ningun valor para trabajar SOBRE el navy, que es donde esta propuesta
+     apoya la identidad. Son navy y azul, no una familia nueva.
+     Justificacion en design/spec/decisiones-de-diseno.md, seccion 4. */
+  --color-primary-bright: #60a5fa; /* 6.4:1 sobre navy; #2563eb da 3.1:1 */
+  --color-navy-raised: #1b2435;
+  --color-navy-line: #253044;
+  --color-navy-muted: #94a3b8;
+  --color-verified-soft: #dbeafe;
+  --color-warning: #b45309; /* Solo Vencida y Pendiente. No es naranja de marca */
+  --color-warning-soft: #fef3c7;
+
   --radius-input: 8px;
   --radius-card: 12px;
   --radius-modal: 16px;
@@ -31,6 +43,19 @@
   --text-small: 14px;
   --text-tiny: 12px;
 
+  /* Relleno interior: un valor por tipo de superficie, no uno por componente.
+     Se aprietan en movil desde una sola media query, mas abajo. */
+  --pad-card: 16px;
+  --pad-panel: 24px;
+  --pad-cell: 12px;
+
+  /* Etiqueta tecnica: el recurso tipografico que sostiene el caracter de
+     hoja de datos en todo el producto. */
+  --text-label: 11px;
+  --tracking-label: 0.14em;
+  --tracking-tight: -0.02em;
+  --tracking-display: -0.03em;
+
   --shadow-card: 0 1px 2px rgba(17, 24, 39, 0.04);
   --shadow-card-hover: 0 8px 24px rgba(17, 24, 39, 0.08);
   --shadow-modal: 0 24px 48px rgba(17, 24, 39, 0.16);
@@ -38,6 +63,30 @@
 
 :root {
   color-scheme: light;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --pad-card: 12px;
+    --pad-panel: 16px;
+  }
+}
+
+/* Etiqueta tecnica. Mayusculas cortas, que el manual admite para etiquetas y
+   descriptores. Encima de cada dato, es lo que convierte una pantalla en una
+   ficha tecnica sin recurrir a ningun color nuevo. */
+.movia-etiqueta {
+  display: block;
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.movia-etiqueta-navy {
+  color: var(--color-navy-muted);
 }
 
 html,

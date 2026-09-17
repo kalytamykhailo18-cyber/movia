@@ -329,6 +329,37 @@ Medido en el DOM, no estimado:
 
 Referencia de producción hoy: inicio 3.253 px a 1280 y **9.040 px** a 412.
 
+---
+
+## 13. Medido ya en el producto, no en la maqueta
+
+La dirección está aplicada a los componentes reales. Estas cifras salen del DOM
+de la aplicación corriendo, comparadas contra el build anterior:
+
+| | Antes | Ahora | |
+|---|---|---|---|
+| Inicio a 1280 px | 3.253 px | 3.925 px | **+21 %** |
+| Inicio a 412 px | 9.040 px | 6.764 px | **-25 %** |
+| Ficha a 1280 px | 2.615 px | 2.953 px | **+13 %** |
+| Ficha a 412 px | 4.818 px | 4.029 px | **-16 %** |
+| Controles bajo 44 px | 0 | 0 | |
+| Desbordamiento horizontal | 0 px | 0 px | |
+
+**El escritorio creció y conviene decir por qué.** Los destacados pasaron de una
+fila de cuatro tarjetas idénticas a dos filas de tarjetas apaisadas con el doble
+de superficie. Es el coste deliberado de que una publicación destacada se vea
+distinta de una gratuita: si ocupa lo mismo, el vendedor no está comprando nada.
+El resto del aumento son las cifras técnicas que ahora viajan en la tarjeta.
+
+**En teléfono el ahorro es real.** La tarjeta pasa a formato apaisado por debajo
+de 640 px: la foto a 4:3 a ancho completo costaba 285 px por publicación y
+obligaba a recorrer el catálogo de una en una. Cada tarjeta bajó de 557 px a
+299 px y la sección de últimas publicaciones de 4.456 px a 2.483 px.
+
+La suite de Mykhailo sigue verde: `design.spec.ts` pasa entera en escritorio
+(29 pruebas) y en móvil (42 pruebas), incluidas las de desbordamiento en las
+19 rutas.
+
 Además coinciden con lo que exige `tests/e2e/design.spec.ts`: los nueve colores
 de la paleta, los tres radios, Inter, `h1` a 40 px / 700, `h2` a 28 px / 600,
 título de tarjeta a 18 px / 600, botón principal `#2563EB` radio 8, tarjeta

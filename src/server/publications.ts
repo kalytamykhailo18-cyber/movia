@@ -10,6 +10,10 @@ const CARD_SELECT = {
   price: true,
   currency: true,
   condition: true,
+  // El comprador llega sabiendo el modelo y compara cifras, asi que ano y
+  // horas viajan con la tarjeta y no quedan detras de un clic.
+  year: true,
+  usageHours: true,
   photos: true,
   featured: true,
   publishedAt: true,
@@ -26,6 +30,8 @@ type CardRow = {
   price: number
   currency: string
   condition: string | null
+  year: number | null
+  usageHours: number | null
   photos: string
   featured: boolean
   publishedAt: Date
@@ -44,6 +50,8 @@ export function toCard(row: CardRow): PublicationCardData {
     price: row.price,
     currency: row.currency,
     condition: row.condition,
+    year: row.year,
+    usageHours: row.usageHours,
     cityName: row.city?.name ?? null,
     photo: photos[0] ?? null,
     featured: row.featured,
