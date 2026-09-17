@@ -2,7 +2,11 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
 
 const COOKIE = process.env.SESSION_COOKIE_NAME ?? 'movia_session'
-const SECRET = new TextEncoder().encode(process.env.JWT_SECRET ?? 'change-me-in-production')
+const RAW_SECRET = process.env.JWT_SECRET
+if (!RAW_SECRET || RAW_SECRET.length < 32) {
+  throw new Error('JWT_SECRET debe estar definido y tener al menos 32 caracteres')
+}
+const SECRET = new TextEncoder().encode(RAW_SECRET)
 
 const PROTECTED = ['/mi-empresa', '/admin', '/publicar']
 

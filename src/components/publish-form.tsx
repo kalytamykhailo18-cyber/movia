@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ImagePlus, X, AlertTriangle } from 'lucide-react'
@@ -49,6 +49,8 @@ export function PublishForm({ categories, cities }: { categories: Category[]; ci
   })
   const [specs, setSpecs] = useState<Record<string, string>>({})
   const [photos, setPhotos] = useState<string[]>([])
+  const [subiendo, setSubiendo] = useState(false)
+  const inputFotos = useRef<HTMLInputElement>(null)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -77,9 +79,32 @@ export function PublishForm({ categories, cities }: { categories: Category[]; ci
     setForm((f) => ({ ...f, [key]: value }))
   }
 
-  function addPhoto() {
-    const seed = `${form.title || 'activo'}-${photos.length + 1}-${Date.now()}`
-    setPhotos((p) => [...p, `/api/placeholder/${encodeURIComponent(seed)}`])
+  async function subirFotos(archivos: FileList) {
+    setError(null)
+    setSubiendo(true)
+
+    try {
+      const cuerpo = new FormData()
+      for (const archivo of Array.from(archivos)) cuerpo.append('file', archivo)
+
+      const res = await fetch('/api/upload', { method: 'POST', body: cuerpo })
+      const json = await res.json()
+
+      if (!res.ok) {
+        setError(json.error ?? 'No pudimos subir la imagen')
+        return
+      }
+
+      setPhotos((actuales) => [
+        ...actuales,
+        ...json.imagenes.map((i: { url: string }) => i.url),
+      ])
+    } catch {
+      setError('No pudimos subir la imagen')
+    } finally {
+      setSubiendo(false)
+      if (inputFotos.current) inputFotos.current.value = ''
+    }
   }
 
   async function submit(e: React.FormEvent) {
@@ -277,6 +302,18 @@ export function PublishForm({ categories, cities }: { categories: Category[]; ci
           Sube al menos 3 fotos reales. Las publicaciones con galeria completa reciben mas contactos.
         </p>
 
+        <input
+          ref={inputFotos}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/avif"
+          multiple
+          className="sr-only"
+          data-testid="photo-input"
+          onChange={(e) => {
+            if (e.target.files?.length) subirFotos(e.target.files)
+          }}
+        />
+
         <motion.div
           variants={motionEnabled ? listVariants : undefined}
           initial="hidden"
@@ -312,14 +349,15 @@ export function PublishForm({ categories, cities }: { categories: Category[]; ci
           <motion.button
             type="button"
             layout
-            onClick={addPhoto}
-            whileHover={motionEnabled ? { scale: 1.02 } : undefined}
-            whileTap={motionEnabled ? { scale: 0.98 } : undefined}
+            disabled={subiendo}
+            onClick={() => inputFotos.current?.click()}
+            whileHover={motionEnabled && !subiendo ? { scale: 1.02 } : undefined}
+            whileTap={motionEnabled && !subiendo ? { scale: 0.98 } : undefined}
             data-testid="add-photo"
-            className="flex aspect-square flex-col items-center justify-center gap-1 rounded-[var(--radius-input)] border-2 border-dashed border-[var(--color-border)] text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+            className="flex aspect-square flex-col items-center justify-center gap-1 rounded-[var(--radius-input)] border-2 border-dashed border-[var(--color-border)] text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] disabled:opacity-50"
           >
             <ImagePlus className="size-5" aria-hidden />
-            <span className="text-[11px]">Agregar</span>
+            <span className="text-[11px]">{subiendo ? 'Subiendo' : 'Agregar'}</span>
           </motion.button>
         </motion.div>
       </Section>

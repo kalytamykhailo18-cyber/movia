@@ -15,6 +15,17 @@ function num(key: string, fallback?: number): number {
   return parsed
 }
 
+function requireSecret(key: string): string {
+  const value = process.env[key]
+  if (!value || value.length < 32) {
+    throw new Error(
+      `${key} debe estar definido y tener al menos 32 caracteres. ` +
+        `Generar con: node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"`,
+    )
+  }
+  return value
+}
+
 function bool(key: string, fallback: boolean): boolean {
   const raw = process.env[key]
   if (raw === undefined || raw === '') return fallback
@@ -30,7 +41,12 @@ export const env = {
     isProd: str('NODE_ENV', 'development') === 'production',
   },
   auth: {
-    jwtSecret: str('JWT_SECRET', 'change-me-in-production'),
+    // Getter a proposito: este modulo tambien se importa desde componentes de
+    // cliente, donde la variable no existe. Evaluarla al cargar rompia la
+    // pagina entera. Asi solo se valida cuando el servidor la usa de verdad.
+    get jwtSecret() {
+      return requireSecret('JWT_SECRET')
+    },
     jwtExpiresIn: str('JWT_EXPIRES_IN', '7d'),
     bcryptRounds: num('BCRYPT_ROUNDS', 10),
     cookieName: str('SESSION_COOKIE_NAME', 'movia_session'),
@@ -94,6 +110,10 @@ export const env = {
     driver: str('STORAGE_DRIVER', 'local'),
     localPath: str('STORAGE_LOCAL_PATH', './public/uploads'),
     publicUrl: str('STORAGE_PUBLIC_URL', '/uploads'),
+    maxImageMb: num('STORAGE_MAX_IMAGE_MB', 12),
+    maxImageWidth: num('STORAGE_MAX_IMAGE_WIDTH', 1920),
+    thumbWidth: num('STORAGE_THUMB_WIDTH', 400),
+    minImageWidth: num('STORAGE_MIN_IMAGE_WIDTH', 400),
   },
   pwa: {
     enabled: bool('PWA_ENABLED', true),
