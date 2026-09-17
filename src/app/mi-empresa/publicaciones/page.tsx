@@ -68,7 +68,7 @@ export default async function PublicationsPage() {
                       data-testid="performance-title"
                     >
                       <span className="line-clamp-2">{row.title}</span>
-                      <ExternalLink className="mt-0.5 size-4 shrink-0" aria-hidden />
+                      <ExternalLink className="mt-0.5 size-3.5 shrink-0" aria-hidden />
                     </Link>
 
                     <p className="mt-1 text-[14px] font-medium text-[var(--color-navy)]">
@@ -88,21 +88,21 @@ export default async function PublicationsPage() {
 
                 <div className="flex-1 space-y-3">
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                    <Metric icon={<Eye className="size-4" />} label="Vistas" value={row.views} testId="metric-views" />
+                    <Metric icon={<Eye className="size-3.5" />} label="Vistas" value={row.views} testId="metric-views" />
                     <Metric
-                      icon={<MessageSquare className="size-4" />}
+                      icon={<MessageSquare className="size-3.5" />}
                       label="Contactos"
                       value={row.leads}
                       testId="metric-leads"
                     />
                     <Metric
-                      icon={<Heart className="size-4" />}
+                      icon={<Heart className="size-3.5" />}
                       label="Favoritos"
                       value={row.favorites}
                       testId="metric-favorites"
                     />
                     <Metric
-                      icon={<Clock className="size-4" />}
+                      icon={<Clock className="size-3.5" />}
                       label="Dias activa"
                       value={row.daysActive}
                       testId="metric-days"

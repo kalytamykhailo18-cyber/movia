@@ -17,12 +17,9 @@
   --radius-card: 12px;
   --radius-modal: 16px;
 
-  --spacing-1: 8px;
-  --spacing-2: 16px;
-  --spacing-3: 24px;
-  --spacing-4: 32px;
-  --spacing-6: 48px;
-  --spacing-8: 64px;
+  /* La escala de 8, 16, 24, 32, 48 y 64 px del manual ya son multiplos de la
+     escala base de 4 px: p-2, p-4, p-6, p-8, p-12 y p-16. Redefinir
+     --spacing-* aqui duplicaba todos los espaciados y tamanos. */
 
   --font-sans: 'Inter', 'Manrope', Arial, sans-serif;
 
@@ -78,11 +75,31 @@ textarea:focus-visible {
 }
 
 
-/* Los iconos vienen en un lienzo de 24 px. Con trazo 1.5 el borde cae sobre
-   un pixel completo a 16 px y se ve nitido en vez de difuminado. */
+/* El lienzo del icono mide 24 px, asi que el trazo se escala con el tamano.
+   Estos valores dejan el borde en 1 px exacto en cada medida y se ve nitido. */
 svg.lucide {
-  stroke-width: 1.5;
   shape-rendering: geometricPrecision;
+  stroke-width: 1.5;
+}
+
+svg.lucide.size-3 {
+  stroke-width: 2;
+}
+
+svg.lucide.size-3\.5 {
+  stroke-width: 1.75;
+}
+
+svg.lucide.size-4 {
+  stroke-width: 1.5;
+}
+
+svg.lucide.size-5 {
+  stroke-width: 1.2;
+}
+
+svg.lucide.size-6 {
+  stroke-width: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {

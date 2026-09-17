@@ -130,22 +130,22 @@ export default async function CompanyPage({ params }: Props) {
 
         <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-[var(--color-border)] pt-5 sm:grid-cols-4">
           <Fact
-            icon={<FileText className="size-4" />}
+            icon={<FileText className="size-3.5" />}
             label="Publicaciones activas"
             value={String(publications.length)}
           />
           <Fact
-            icon={<Users className="size-4" />}
+            icon={<Users className="size-3.5" />}
             label="Seguidores"
             value={String(company._count.followers)}
           />
           <Fact
-            icon={<MapPin className="size-4" />}
+            icon={<MapPin className="size-3.5" />}
             label="Ubicacion"
             value={company.city?.name ?? '-'}
           />
           <Fact
-            icon={<Clock className="size-4" />}
+            icon={<Clock className="size-3.5" />}
             label="En MOVIA desde"
             value={shortDate(company.createdAt)}
           />
@@ -189,7 +189,7 @@ export default async function CompanyPage({ params }: Props) {
                     {review.author.fullName}
                   </span>
                   <span className="inline-flex items-center gap-1 text-[13px] text-[var(--color-navy)]">
-                    <Star className="size-4 text-[var(--color-primary)]" aria-hidden />
+                    <Star className="size-3.5 text-[var(--color-primary)]" aria-hidden />
                     {review.rating}
                   </span>
                 </div>

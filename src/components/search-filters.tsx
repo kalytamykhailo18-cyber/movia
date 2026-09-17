@@ -223,7 +223,7 @@ function FilterGroup({
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between py-1 text-left"
+        className="flex min-h-[44px] w-full items-center justify-between py-1 text-left"
       >
         <span className="text-[14px] font-semibold text-[var(--color-navy)]">{title}</span>
         <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }}>

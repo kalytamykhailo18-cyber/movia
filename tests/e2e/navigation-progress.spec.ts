@@ -8,6 +8,7 @@ test.describe('Indicador de carga de pagina', () => {
 
   test('aparece en el borde del encabezado al navegar', async ({ page }) => {
     await page.goto('/')
+    await page.getByTestId('site-footer').scrollIntoViewIfNeeded()
 
     // Se demora la respuesta para alcanzar a ver la barra.
     await page.route('**/buscar**', async (route) => {
@@ -15,7 +16,7 @@ test.describe('Indicador de carga de pagina', () => {
       await route.continue()
     })
 
-    await page.getByTestId('nav-buscar').click()
+    await page.getByTestId('site-footer').getByRole('link', { name: 'Buscar activos' }).click()
 
     const bar = page.getByTestId('navigation-progress')
     await expect(bar).toBeVisible()
@@ -35,13 +36,14 @@ test.describe('Indicador de carga de pagina', () => {
 
   test('el avance sube mientras carga', async ({ page }) => {
     await page.goto('/')
+    await page.getByTestId('site-footer').scrollIntoViewIfNeeded()
 
     await page.route('**/categorias**', async (route) => {
       await new Promise((resolve) => setTimeout(resolve, 2000))
       await route.continue()
     })
 
-    await page.getByTestId('nav-categorias').click()
+    await page.getByTestId('site-footer').getByRole('link', { name: 'Categorias' }).click()
 
     const bar = page.getByTestId('navigation-progress')
     await expect(bar).toBeVisible()
@@ -53,20 +55,22 @@ test.describe('Indicador de carga de pagina', () => {
 
   test('desaparece al terminar la navegacion', async ({ page }) => {
     await page.goto('/')
-    await page.getByTestId('nav-buscar').click()
+    await page.getByTestId('site-footer').scrollIntoViewIfNeeded()
+    await page.getByTestId('site-footer').getByRole('link', { name: 'Buscar activos' }).click()
     await expect(page).toHaveURL(/\/buscar/)
     await expect(page.getByTestId('navigation-progress')).toHaveCount(0, { timeout: 5000 })
   })
 
   test('expone su avance a lectores de pantalla', async ({ page }) => {
     await page.goto('/')
+    await page.getByTestId('site-footer').scrollIntoViewIfNeeded()
 
     await page.route('**/planes**', async (route) => {
       await new Promise((resolve) => setTimeout(resolve, 1500))
       await route.continue()
     })
 
-    await page.getByRole('navigation', { name: 'Principal' }).getByRole('link', { name: 'Buscar' }).click()
+    await page.getByTestId('site-footer').getByRole('link', { name: 'Buscar activos' }).click()
 
     const bar = page.getByRole('progressbar', { name: /cargando pagina/i })
     await expect(bar).toBeVisible()

@@ -49,7 +49,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
               <Link
                 key={item.href}
                 href={item.href}
-                data-testid={`nav-${item.href.replace('/', '')}`}
+                data-testid={`header-nav-${item.href.replace('/', '')}`}
                 className={cn(
                   'relative flex h-16 items-center whitespace-nowrap px-2.5 text-[14px] font-medium transition-colors',
                   active

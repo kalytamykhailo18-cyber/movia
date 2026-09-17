@@ -13,9 +13,9 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = { title: 'Contactos recibidos' }
 
 const SOURCE: Record<string, { label: string; icon: React.ReactNode; tone: 'success' | 'verified' | 'neutral' }> = {
-  whatsapp: { label: 'WhatsApp', icon: <WhatsAppIcon className="size-4" />, tone: 'success' },
-  email: { label: 'Correo', icon: <Mail className="size-4" />, tone: 'verified' },
-  chat: { label: 'Chat interno', icon: <MessageSquare className="size-4" />, tone: 'neutral' },
+  whatsapp: { label: 'WhatsApp', icon: <WhatsAppIcon className="size-3.5" />, tone: 'success' },
+  email: { label: 'Correo', icon: <Mail className="size-3.5" />, tone: 'verified' },
+  chat: { label: 'Chat interno', icon: <MessageSquare className="size-3.5" />, tone: 'neutral' },
 }
 
 export default async function LeadsPage() {

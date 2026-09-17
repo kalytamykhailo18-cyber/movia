@@ -57,7 +57,7 @@ export default async function CompaniesPage() {
 
               {company.city ? (
                 <p className="mt-2 inline-flex items-center gap-1 text-[12px] text-[var(--color-text-muted)]">
-                  <MapPin className="size-4" aria-hidden />
+                  <MapPin className="size-3.5" aria-hidden />
                   {company.city.name}
                 </p>
               ) : null}

@@ -119,14 +119,14 @@ export default async function PublicationPage({ params }: Props) {
             </p>
 
             <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-[var(--color-border)] pt-5 sm:grid-cols-4">
-              <Fact icon={<MapPin className="size-4" />} label="Ubicacion" value={pub.city?.name ?? '-'} />
-              <Fact icon={<Calendar className="size-4" />} label="Ano" value={pub.year?.toString() ?? '-'} />
+              <Fact icon={<MapPin className="size-3.5" />} label="Ubicacion" value={pub.city?.name ?? '-'} />
+              <Fact icon={<Calendar className="size-3.5" />} label="Ano" value={pub.year?.toString() ?? '-'} />
               <Fact
-                icon={<Gauge className="size-4" />}
+                icon={<Gauge className="size-3.5" />}
                 label="Horas de uso"
                 value={pub.usageHours ? `${pub.usageHours.toLocaleString(env.locale.locale)} h` : '-'}
               />
-              <Fact icon={<Package className="size-4" />} label="Condicion" value={pub.condition ?? '-'} />
+              <Fact icon={<Package className="size-3.5" />} label="Condicion" value={pub.condition ?? '-'} />
             </dl>
           </section>
 
