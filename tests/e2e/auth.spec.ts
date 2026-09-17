@@ -61,7 +61,8 @@ test.describe('Acceso', () => {
 
   test('cerrar sesion devuelve al estado publico @desktop', async ({ page }) => {
     await login(page, SELLER)
-    await expect(page.getByTestId('session-user')).toBeVisible()
+    // El nombre solo aparece en pantallas anchas; el boton de salir siempre esta.
+    await expect(page.getByTestId('logout')).toBeVisible()
 
     await page.getByTestId('logout').click()
     await expect(page.getByTestId('nav-login')).toBeVisible()
