@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { getSessionUser } from '@/lib/auth'
 import { RegisterForm } from '@/components/register-form'
+import { PageIntro } from '@/components/page-intro'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,12 +17,12 @@ export default async function RegisterPage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <header>
+      <PageIntro>
         <h1 className="text-[32px] font-bold text-[var(--color-navy)]">Crear cuenta</h1>
         <p className="mt-2 text-[16px] text-[var(--color-text-muted)]">
           Publica los activos que tu empresa ya no usa y recibe contactos de compradores.
         </p>
-      </header>
+      </PageIntro>
 
       <RegisterForm cities={cities} />
 

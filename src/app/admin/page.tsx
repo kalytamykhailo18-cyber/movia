@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { Tag, BadgeCheck, Users, FileText, Wallet } from 'lucide-react'
 import { db } from '@/lib/db'
 import { money, shortDate } from '@/lib/format'
+import { AnimatedSection } from '@/components/animated-section'
+import { PageIntro } from '@/components/page-intro'
+import { StaggerGrid } from '@/components/stagger-grid'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,20 +26,21 @@ export default async function AdminHomePage() {
 
   return (
     <div className="space-y-6">
-      <header>
+      <PageIntro>
         <h1 className="text-[28px] font-bold text-[var(--color-navy)]">Administracion</h1>
         <p className="mt-1 text-[16px] text-[var(--color-text-muted)]">
           Estado general de la plataforma.
         </p>
-      </header>
+      </PageIntro>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4" data-testid="admin-metrics">
+      <StaggerGrid className="grid grid-cols-2 gap-3 lg:grid-cols-4" testId="admin-metrics">
         <Metric label="Ingresos aprobados" value={money(payments._sum.amountTotal ?? 0)} icon={<Wallet className="size-5" />} testId="metric-revenue" />
         <Metric label="Suscripciones activas" value={String(subscriptions)} icon={<Tag className="size-5" />} testId="metric-subs" />
         <Metric label="Publicaciones activas" value={`${activePublications} / ${publications}`} icon={<FileText className="size-5" />} testId="metric-pubs" />
         <Metric label="Usuarios" value={String(users)} icon={<Users className="size-5" />} testId="metric-users" />
-      </div>
+      </StaggerGrid>
 
+      <AnimatedSection>
       <section className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
@@ -54,7 +58,9 @@ export default async function AdminHomePage() {
           </Link>
         </div>
       </section>
+      </AnimatedSection>
 
+      <AnimatedSection>
       <section className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5">
         <h2 className="text-[18px] font-semibold text-[var(--color-navy)]">Actividad reciente</h2>
         <ul className="mt-3 divide-y divide-[var(--color-border)]" data-testid="audit-log">
@@ -72,6 +78,7 @@ export default async function AdminHomePage() {
           )}
         </ul>
       </section>
+      </AnimatedSection>
     </div>
   )
 }

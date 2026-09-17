@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getSessionUser } from '@/lib/auth'
 import { LoginForm } from '@/components/login-form'
+import { PageIntro } from '@/components/page-intro'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,12 +14,12 @@ export default async function LoginPage() {
 
   return (
     <div className="mx-auto max-w-md space-y-6">
-      <header>
+      <PageIntro>
         <h1 className="text-[32px] font-bold text-[var(--color-navy)]">Ingresar</h1>
         <p className="mt-2 text-[16px] text-[var(--color-text-muted)]">
           Accede a tu panel, tus publicaciones y tus contactos.
         </p>
-      </header>
+      </PageIntro>
 
       <LoginForm />
 

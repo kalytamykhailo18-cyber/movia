@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { db } from '@/lib/db'
 import { requireAdmin } from '@/lib/auth'
 import { UserList } from '@/components/admin/decision-list'
+import { PageIntro } from '@/components/page-intro'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,12 +27,12 @@ export default async function AdminUsersPage() {
 
   return (
     <div className="space-y-6">
-      <header>
+      <PageIntro>
         <h1 className="text-[28px] font-bold text-[var(--color-navy)]">Usuarios</h1>
         <p className="mt-1 text-[16px] text-[var(--color-text-muted)]">
           Un usuario suspendido no puede iniciar sesion.
         </p>
-      </header>
+      </PageIntro>
 
       <UserList
         currentUserId={admin.id}

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { toastVariants, motionEnabled } from '@/lib/motion'
+import { toastVariants, listVariants, cardVariants, motionEnabled } from '@/lib/motion'
 
 export type PendingCompany = {
   id: string
@@ -81,8 +81,15 @@ export function VerificationQueue({ companies }: { companies: PendingCompany[] }
         ) : null}
       </AnimatePresence>
 
+      <motion.div
+        variants={motionEnabled ? listVariants : undefined}
+        initial="hidden"
+        animate="show"
+        className="space-y-3"
+      >
       {companies.map((company) => (
-        <article
+        <motion.article
+          variants={motionEnabled ? cardVariants : undefined}
           key={company.id}
           className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5"
           data-testid="verification-row"
@@ -129,8 +136,9 @@ export function VerificationQueue({ companies }: { companies: PendingCompany[] }
               </div>
             )}
           </div>
-        </article>
+        </motion.article>
       ))}
+      </motion.div>
     </div>
   )
 }
@@ -199,9 +207,18 @@ export function UserList({ users, currentUserId }: { users: AdminUser[]; current
                 <th className="px-5 py-2.5 font-medium">Accion</th>
               </tr>
             </thead>
-            <tbody>
+            <motion.tbody
+              variants={motionEnabled ? listVariants : undefined}
+              initial="hidden"
+              animate="show"
+            >
               {users.map((user) => (
-                <tr key={user.id} className="border-t border-[var(--color-border)]" data-testid="user-row">
+                <motion.tr
+                  variants={motionEnabled ? cardVariants : undefined}
+                  key={user.id}
+                  className="border-t border-[var(--color-border)]"
+                  data-testid="user-row"
+                >
                   <td className="px-5 py-3">
                     <span className="font-medium text-[var(--color-navy)]">{user.fullName}</span>
                     <span className="block text-[12px] text-[var(--color-text-muted)]">{user.email}</span>
@@ -228,9 +245,9 @@ export function UserList({ users, currentUserId }: { users: AdminUser[]; current
                       </Button>
                     )}
                   </td>
-                </tr>
+                </motion.tr>
               ))}
-            </tbody>
+            </motion.tbody>
           </table>
         </div>
       </div>

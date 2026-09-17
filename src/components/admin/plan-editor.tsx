@@ -7,7 +7,7 @@ import { Check, AlertTriangle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { money } from '@/lib/format'
 import { breakdown } from '@/lib/tax'
-import { toastVariants, motionEnabled } from '@/lib/motion'
+import { toastVariants, listVariants, cardVariants, motionEnabled } from '@/lib/motion'
 import { env } from '@/lib/env'
 
 export type AdminPlan = {
@@ -86,11 +86,18 @@ export function PlanEditor({ plans }: { plans: AdminPlan[] }) {
         ) : null}
       </AnimatePresence>
 
+      <motion.div
+        variants={motionEnabled ? listVariants : undefined}
+        initial="hidden"
+        animate="show"
+        className="space-y-4"
+      >
       {rows.map((plan) => {
         const price = breakdown(Number(plan.price) || 0)
 
         return (
-          <section
+          <motion.section
+            variants={motionEnabled ? cardVariants : undefined}
             key={plan.id}
             className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5"
             data-testid="plan-row"
@@ -183,9 +190,10 @@ export function PlanEditor({ plans }: { plans: AdminPlan[] }) {
                 ) : null}
               </AnimatePresence>
             </div>
-          </section>
+          </motion.section>
         )
       })}
+      </motion.div>
     </div>
   )
 }

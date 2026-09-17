@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { db } from '@/lib/db'
 import { PlanEditor } from '@/components/admin/plan-editor'
+import { PageIntro } from '@/components/page-intro'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,12 +26,12 @@ export default async function AdminPlansPage() {
 
   return (
     <div className="space-y-6">
-      <header>
+      <PageIntro>
         <h1 className="text-[28px] font-bold text-[var(--color-navy)]">Planes y tarifas</h1>
         <p className="mt-1 text-[16px] text-[var(--color-text-muted)]">
           Precios, vigencias y cupos se editan aqui y aplican de inmediato en la pagina publica.
         </p>
-      </header>
+      </PageIntro>
 
       <PlanEditor plans={plans} />
     </div>

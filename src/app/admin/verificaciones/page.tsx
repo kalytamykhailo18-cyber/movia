@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { db } from '@/lib/db'
 import { VerificationQueue } from '@/components/admin/decision-list'
+import { PageIntro } from '@/components/page-intro'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,12 +26,12 @@ export default async function AdminVerificationsPage() {
 
   return (
     <div className="space-y-6">
-      <header>
+      <PageIntro>
         <h1 className="text-[28px] font-bold text-[var(--color-navy)]">Verificaciones</h1>
         <p className="mt-1 text-[16px] text-[var(--color-text-muted)]">
           Empresas cuyo NIT es valido pero necesitan revision manual antes del distintivo.
         </p>
-      </header>
+      </PageIntro>
 
       <VerificationQueue
         companies={companies.map((c) => ({
