@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -21,7 +22,9 @@ export default async function LoginPage() {
         </p>
       </PageIntro>
 
-      <LoginForm />
+      <Suspense fallback={null}>
+        <LoginForm />
+      </Suspense>
 
       <p className="text-center text-[14px] text-[var(--color-text-muted)]">
         No tienes cuenta?{' '}

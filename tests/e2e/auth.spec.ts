@@ -173,3 +173,55 @@ test.describe('Seguridad de la api de administracion', () => {
     expect(res.status()).toBe(403)
   })
 })
+
+test.describe('Redireccion sin parpadeo', () => {
+  test('entrar a una ruta privada no alcanza a pintar el panel', async ({ page }) => {
+    const vistos: string[] = []
+    await page.exposeFunction('reportarPrivado', (ruta: string) => vistos.push(ruta))
+    await page.addInitScript(() => {
+      const revisar = () => {
+        if (document.querySelector('[data-testid="company-name"], [data-testid="kpi-grid"]')) {
+          ;(window as unknown as { reportarPrivado: (r: string) => void }).reportarPrivado(
+            location.pathname,
+          )
+        }
+      }
+      new MutationObserver(revisar).observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+      })
+    })
+
+    await page.goto('/mi-empresa')
+    await expect(page).toHaveURL(/\/ingresar/)
+    await expect(page.getByTestId('login-form')).toBeVisible()
+
+    expect(vistos, 'se alcanzo a pintar contenido privado antes de redirigir').toEqual([])
+  })
+
+  test('la redireccion recuerda a donde iba el usuario', async ({ page }) => {
+    await page.goto('/mi-empresa/contactos')
+    await expect(page).toHaveURL(/destino=%2Fmi-empresa%2Fcontactos/)
+  })
+
+  test('tras ingresar aterriza en la pagina que pidio', async ({ page }) => {
+    await page.goto('/mi-empresa/facturacion')
+    await expect(page).toHaveURL(/\/ingresar/)
+
+    await page.getByTestId('login-email').fill(SELLER.email)
+    await page.getByTestId('login-password').fill(SELLER.password)
+    await page.getByTestId('login-submit').click()
+
+    await expect(page).toHaveURL(/\/mi-empresa\/facturacion/)
+    await expect(page.getByTestId('plan-card')).toBeVisible()
+  })
+
+  test('un vendedor que pide administracion termina en su panel', async ({ page }) => {
+    await page.goto('/admin/planes')
+    await page.getByTestId('login-email').fill(SELLER.email)
+    await page.getByTestId('login-password').fill(SELLER.password)
+    await page.getByTestId('login-submit').click()
+
+    await expect(page).toHaveURL(/\/mi-empresa/)
+  })
+})

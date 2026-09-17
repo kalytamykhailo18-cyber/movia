@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { AlertTriangle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -9,6 +9,9 @@ import { toastVariants, motionEnabled } from '@/lib/motion'
 
 export function LoginForm() {
   const router = useRouter()
+  const params = useSearchParams()
+  // El middleware guarda a donde iba el usuario antes de pedirle la sesion.
+  const destino = params.get('destino')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [sending, setSending] = useState(false)
@@ -32,7 +35,7 @@ export function LoginForm() {
         return
       }
 
-      router.push(json.role === 'admin' ? '/admin' : '/mi-empresa')
+      router.push(destino ?? (json.role === 'admin' ? '/admin' : '/mi-empresa'))
       router.refresh()
     } catch {
       setError('No pudimos iniciar sesion')
