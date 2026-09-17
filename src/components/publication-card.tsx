@@ -43,7 +43,8 @@ export function PublicationCard({
       custom={index}
       className={cn(
         'group relative overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border)]',
-        'bg-white shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]',
+        'bg-white shadow-[var(--shadow-card)] transition-[box-shadow,border-color] duration-200',
+        'hover:border-[#BFDBFE] hover:shadow-[var(--shadow-card-hover)]',
         className,
       )}
       data-testid="publication-card"
@@ -76,48 +77,53 @@ export function PublicationCard({
           ) : null}
         </div>
 
-        <div className="space-y-2 p-4">
-          <h3 className="line-clamp-2 text-[18px] font-semibold leading-snug text-[var(--color-navy)]">
+        <div className="p-4">
+          <h3 className="line-clamp-2 min-h-[2.6em] text-[18px] font-semibold leading-snug text-[var(--color-navy)]">
             {item.title}
           </h3>
 
-          <p className="text-[20px] font-bold text-[var(--color-navy)]" data-testid="card-price">
+          <p
+            className="mt-2 text-[22px] font-bold leading-none tracking-tight text-[var(--color-navy)]"
+            data-testid="card-price"
+          >
             {money(item.price, item.currency)}
           </p>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-[var(--color-text-muted)]">
+          <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] text-[var(--color-text-muted)]">
             {item.cityName ? (
               <span className="inline-flex items-center gap-1">
                 <MapPin className="size-3.5" aria-hidden />
                 {item.cityName}
               </span>
             ) : null}
-            {item.condition ? <span>{item.condition}</span> : null}
+            {item.condition ? (
+              <>
+                <span aria-hidden className="text-[var(--color-border)]">&middot;</span>
+                <span>{item.condition}</span>
+              </>
+            ) : null}
           </div>
+        </div>
 
-          <div className="flex items-center justify-between border-t border-[var(--color-border)] pt-2">
-            <span className="inline-flex min-w-0 items-center gap-1 text-[12px] text-[var(--color-navy)]">
-              {item.companyVerified ? (
-                <BadgeCheck className="size-3.5 shrink-0 text-[var(--color-primary)]" aria-hidden />
-              ) : null}
-              <span className="truncate">{item.companyName ?? 'Persona natural'}</span>
+        {/* Franja del vendedor: separa quien publica del activo en si. */}
+        <div className="flex items-center justify-between gap-2 border-t border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5">
+          <span className="inline-flex min-w-0 items-center gap-1.5 text-[12px] font-medium text-[var(--color-navy)]">
+            {item.companyVerified ? (
+              <BadgeCheck className="size-3.5 shrink-0 text-[var(--color-primary)]" aria-hidden />
+            ) : null}
+            <span className="truncate">{item.companyName ?? 'Persona natural'}</span>
+          </span>
+
+          <span className="flex shrink-0 items-center gap-2.5 text-[11px] tabular-nums text-[var(--color-text-muted)]">
+            <span className="inline-flex items-center gap-1" title="Visualizaciones">
+              <Eye className="size-3.5" aria-hidden />
+              {item.viewCount}
             </span>
-
-            <span className="flex shrink-0 items-center gap-2.5 text-[11px] text-[var(--color-text-muted)]">
-              <span className="inline-flex items-center gap-1">
-                <Eye className="size-3.5" aria-hidden />
-                {item.viewCount}
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <MessageSquare className="size-3.5" aria-hidden />
-                {item.leadCount}
-              </span>
+            <span className="inline-flex items-center gap-1" title="Contactos">
+              <MessageSquare className="size-3.5" aria-hidden />
+              {item.leadCount}
             </span>
-          </div>
-
-          <p className="text-[11px] text-[var(--color-text-muted)]">
-            Publicado {shortDate(item.publishedAt)}
-          </p>
+          </span>
         </div>
       </Link>
     </motion.article>

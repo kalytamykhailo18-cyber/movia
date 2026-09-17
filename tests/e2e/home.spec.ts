@@ -15,9 +15,21 @@ test.describe('Inicio', () => {
     expect(box!.width / box!.height).toBeCloseTo(3000 / 2088, 1)
   })
 
-  test('muestra el buscador principal con el copy del manual', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: /que activo estas buscando/i })).toBeVisible()
-    await expect(page.getByTestId('hero-search-input')).toBeVisible()
+  test('el titulo principal lleva el claim de la marca', async ({ page }) => {
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/lo que tu empresa no usa/i)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/muevelo/i)
+  })
+
+  test('el buscador usa la pregunta del manual', async ({ page }) => {
+    const buscador = page.getByTestId('hero-search-input')
+    await expect(buscador).toBeVisible()
+    await expect(buscador).toHaveAttribute('placeholder', /que activo estas buscando/i)
+  })
+
+  test('el inicio muestra el volumen real del marketplace', async ({ page }) => {
+    const activos = page.getByText('Activos publicados', { exact: true })
+    await expect(activos).toBeVisible()
+    await expect(page.getByText('Empresas verificadas', { exact: true }).first()).toBeVisible()
   })
 
   test('lista las ocho categorias del manual', async ({ page }) => {

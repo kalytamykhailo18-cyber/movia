@@ -7,20 +7,23 @@ import { HeroSearch } from '@/components/hero-search'
 import { CategoryGrid } from '@/components/category-grid'
 import { AnimatedSection } from '@/components/animated-section'
 import { parseJson } from '@/lib/utils'
+import { db } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const [featured, latest, categories, companies] = await Promise.all([
+  const [featured, latest, categories, companies, totalActivos, totalEmpresas] = await Promise.all([
     getFeatured(4),
     getLatest(8),
     getCategories(),
     getVerifiedCompanies(4),
+    db.publication.count({ where: { status: 'active' } }),
+    db.company.count({ where: { verificationStatus: 'approved' } }),
   ])
 
   return (
     <div className="space-y-12">
-      <HeroSearch />
+      <HeroSearch activos={totalActivos} empresas={totalEmpresas} />
 
       <AnimatedSection>
         <SectionHeading title="Categorias" href="/categorias" linkLabel="Ver todas" />
@@ -84,9 +87,9 @@ export default async function HomePage() {
 
       <AnimatedSection>
         <div className="rounded-[var(--radius-card)] bg-[var(--color-navy)] px-6 py-10 text-center md:px-12">
-          <h2 className="text-[28px] font-bold text-white">{env.ui.brandClaim}</h2>
+          <h2 className="text-[28px] font-bold text-white md:text-[32px]">Tenes equipo parado?</h2>
           <p className="mx-auto mt-2 max-w-xl text-[16px] text-white/70">
-            Publica los activos que tu empresa ya no usa y conecta con compradores verificados en{' '}
+            Publicalo hoy y empeza a recibir contactos de empresas que lo estan buscando en{' '}
             {env.locale.countryName}.
           </p>
           <Link
@@ -104,8 +107,11 @@ export default async function HomePage() {
 
 function SectionHeading({ title, href, linkLabel }: { title: string; href: string; linkLabel: string }) {
   return (
-    <div className="mb-4 flex items-baseline justify-between gap-4">
-      <h2 className="text-[24px] font-semibold text-[var(--color-navy)] md:text-[28px]">{title}</h2>
+    <div className="mb-5 flex items-baseline justify-between gap-4">
+      <h2 className="relative pl-4 text-[24px] font-semibold tracking-tight text-[var(--color-navy)] md:text-[28px]">
+        <span className="absolute left-0 top-1/2 h-[1.1em] w-1 -translate-y-1/2 rounded-full bg-[var(--color-primary)]" />
+        {title}
+      </h2>
       <Link
         href={href}
         className="inline-flex items-center gap-1 text-[14px] font-medium text-[var(--color-primary)] hover:text-[var(--color-primary-hover)]"
