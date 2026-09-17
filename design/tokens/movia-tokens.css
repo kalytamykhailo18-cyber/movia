@@ -112,6 +112,14 @@
   --space-12: 48px;
   --space-16: 64px;
 
+  /* Relleno interior. Un valor por tipo de superficie, no uno por componente:
+     asi dos tarjetas distintas nunca acaban con rellenos distintos. Se
+     redefinen en movil desde :root, de modo que ningun componente necesita
+     su propia excepcion. Todos caen en la escala del manual. */
+  --pad-card: var(--space-4);   /* 16px  interior de tarjeta */
+  --pad-panel: var(--space-6);  /* 24px  interior de panel y bloque de precio */
+  --pad-cell: var(--space-3);   /* 12px  celda de tabla, franja y aviso */
+
   /* Separacion entre secciones. Antes 48px en todas, lo que dejaba la
      pagina flotando. 32px sostiene mejor un catalogo denso. */
   --space-section: 32px;

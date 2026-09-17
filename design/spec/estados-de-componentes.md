@@ -16,6 +16,27 @@ Convenciones:
 
 ---
 
+## 0. Relleno interior: un valor por tipo de superficie
+
+Regla única para todo el producto. No se declara relleno por componente: se
+declara por **tipo de superficie**, con tres tokens. Así dos tarjetas distintas
+no pueden acabar con rellenos distintos.
+
+| Token | Escritorio | Móvil (≤640px) | Dónde |
+|---|---|---|---|
+| `--pad-card` | `16px` | `12px` | Interior de tarjeta, tarjeta destacada, fila de empresa, fila de documento |
+| `--pad-panel` | `24px` | `16px` | Panel, bloque de precio, datos clave |
+| `--pad-cell` | `12px` | `12px` | Celda de tabla, franja de vendedor, categoría, aviso |
+
+Los tres valores caen en la escala del manual (sección 14). El ajuste para móvil
+se hace **una sola vez**, redefiniendo los tokens en `:root` dentro de la media
+query: ningún componente lleva su propia excepción de relleno.
+
+Comprobado en el DOM de las dos maquetas: cada grupo de superficies devuelve un
+único valor de relleno a 1280 px y a 412 px.
+
+---
+
 ## 1. Botones
 
 Base común: `min-height: 44px`, `border-radius: 8px`, `padding-inline: 16px`,
@@ -117,14 +138,14 @@ Interior:
 | Elemento | Valor |
 |---|---|
 | Fotografía | relación `4/3`, `object-fit: cover` |
-| Relleno del cuerpo | `16px` |
+| Relleno del cuerpo | `--pad-card`: 16px escritorio, 12px móvil |
 | Título | `18px / 600`, `line-height: 1.35`, `letter-spacing: -0.02em`, 2 líneas máximo, alto mínimo `2.7em` |
 | Precio | `24px / 700`, `tabular-nums`, `letter-spacing: -0.03em`, `#111827` |
 | Nota de impuesto | `12px / 400`, `#6B7280` |
 | Franja de especificaciones | 2 columnas, separador superior `1px #E5E7EB`, margen superior `16px` |
 | Etiqueta de especificación | `11px / 600`, `letter-spacing: 0.14em`, mayúsculas, `#6B7280` |
 | Valor de especificación | `13px / 600`, `tabular-nums`, `#111827` |
-| Franja de vendedor | fondo `#F8FAFC`, borde superior `1px #E5E7EB`, relleno `10px 16px` |
+| Franja de vendedor | fondo `#F8FAFC`, borde superior `1px #E5E7EB`, relleno `--pad-cell --pad-card` |
 
 El fondo `#F8FAFC` de la franja de vendedor también lo comprueba la prueba de
 identidad.
@@ -226,12 +247,12 @@ posición se lea también sin percepción de color.
 
 | Elemento | Valor |
 |---|---|
-| Fondo | `#111827`, radio `12px 12px 0 0`, relleno `24px` |
+| Fondo | `#111827`, radio `12px 12px 0 0`, relleno `--pad-panel` |
 | Marca de agua | isotipo, opacidad `0.06`, arriba a la derecha |
 | Título | `32px / 700`, `line-height: 1.15`, `letter-spacing: -0.03em`, `#FFFFFF` (`24px` en móvil) |
 | Precio | `38px / 700`, `tabular-nums`, `letter-spacing: -0.03em`, `#FFFFFF` (`32px` en móvil) |
 | Nota de impuesto | `12px / 400`, `#94A3B8` |
-| Datos clave | 4 columnas (2 en móvil), fondo `#FFFFFF`, borde `1px #E5E7EB` sin borde superior, radio `0 0 12px 12px`, relleno `20px 24px` |
+| Datos clave | 4 columnas (2 en móvil), fondo `#FFFFFF`, borde `1px #E5E7EB` sin borde superior, radio `0 0 12px 12px`, relleno `--pad-panel` |
 
 El precio en blanco sobre navy también lo verifica la prueba de identidad.
 
@@ -242,10 +263,11 @@ El precio en blanco sobre navy también lo verifica la prueba de identidad.
 | Elemento | Valor |
 |---|---|
 | Texto | `14px` |
-| Celda | relleno `11px 12px` |
+| Celda | relleno `--pad-cell --pad-panel`: 12px vertical, 24px lateral |
 | Etiqueta | `400`, `#6B7280`, alineada a la izquierda, ancho `44%` |
 | Valor | `600`, `#111827`, `tabular-nums`, alineado a la derecha |
 | Separador | `1px #E5E7EB` entre filas, ninguno en la última |
+| Ancho | sangra hasta el borde de la tarjeta (`margen lateral -–pad-panel`), de modo que la banda cebreada recorre el ancho completo y la etiqueta queda alineada con el título del panel |
 | Fila impar | fondo `#F8FAFC` |
 
 Valor alineado a la derecha y tabular para que dos publicaciones abiertas en dos
@@ -290,8 +312,9 @@ Medido en el DOM, no estimado:
 |---|---|---|
 | Controles por debajo de 44 px de alto | 0 | 0 |
 | Desbordamiento horizontal | 0 px | 0 px |
-| Alto del inicio | 3.063 px | 6.314 px |
-| Alto de la ficha | 2.751 px | 5.707 px |
+| Valores de relleno distintos por tipo de superficie | 1 | 1 |
+| Alto del inicio | 3.067 px | 6.218 px |
+| Alto de la ficha | 2.959 px | 5.647 px |
 
 Referencia de producción hoy: inicio 3.253 px a 1280 y **9.040 px** a 412.
 
