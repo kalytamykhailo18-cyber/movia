@@ -1,14 +1,19 @@
 import Link from 'next/link'
 import { env } from '@/lib/env'
+import { getSessionUser } from '@/lib/auth'
 
-const LINKS = [
-  { href: '/buscar', label: 'Buscar activos' },
-  { href: '/categorias', label: 'Categorias' },
-  { href: '/publicar', label: 'Publicar' },
-  { href: '/planes', label: 'Planes y precios' },
-]
+function enlaces(haySesion: boolean) {
+  return [
+    { href: '/buscar', label: 'Buscar activos' },
+    { href: '/categorias', label: 'Categorias' },
+    { href: haySesion ? '/publicar' : '/ingresar?destino=%2Fpublicar', label: 'Publicar' },
+    { href: '/planes', label: 'Planes y precios' },
+  ]
+}
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const user = await getSessionUser()
+  const LINKS = enlaces(Boolean(user))
   return (
     <footer className="bg-[var(--color-navy)]" data-testid="site-footer">
       <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 px-4 py-12 md:flex-row md:items-start md:justify-between md:px-6">

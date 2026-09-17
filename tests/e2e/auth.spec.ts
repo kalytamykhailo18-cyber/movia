@@ -225,3 +225,52 @@ test.describe('Redireccion sin parpadeo', () => {
     await expect(page).toHaveURL(/\/mi-empresa/)
   })
 })
+
+test.describe('El menu refleja lo que la cuenta puede hacer', () => {
+  test('un visitante no ve las secciones de cuenta @desktop', async ({ page }) => {
+    await page.goto('/')
+
+    const menu = page.getByRole('navigation', { name: 'Principal' })
+    await expect(menu.getByRole('link', { name: 'Buscar' })).toBeVisible()
+    await expect(menu.getByRole('link', { name: 'Categorias' })).toBeVisible()
+
+    await expect(menu.getByRole('link', { name: 'Mi Empresa' })).toHaveCount(0)
+    await expect(menu.getByRole('link', { name: 'Favoritos' })).toHaveCount(0)
+    await expect(menu.getByRole('link', { name: 'Mensajes' })).toHaveCount(0)
+  })
+
+  test('a un visitante, publicar lo lleva directo al ingreso', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.getByTestId('nav-publish')).toHaveAttribute('href', /\/ingresar/)
+
+    await page.getByTestId('nav-publish').click()
+    await expect(page).toHaveURL(/\/ingresar\?destino=%2Fpublicar/)
+    await expect(page.getByTestId('login-form')).toBeVisible()
+  })
+
+  test('con sesion aparecen las secciones de cuenta @desktop', async ({ page }) => {
+    await login(page, SELLER)
+
+    const menu = page.getByRole('navigation', { name: 'Principal' })
+    await expect(menu.getByRole('link', { name: 'Mi Empresa' })).toBeVisible()
+    await expect(menu.getByRole('link', { name: 'Favoritos' })).toBeVisible()
+    await expect(menu.getByRole('link', { name: 'Mensajes' })).toBeVisible()
+    await expect(page.getByTestId('nav-publish')).toHaveAttribute('href', '/publicar')
+  })
+
+  test('el menu movil tampoco ofrece secciones de cuenta al visitante @mobile', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: /abrir menu/i }).click()
+
+    const cajon = page.getByTestId('mobile-menu')
+    await expect(cajon.getByRole('link', { name: 'Buscar' })).toBeVisible()
+    await expect(cajon.getByRole('link', { name: 'Mi Empresa' })).toHaveCount(0)
+    await expect(cajon.getByRole('link', { name: 'Ingresar' })).toBeVisible()
+  })
+
+  test('el pie lleva al ingreso cuando no hay sesion', async ({ page }) => {
+    await page.goto('/')
+    const publicar = page.getByTestId('site-footer').getByRole('link', { name: 'Publicar' })
+    await expect(publicar).toHaveAttribute('href', /\/ingresar/)
+  })
+})

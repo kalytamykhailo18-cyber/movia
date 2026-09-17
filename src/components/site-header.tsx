@@ -12,18 +12,26 @@ import { NavigationProgress } from '@/components/navigation-progress'
 import { cn } from '@/lib/utils'
 import { drawerVariants, modalOverlayVariants, tabIndicatorTransition, motionEnabled } from '@/lib/motion'
 
+// Las secciones de cuenta no se le ofrecen a quien no tiene sesion: serian
+// enlaces que solo llevan al ingreso.
 const NAV = [
-  { href: '/buscar', label: 'Buscar', icon: Search },
-  { href: '/categorias', label: 'Categorias', icon: LayoutGrid },
-  { href: '/favoritos', label: 'Favoritos', icon: Heart },
-  { href: '/mensajes', label: 'Mensajes', icon: MessageSquare },
-  { href: '/mi-empresa', label: 'Mi Empresa', icon: Building2 },
+  { href: '/buscar', label: 'Buscar', icon: Search, requiereSesion: false },
+  { href: '/categorias', label: 'Categorias', icon: LayoutGrid, requiereSesion: false },
+  { href: '/favoritos', label: 'Favoritos', icon: Heart, requiereSesion: true },
+  { href: '/mensajes', label: 'Mensajes', icon: MessageSquare, requiereSesion: true },
+  { href: '/mi-empresa', label: 'Mi Empresa', icon: Building2, requiereSesion: true },
 ]
 
 export function SiteHeader({ user }: { user: SessionUser | null }) {
   const pathname = usePathname()
   const router = useRouter()
   const [open, setOpen] = useState(false)
+
+  const secciones = NAV.filter((item) => !item.requiereSesion || user)
+
+  // Publicar conserva su protagonismo para el visitante, pero lo lleva
+  // directo al ingreso en vez de rebotarlo despues de pulsar.
+  const destinoPublicar = user ? '/publicar' : '/ingresar?destino=%2Fpublicar'
 
   async function logout() {
     await fetch('/api/auth/logout', { method: 'POST' })
@@ -43,7 +51,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
         </Link>
 
         <nav className="hidden items-center gap-1 xl:flex" aria-label="Principal">
-          {NAV.map((item) => {
+          {secciones.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`)
             return (
               <Link
@@ -72,7 +80,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
 
         <div className="ml-auto flex shrink-0 items-center gap-2">
           <Link
-            href="/publicar"
+            href={destinoPublicar}
             data-testid="nav-publish"
             className="inline-flex min-h-[44px] items-center gap-1.5 rounded-[var(--radius-input)] bg-[var(--color-primary)] px-4 text-[14px] font-semibold text-white transition-colors hover:bg-[var(--color-primary-hover)]"
           >
@@ -165,7 +173,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
               </div>
 
               <nav className="flex flex-col gap-1">
-                {NAV.map((item) => (
+                {secciones.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
