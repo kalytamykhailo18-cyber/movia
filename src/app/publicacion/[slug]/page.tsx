@@ -95,30 +95,43 @@ export default async function PublicationPage({ params }: Props) {
         <div className="space-y-6">
           <Gallery photos={photos} title={pub.title} />
 
-          <section className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div className="min-w-0">
-                <h1 className="text-[24px] font-bold leading-tight text-[var(--color-navy)] md:text-[32px]">
-                  {pub.title}
-                </h1>
-                <div className="mt-2 flex flex-wrap items-center gap-2">
+          <section className="overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white">
+            {/* El precio manda en esta pagina, asi que va sobre el navy de la
+                marca en vez de perderse entre el resto del texto. */}
+            <div className="relative overflow-hidden bg-[var(--color-navy)] p-5 md:p-6">
+              <img
+                src="/brand/isotipo.png"
+                alt=""
+                aria-hidden
+                className="pointer-events-none absolute -right-8 -top-10 w-44 select-none opacity-[0.06]"
+              />
+
+              <div className="relative">
+                <div className="flex flex-wrap items-center gap-2">
                   <Badge tone={pub.status === 'active' ? 'success' : 'neutral'}>
                     {STATUS_LABEL[pub.status] ?? pub.status}
                   </Badge>
                   {pub.featured ? <Badge tone="featured">Destacado</Badge> : null}
                   {pub.negotiable ? <Badge tone="neutral">Precio negociable</Badge> : null}
                 </div>
+
+                <h1 className="mt-3 text-[24px] font-bold leading-tight tracking-tight text-white md:text-[32px]">
+                  {pub.title}
+                </h1>
+
+                <p
+                  className="mt-4 text-[32px] font-bold leading-none tracking-tight text-white"
+                  data-testid="detail-price"
+                >
+                  {money(pub.price, pub.currency)}
+                </p>
+                <p className="mt-1.5 text-[12px] text-white/55">
+                  {env.tax.includedInPrice ? `${env.tax.label} incluido` : `Mas ${env.tax.label}`}
+                </p>
               </div>
             </div>
 
-            <p className="mt-4 text-[32px] font-bold text-[var(--color-navy)]" data-testid="detail-price">
-              {money(pub.price, pub.currency)}
-            </p>
-            <p className="text-[12px] text-[var(--color-text-muted)]">
-              {env.tax.includedInPrice ? `${env.tax.label} incluido` : `Mas ${env.tax.label}`}
-            </p>
-
-            <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-[var(--color-border)] pt-5 sm:grid-cols-4">
+            <dl className="grid grid-cols-2 gap-4 p-5 sm:grid-cols-4">
               <Fact icon={<MapPin className="size-3.5" />} label="Ubicacion" value={pub.city?.name ?? '-'} />
               <Fact icon={<Calendar className="size-3.5" />} label="Ano" value={pub.year?.toString() ?? '-'} />
               <Fact
@@ -132,7 +145,10 @@ export default async function PublicationPage({ params }: Props) {
 
           {pub.description ? (
             <section className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5">
-              <h2 className="text-[20px] font-semibold text-[var(--color-navy)]">Descripcion</h2>
+              <h2 className="relative pl-3.5 text-[20px] font-semibold text-[var(--color-navy)]">
+                <span className="absolute left-0 top-1/2 h-[1.05em] w-1 -translate-y-1/2 rounded-full bg-[var(--color-primary)]" />
+                Descripcion
+              </h2>
               <p className="mt-3 whitespace-pre-line text-[16px] leading-relaxed text-[var(--color-navy)]">
                 {pub.description}
               </p>
@@ -144,12 +160,18 @@ export default async function PublicationPage({ params }: Props) {
               className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5"
               data-testid="specs-section"
             >
-              <h2 className="text-[20px] font-semibold text-[var(--color-navy)]">Ficha tecnica</h2>
-              <dl className="mt-3 divide-y divide-[var(--color-border)]">
+              <h2 className="relative pl-3.5 text-[20px] font-semibold text-[var(--color-navy)]">
+                <span className="absolute left-0 top-1/2 h-[1.05em] w-1 -translate-y-1/2 rounded-full bg-[var(--color-primary)]" />
+                Ficha tecnica
+              </h2>
+              <dl className="mt-3 overflow-hidden rounded-[var(--radius-input)] border border-[var(--color-border)]">
                 {Object.entries(specs).map(([key, value]) => {
                   const attr = attributes.find((a) => a.key === key)
                   return (
-                    <div key={key} className="flex items-baseline justify-between gap-4 py-2.5">
+                    <div
+                      key={key}
+                      className="flex items-baseline justify-between gap-4 px-3 py-2.5 odd:bg-[var(--color-background)]"
+                    >
                       <dt className="text-[14px] text-[var(--color-text-muted)]">{attr?.label ?? key}</dt>
                       <dd className="text-[14px] font-medium text-[var(--color-navy)]">
                         {String(value)}
@@ -159,13 +181,13 @@ export default async function PublicationPage({ params }: Props) {
                   )
                 })}
                 {pub.brand ? (
-                  <div className="flex items-baseline justify-between gap-4 py-2.5">
+                  <div className="flex items-baseline justify-between gap-4 px-3 py-2.5 odd:bg-[var(--color-background)]">
                     <dt className="text-[14px] text-[var(--color-text-muted)]">Marca</dt>
                     <dd className="text-[14px] font-medium text-[var(--color-navy)]">{pub.brand}</dd>
                   </div>
                 ) : null}
                 {pub.model ? (
-                  <div className="flex items-baseline justify-between gap-4 py-2.5">
+                  <div className="flex items-baseline justify-between gap-4 px-3 py-2.5 odd:bg-[var(--color-background)]">
                     <dt className="text-[14px] text-[var(--color-text-muted)]">Modelo</dt>
                     <dd className="text-[14px] font-medium text-[var(--color-navy)]">{pub.model}</dd>
                   </div>
@@ -176,7 +198,10 @@ export default async function PublicationPage({ params }: Props) {
 
           {documents.length ? (
             <section className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5">
-              <h2 className="text-[20px] font-semibold text-[var(--color-navy)]">Documentos</h2>
+              <h2 className="relative pl-3.5 text-[20px] font-semibold text-[var(--color-navy)]">
+                <span className="absolute left-0 top-1/2 h-[1.05em] w-1 -translate-y-1/2 rounded-full bg-[var(--color-primary)]" />
+                Documentos
+              </h2>
               <ul className="mt-3 space-y-2">
                 {documents.map((doc) => (
                   <li key={doc.url}>
@@ -248,7 +273,10 @@ export default async function PublicationPage({ params }: Props) {
 
       {similar.length ? (
         <section>
-          <h2 className="mb-4 text-[24px] font-semibold text-[var(--color-navy)]">Activos similares</h2>
+          <h2 className="relative mb-5 pl-4 text-[24px] font-semibold tracking-tight text-[var(--color-navy)]">
+            <span className="absolute left-0 top-1/2 h-[1.1em] w-1 -translate-y-1/2 rounded-full bg-[var(--color-primary)]" />
+            Activos similares
+          </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" data-testid="similar-grid">
             {similar.map((item, i) => (
               <PublicationCard key={item.id} item={item} index={i} />

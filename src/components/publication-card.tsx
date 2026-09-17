@@ -106,7 +106,10 @@ export function PublicationCard({
         </div>
 
         {/* Franja del vendedor: separa quien publica del activo en si. */}
-        <div className="flex items-center justify-between gap-2 border-t border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5">
+        <div
+          className="flex items-center justify-between gap-2 border-t border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5"
+          data-testid="card-seller"
+        >
           <span className="inline-flex min-w-0 items-center gap-1.5 text-[12px] font-medium text-[var(--color-navy)]">
             {item.companyVerified ? (
               <BadgeCheck className="size-3.5 shrink-0 text-[var(--color-primary)]" aria-hidden />

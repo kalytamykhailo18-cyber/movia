@@ -409,3 +409,60 @@ test.describe('El encabezado cabe con sesion iniciada @desktop', () => {
     })
   }
 })
+
+test.describe('La identidad se sostiene en las paginas principales', () => {
+  test('el inicio abre con un bloque de marca en navy', async ({ page }) => {
+    await page.goto('/')
+
+    const fondo = await page
+      .locator('section')
+      .first()
+      .evaluate((el) => getComputedStyle(el).backgroundColor)
+
+    expect(fondo).toBe(NAVY)
+  })
+
+  test('el isotipo se usa como elemento grafico, no solo como logo', async ({ page }) => {
+    await page.goto('/')
+
+    const marcas = await page
+      .locator('img[src="/brand/isotipo.png"]')
+      .evaluateAll((els) => els.map((el) => Number(getComputedStyle(el).opacity)))
+
+    expect(marcas.length).toBeGreaterThan(0)
+    // Va de fondo, no compitiendo con el texto.
+    for (const o of marcas) expect(o).toBeLessThan(0.2)
+  })
+
+  test('la ficha destaca el precio sobre el navy de la marca', async ({ page }) => {
+    await page.goto('/buscar')
+    await page.getByTestId('publication-card').first().click()
+
+    const precio = page.getByTestId('detail-price')
+    await expect(precio).toBeVisible()
+
+    const estilo = await precio.evaluate((el) => {
+      // Se sube hasta el primer ancestro con fondo propio.
+      let nodo: HTMLElement | null = el.parentElement
+      let fondo = 'rgba(0, 0, 0, 0)'
+      while (nodo && fondo === 'rgba(0, 0, 0, 0)') {
+        fondo = getComputedStyle(nodo).backgroundColor
+        nodo = nodo.parentElement
+      }
+      return { color: getComputedStyle(el).color, fondo }
+    })
+
+    expect(estilo.color).toBe('rgb(255, 255, 255)')
+    expect(estilo.fondo).toBe(NAVY)
+  })
+
+  test('la tarjeta separa al vendedor del activo', async ({ page }) => {
+    await page.goto('/buscar')
+
+    const franja = page.getByTestId('publication-card').first().getByTestId('card-seller')
+    await expect(franja).toBeVisible()
+
+    const fondo = await franja.evaluate((el) => getComputedStyle(el).backgroundColor)
+    expect(fondo).toBe('rgb(248, 250, 252)')
+  })
+})
