@@ -212,6 +212,17 @@ evidente sin inventarle un distintivo propio.
 Alto `44px`. El encabezado es blanco opaco `#FFFFFF` con borde inferior
 `1px #E5E7EB`, sin `backdrop-filter`. La prueba de identidad exige que sea opaco.
 
+**Qué se marca como activo.** El indicador aparece sólo en las secciones de
+primer nivel: `/buscar`, `/categorias`, `/empresas` y `/planes`. No aparece en
+el inicio, porque al inicio se llega por el logo y el manual no incluye un item
+"Inicio" en la navegación, y tampoco en una ficha de publicación, porque una
+ficha no pertenece a una sección de primer nivel: el contexto lo da el rastro de
+migas. Es la misma regla que ya aplica `site-header.tsx` comparando el
+`pathname`, así que no hay que cambiar esa lógica.
+
+Por eso ninguna de las dos maquetas entregadas muestra el indicador: ni el
+inicio ni la ficha lo llevan. Los valores quedan especificados arriba.
+
 ### Pastilla de sugerencia, sobre navy
 
 | Estado | Fondo | Texto | Borde |

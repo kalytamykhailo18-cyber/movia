@@ -47,8 +47,16 @@
     </a>
 
     <nav class="encabezado__nav" aria-label="Principal">
-      <a class="nav-enlace" href="inicio.html">Inicio</a>
-      <a class="nav-enlace" href="#" aria-current="page">Buscar</a>
+      <!-- El manual, seccion 9, define la navegacion como
+           "Logo MOVIA | Buscar | Categorias | Publicar | ...": el logo es el
+           enlace al inicio, asi que no lleva ademas un item "Inicio".
+
+           En estas dos pantallas ningun item queda activo. El inicio se
+           alcanza por el logo, y una ficha no pertenece a ninguna seccion de
+           primer nivel: el rastro de migas da el contexto. Es la misma regla
+           que aplica site-header.tsx con el pathname. El indicador activo se
+           ve en /buscar, /categorias, /empresas y /planes. -->
+      <a class="nav-enlace" href="#">Buscar</a>
       <a class="nav-enlace" href="#">Categorías</a>
       <a class="nav-enlace" href="#">Empresas</a>
       <a class="nav-enlace" href="#">Planes</a>
