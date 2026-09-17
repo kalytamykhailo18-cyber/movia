@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Heart, MessageSquare, Building2, Plus, Menu, X, LayoutGrid, LogOut, Shield, UserRound } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import type { SessionUser } from '@/lib/auth'
+import { Suspense } from 'react'
+import { NavigationProgress } from '@/components/navigation-progress'
 import { cn } from '@/lib/utils'
 import { drawerVariants, modalOverlayVariants, tabIndicatorTransition, motionEnabled } from '@/lib/motion'
 
@@ -31,6 +33,10 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-white">
+      <Suspense fallback={null}>
+        <NavigationProgress />
+      </Suspense>
+
       <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center gap-4 px-4 md:px-6">
         <Link href="/" className="flex min-h-[44px] shrink-0 items-center" aria-label="MOVIA inicio">
           <img src="/brand/logo-web.png" alt="MOVIA" width={115} height={80} className="h-9 w-auto" />
@@ -43,6 +49,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
               <Link
                 key={item.href}
                 href={item.href}
+                data-testid={`nav-${item.href.replace('/', '')}`}
                 className={cn(
                   'relative flex h-16 items-center whitespace-nowrap px-2.5 text-[14px] font-medium transition-colors',
                   active
