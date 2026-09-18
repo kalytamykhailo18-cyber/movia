@@ -55,17 +55,18 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
 
       <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center gap-4 px-4 md:px-6">
         {/* Medido: el 54 % del logo suministrado es #0C1830/#182430, que sobre
-            #111827 da 1.0:1. Recolorearlo con un filtro lo haria visible pero
-            altera los colores institucionales, que la seccion 3 prohibe. La
-            salida la da la seccion 2: "en tamanos menores, utilizar el
-            isotipo". Va sobre placa clara de 44 px, que es ademas el area
-            tactil minima. */}
+            el navy #111827 da 1.0:1, o sea invisible. Recolorearlo con un
+            filtro lo haria legible pero altera los colores institucionales,
+            que la seccion 3 prohibe. La salida es no tocar el archivo y darle
+            su propio fondo: el logo va remachado sobre una placa clara, igual
+            que en el pie. Es el mismo gesto que ordena las tarjetas del
+            catalogo, y de paso la placa mide 44 px, el area tactil minima. */}
         <Link
           href="/"
-          className="grid size-11 shrink-0 place-items-center rounded-[var(--radius-input)] bg-white"
+          className="inline-flex h-11 shrink-0 items-center rounded-[var(--radius-input)] bg-white px-3"
           aria-label="MOVIA inicio"
         >
-          <img src="/brand/isotipo.png" alt="MOVIA" width={2048} height={2048} className="size-[30px]" />
+          <img src="/brand/logo-web.png" alt="MOVIA" width={3000} height={2088} className="h-[26px] w-auto" />
         </Link>
 
         <nav className="hidden items-center gap-1 xl:flex" aria-label="Principal">

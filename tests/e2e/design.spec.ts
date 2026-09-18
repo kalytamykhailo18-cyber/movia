@@ -427,19 +427,11 @@ test.describe('La identidad se sostiene en las paginas principales', () => {
     expect(fondo).toBe(NAVY)
   })
 
-  // El isotipo tiene ahora dos oficios distintos y la prueba solo vigila uno.
-  //   1. Marca, en el encabezado, a opacidad completa. La seccion 2 del manual
-  //      pide usar el isotipo en tamanos reducidos, y en una barra el lockup
-  //      completo saldria a 43 px de ancho con el wordmark ilegible.
-  //   2. Elemento grafico, de fondo, donde si tiene que quedarse por debajo
-  //      del texto.
-  // Se acota a las apariciones decorativas, que son las marcadas aria-hidden.
-  // La intencion de la prueba no cambia: el isotipo de fondo no compite.
   test('el isotipo se usa como elemento grafico, no solo como logo', async ({ page }) => {
     await page.goto('/')
 
     const marcas = await page
-      .locator('img[src="/brand/isotipo.png"][aria-hidden="true"]')
+      .locator('img[src="/brand/isotipo.png"]')
       .evaluateAll((els) => els.map((el) => Number(getComputedStyle(el).opacity)))
 
     expect(marcas.length).toBeGreaterThan(0)
