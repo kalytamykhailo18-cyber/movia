@@ -159,6 +159,11 @@ test.describe('Manual de marca - componentes', () => {
 })
 
 test.describe('Manual de marca - identidad', () => {
+  // El encabezado pasa a navy. La seccion 4 del manual asigna el navy a
+  // "estructura, encabezados, navegacion y footer", asi que una barra navy
+  // cumple el manual mas de cerca que una blanca. Lo que sigue importando, y
+  // es lo que esta prueba protege, es que sea opaco: sin translucidez ni
+  // desenfoque que deje ver el contenido por detras al hacer scroll.
   test('el encabezado fijo es opaco y no deja ver el contenido detras', async ({ page }) => {
     await page.goto('/buscar')
     await page.evaluate(() => window.scrollBy(0, 600))
@@ -169,7 +174,7 @@ test.describe('Manual de marca - identidad', () => {
       return { bg: s.backgroundColor, backdrop: s.backdropFilter }
     })
 
-    expect(style.bg).toBe('rgb(255, 255, 255)')
+    expect(style.bg).toBe(NAVY)
     expect(style.backdrop).toBe('none')
   })
 

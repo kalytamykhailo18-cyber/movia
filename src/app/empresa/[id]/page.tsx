@@ -26,6 +26,10 @@ const CARD_SELECT = {
   price: true,
   currency: true,
   condition: true,
+  // La tarjeta muestra ano y horas, asi que este select tiene que traerlos
+  // igual que el de src/server/publications.ts.
+  year: true,
+  usageHours: true,
   photos: true,
   featured: true,
   publishedAt: true,

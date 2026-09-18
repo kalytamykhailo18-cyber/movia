@@ -1,0 +1,2200 @@
+/* =========================================================================
+   MOVIA — Direccion "La Placa"
+   Hoja de las maquetas. CSS plano para que cada valor se lea sin traducir.
+   ========================================================================= */
+
+@import url('tokens.css');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--navy);
+  font-family: var(--fuente);
+  font-size: var(--texto);
+  line-height: var(--alto-lectura);
+  -webkit-font-smoothing: antialiased;
+  /* Cero cortado y cifras tabulares en todo el documento. Es lo que hace que
+     un catalogo de maquinaria se lea como una hoja de datos y no como una
+     tienda. Inter lo trae de serie y casi nadie lo enciende. */
+  font-feature-settings: 'zero' 1, 'cv05' 1;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--halo);
+  border-radius: 4px;
+}
+
+.limite {
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
+  padding-inline: var(--margen);
+}
+
+/* --- Las tres voces de Inter ------------------------------------------- */
+
+.etiqueta {
+  display: block;
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--track-etiqueta);
+  text-transform: uppercase;
+  color: var(--gris);
+}
+
+.etiqueta-navy {
+  color: var(--navy-tenue);
+}
+
+.etiqueta-lectura {
+  color: var(--lectura);
+}
+
+.dato {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* =========================================================================
+   ENCABEZADO
+   Navy, no blanco. El manual asigna el navy a "estructura, encabezados,
+   navegacion y footer": una barra navy cumple el manual mas de cerca que
+   una blanca, y ancla la direccion desde el primer pixel.
+   ========================================================================= */
+
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--navy);
+  border-bottom: 1px solid var(--navy-linea);
+}
+
+.barra__fila {
+  display: flex;
+  align-items: center;
+  gap: var(--e6);
+  height: 64px;
+}
+
+/* --- La marca sobre navy -----------------------------------------------
+   Medido: el 54 % del logo suministrado es #0C1830 / #182430, que sobre
+   #111827 da 1.0:1. Mas de la mitad de la marca, wordmark incluido,
+   desaparece. Recolorearla con un filtro la arregla pero altera los colores
+   institucionales, que la seccion 3 del manual prohibe.
+
+   La solucion sale del propio manual:
+     seccion 2, "en tamanos menores, utilizar el isotipo". En una barra de
+     64 px el lockup completo se pinta a 43 px de ancho y el wordmark queda
+     en 8 px de alto, ilegible. Asi que en la barra va el isotipo solo.
+     El isotipo se apoya en una placa clara, que es ademas el lenguaje de
+     toda esta direccion, y mide 44 px: la propia area tactil minima.
+
+   Zona de proteccion: el punto superior del isotipo mide 11,9 % del alto
+   del logo. Con el isotipo a 30 px el minimo del manual son 4 px; se usan
+   7 px, que caen en la escala y respiran mejor.
+   ----------------------------------------------------------------------- */
+
+.barra__logo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--tactil);
+  height: var(--tactil);
+  background: var(--blanco);
+  border-radius: var(--r-campo);
+}
+
+.barra__logo img {
+  width: 30px;
+  height: 30px;
+}
+
+.barra__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--e1);
+  margin-right: auto;
+}
+
+.enlace {
+  display: inline-flex;
+  align-items: center;
+  height: var(--tactil);
+  padding-inline: var(--e3);
+  border-radius: var(--r-campo);
+  font-size: var(--texto-s);
+  font-weight: 500;
+  color: var(--navy-tenue);
+  transition: color var(--rapido) linear;
+}
+
+.enlace:hover {
+  color: var(--blanco);
+}
+
+.enlace[aria-current='page'] {
+  color: var(--blanco);
+  font-weight: 600;
+}
+
+.barra__acciones {
+  display: flex;
+  align-items: center;
+  gap: var(--e2);
+}
+
+.barra__menu {
+  display: none;
+}
+
+/* =========================================================================
+   BOTONES
+   ========================================================================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e2);
+  min-height: var(--tactil);
+  padding-inline: var(--e4);
+  border: 1px solid transparent;
+  border-radius: var(--r-campo);
+  font-size: var(--texto-s);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color var(--rapido) linear,
+    border-color var(--rapido) linear,
+    color var(--rapido) linear;
+}
+
+.btn--azul {
+  background: var(--azul);
+  color: var(--blanco);
+}
+
+.btn--azul:hover {
+  background: var(--azul-hover);
+}
+
+.btn--azul:active {
+  background: #1e40af;
+}
+
+.btn--azul:disabled {
+  background: #93b4f5;
+  color: var(--azul-suave);
+  cursor: not-allowed;
+}
+
+.btn--linea {
+  background: transparent;
+  color: var(--blanco);
+  border-color: var(--navy-linea);
+}
+
+.btn--linea:hover {
+  border-color: var(--lectura);
+  color: var(--blanco);
+}
+
+.btn--claro {
+  background: var(--blanco);
+  color: var(--navy);
+  border-color: #d1d5db;
+}
+
+.btn--claro:hover {
+  border-color: var(--navy);
+}
+
+.btn--claro:disabled {
+  color: #9ca3af;
+  border-color: var(--borde);
+  cursor: not-allowed;
+}
+
+.btn--verde {
+  background: var(--verde);
+  color: var(--blanco);
+}
+
+.btn--verde:hover {
+  background: #15803d;
+}
+
+.btn--ancho {
+  width: 100%;
+}
+
+.btn--grande {
+  min-height: 52px;
+  padding-inline: var(--e6);
+  font-size: var(--texto-l);
+}
+
+/* =========================================================================
+   BANDA DE MARCA
+   La pagina empieza en navy y el catalogo sale de el.
+   ========================================================================= */
+
+.banda {
+  position: relative;
+  overflow: hidden;
+  background: var(--navy);
+  color: var(--blanco);
+  padding-block: var(--e16) var(--e20);
+}
+
+/* El isotipo aparece una sola vez, grande y cortado por el borde de la
+   banda. Una aparicion, no una marca de agua repetida. */
+/* Vuelve al borde: cortada por el canto de la banda, como estaba. La ficha
+   de la ultima publicacion la tapa en parte, y ese solape da profundidad. */
+.banda__marca {
+  position: absolute;
+  top: -70px;
+  right: -110px;
+  width: 620px;
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* La banda reparte: el argumento y la consola a la izquierda, y a la derecha
+   la ultima publicacion. Ese hueco sólo tenía la marca de agua, y una ficha
+   real ahi demuestra de un vistazo que el catalogo esta vivo. */
+.banda__rejilla {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 316px;
+  gap: var(--e12);
+  align-items: end;
+}
+
+.banda__caja {
+  position: relative;
+  max-width: 780px;
+}
+
+.ultima {
+  position: relative;
+  padding: var(--pad-panel);
+  background: var(--navy-alzado);
+  border: 1px solid var(--navy-linea);
+  border-radius: var(--r-placa);
+}
+
+.ultima__modelo {
+  margin: var(--e3) 0 0;
+  font-size: var(--texto);
+  font-weight: 700;
+  line-height: var(--alto-medio);
+  letter-spacing: var(--track-titulo);
+  color: var(--blanco);
+}
+
+.ultima__datos {
+  margin: var(--e4) 0 0;
+  border-top: 1px solid var(--navy-linea);
+}
+
+.ultima__dato {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e3);
+  min-height: 30px;
+  border-bottom: 1px solid var(--navy-linea);
+}
+
+.ultima__dato dt {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: var(--track-etiqueta);
+  text-transform: uppercase;
+  color: var(--navy-tenue);
+}
+
+.ultima__dato dd {
+  flex: none;
+  margin: 0;
+  white-space: nowrap;
+  font-size: var(--texto-s);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--blanco);
+}
+
+.ultima__precio {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e2);
+  margin: var(--e4) 0 0;
+}
+
+.ultima__precio strong {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: var(--track-placa);
+  font-variant-numeric: tabular-nums;
+  color: var(--blanco);
+}
+
+.ultima__iva {
+  font-size: var(--etiqueta);
+  color: var(--navy-tenue);
+}
+
+.banda h1 {
+  margin: var(--e4) 0 0;
+  font-size: var(--placa-xl);
+  font-weight: 800;
+  line-height: var(--alto-apretado);
+  letter-spacing: var(--track-placa);
+}
+
+/* "Muevelo" es el claim de la marca y va subrayado con el mismo trazo a mano
+   que ya usa el build actual, por decision del cliente. Mismos valores
+   que el original: viewBox 200x12, curva M2 9 C 50 3, 150 3, 198 8, grosor 4,
+   extremos redondeados, en azul de marca y a 4 px de la linea base. */
+.banda h1 em {
+  position: relative;
+  font-style: normal;
+  color: var(--lectura);
+  white-space: nowrap;
+}
+
+.banda__trazo {
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 10px;
+  color: var(--azul);
+  pointer-events: none;
+}
+
+.banda__entrada {
+  margin: var(--e6) 0 0;
+  max-width: 52ch;
+  font-size: var(--texto-l);
+  line-height: var(--alto-lectura);
+  color: var(--navy-tenue);
+}
+
+/* --- La consulta -------------------------------------------------------
+   El comprador llega sabiendo el modelo. La busqueda no es un adorno del
+   hero, es el instrumento principal, asi que se trata como una consola:
+   superficie elevada sobre el suelo navy, filete propio y el azul solido
+   como unico boton. Un campo blanco flotando seria el hero de cualquiera.
+   ----------------------------------------------------------------------- */
+
+.consulta {
+  margin-top: var(--e8);
+  max-width: 720px;
+  background: var(--navy-alzado);
+  border: 1px solid #31405a;
+  border-radius: var(--r-placa);
+  padding: var(--e4);
+  /* La consola tiene que despegarse del suelo navy. Sin sombra y sin un
+     filete mas claro se fundia con el fondo y el buscador desaparecia. */
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.42);
+}
+
+.consulta__fila {
+  display: flex;
+  gap: var(--e2);
+}
+
+/* Campo claro dentro de consola oscura. Es como se ve un instrumento real:
+   la ventana iluminada dentro del panel. Resuelve el contraste sin renunciar
+   a la idea, y deja el buscador como el objeto mas brillante de la banda. */
+.consulta__campo {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: var(--e3);
+  height: 52px;
+  padding-inline: var(--e4);
+  background: var(--blanco);
+  border: 1px solid transparent;
+  border-radius: var(--r-campo);
+  transition: border-color var(--rapido) linear, box-shadow var(--rapido) linear;
+}
+
+.consulta__campo:focus-within {
+  border-color: var(--azul);
+  box-shadow: var(--halo-navy);
+}
+
+.consulta__campo svg {
+  flex: none;
+  color: var(--gris);
+}
+
+.consulta__campo input {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--tactil);
+  align-self: stretch;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: var(--texto-l);
+  color: var(--navy);
+}
+
+.consulta__campo input::placeholder {
+  color: var(--gris);
+}
+
+.consulta__fila .btn {
+  min-height: 52px;
+  padding-inline: var(--e8);
+  font-size: var(--texto-l);
+}
+
+/* Cuatro columnas iguales: sueltos con flex el cuarto filtro caia a una
+   segunda linea y la consola perdia la lectura de panel. */
+.consulta__filtros {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--e2);
+  margin-top: var(--e3);
+  padding-top: var(--e3);
+  border-top: 1px solid var(--navy-linea);
+}
+
+.filtro {
+  display: inline-flex;
+  align-items: center;
+  /* 4 px, no 6: con 6 "Colombia" se pasaba por 1 px exacto y aparecia la
+     elipsis. Un truncado de una letra es peor que no truncar nada. */
+  gap: 4px;
+  min-width: 0;
+  min-height: var(--tactil);
+  padding-inline: 6px;
+  border: 1px solid var(--navy-linea);
+  border-radius: var(--r-campo);
+  background: transparent;
+  font-size: var(--texto-s);
+  font-weight: 500;
+  color: #cbd5e1;
+  transition: border-color var(--rapido) linear, color var(--rapido) linear;
+}
+
+.filtro:hover {
+  border-color: var(--lectura);
+  color: var(--blanco);
+}
+
+/* Dentro del filtro la versalita va mas corta de tracking: a 0.16em la
+   etiqueta se comia el sitio del valor y "Colombia" salia como "Colo...". */
+.filtro .etiqueta {
+  display: inline;
+  flex: none;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--navy-tenue);
+}
+
+/* El valor cede antes que la etiqueta si falta sitio. */
+.filtro__valor {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.filtro svg {
+  flex: none;
+}
+
+/* --- Lectura del instrumento -------------------------------------------
+   Las cifras del marketplace, dentro de la propia consola y separadas por
+   filetes, como el panel de lectura de un equipo. Van con peso: a 13 px
+   sueltas bajo la banda no las veia nadie. Siguen sin ser tres numeros
+   gigantes flotando en un hero, porque describen el corpus sobre el que se
+   esta buscando y viven dentro del instrumento.
+   ----------------------------------------------------------------------- */
+
+.lectura {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: var(--e3) 0 0;
+  padding-top: var(--e3);
+  border-top: 1px solid var(--navy-linea);
+}
+
+.lectura__celda {
+  padding-inline: var(--e4);
+  border-left: 1px solid var(--navy-linea);
+}
+
+.lectura__celda:first-child {
+  padding-left: var(--e1);
+  border-left: 0;
+}
+
+.lectura dt {
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: var(--track-etiqueta);
+  text-transform: uppercase;
+  color: var(--navy-tenue);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lectura dd {
+  margin: var(--e2) 0 0;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: var(--track-placa);
+  font-variant-numeric: tabular-nums;
+  color: var(--lectura);
+}
+
+/* =========================================================================
+   SECCIONES
+   ========================================================================= */
+
+.cuerpo {
+  padding-block: var(--e16);
+}
+
+.seccion + .seccion {
+  margin-top: var(--e16);
+}
+
+.seccion__cabeza {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--e4);
+  margin-bottom: var(--e6);
+  padding-bottom: var(--e3);
+  border-bottom: 1px solid var(--borde);
+}
+
+/* La barra azul de seccion que ya usa el build actual. Aqui abarca el bloque
+   completo, epigrafe incluido, en vez de centrarse solo en el titulo: marca
+   la seccion entera y no una linea suelta. */
+.seccion__titulo {
+  position: relative;
+  min-width: 0;
+  padding-left: var(--e4);
+}
+
+.seccion__titulo::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 3px;
+  bottom: 3px;
+  width: 4px;
+  border-radius: 999px;
+  background: var(--azul);
+}
+
+.seccion__cabeza h2 {
+  margin: var(--e2) 0 0;
+  font-size: var(--placa-s);
+  font-weight: 600;
+  line-height: var(--alto-medio);
+  letter-spacing: var(--track-titulo);
+}
+
+.seccion__ver {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e2);
+  min-height: var(--tactil);
+  font-size: var(--texto-s);
+  font-weight: 600;
+  color: var(--azul);
+  white-space: nowrap;
+}
+
+.seccion__ver:hover {
+  color: var(--azul-hover);
+}
+
+/* =========================================================================
+   INDICE DE CATEGORIAS
+   Un indice de catalogo de repuestos, no ocho tarjetas con icono. Pero un
+   indice tiene que parecer accionable: sobre el fondo de la pagina el texto
+   suelto se leia como contenido, no como control. Va dentro de un panel
+   propio, cada fila con su glifo, su cifra tabulada y su cheuron.
+   ========================================================================= */
+
+.indice {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-placa);
+  box-shadow: var(--sombra);
+}
+
+.indice__fila {
+  display: flex;
+  align-items: center;
+  gap: var(--e3);
+  min-height: 64px;
+  padding-inline: var(--pad-panel);
+  border-bottom: 1px solid var(--borde);
+  transition: background-color var(--rapido) linear;
+}
+
+.indice__fila:nth-child(odd) {
+  border-right: 1px solid var(--borde);
+}
+
+/* Las dos ultimas filas cierran el panel, sin filete inferior. */
+.indice__fila:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.indice__fila:hover {
+  background: var(--azul-suave);
+}
+
+.indice__glifo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-campo);
+  background: var(--azul-suave);
+  color: var(--azul);
+  transition: background-color var(--rapido) linear;
+}
+
+.indice__fila:hover .indice__glifo {
+  background: #dbeafe;
+}
+
+.indice__nombre {
+  font-size: var(--texto);
+  font-weight: 600;
+  color: var(--navy);
+  white-space: nowrap;
+}
+
+.indice__puntos {
+  flex: 1;
+  min-width: var(--e4);
+  border-bottom: 1px dotted #cbd5e1;
+  transform: translateY(-3px);
+}
+
+.indice__conteo {
+  font-size: var(--texto);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--navy);
+}
+
+.indice__cheuron {
+  flex: none;
+  color: #b6c2d4;
+  transition: color var(--rapido) linear, transform var(--rapido) linear;
+}
+
+.indice__fila:hover .indice__cheuron {
+  color: var(--azul);
+  transform: translateX(2px);
+}
+
+/* =========================================================================
+   LA PLACA
+   El elemento firma. Cada publicacion es una placa de caracteristicas:
+   la foto lleva remachada la referencia y la condicion, y debajo va la
+   tabla de datos con etiqueta a la izquierda y cifra tabulada a la derecha.
+   Invierte la tarjeta de marketplace de siempre, que es foto grande con
+   texto suelto debajo.
+   ========================================================================= */
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--e4);
+}
+
+.placa {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-placa);
+  box-shadow: var(--sombra);
+  transition: border-color var(--normal) linear, box-shadow var(--normal) linear;
+}
+
+.placa:hover {
+  border-color: #bfdbfe;
+  box-shadow: var(--sombra-alta);
+}
+
+.placa__enlace {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.placa__foto {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--azul-suave);
+}
+
+.placa__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--lento) var(--curva);
+}
+
+.placa:hover .placa__foto img {
+  transform: scale(1.03);
+}
+
+/* La chapa remachada sobre la foto: referencia y condicion, que es
+   exactamente lo que lleva grabada una placa real. */
+.chapa {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e2);
+  height: 26px;
+  padding-inline: var(--e3);
+  background: var(--navy);
+  color: var(--blanco);
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  border-top-right-radius: var(--r-campo);
+}
+
+.chapa__sep {
+  color: var(--lectura);
+}
+
+.chapa--destacada {
+  background: var(--azul);
+}
+
+.placa__cuerpo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--pad-placa);
+}
+
+.placa__modelo {
+  margin: 0;
+  font-size: var(--placa-sub);
+  font-weight: 600;
+  line-height: var(--alto-medio);
+  letter-spacing: var(--track-titulo);
+  color: var(--navy);
+}
+
+.placa__modelo a {
+  display: block;
+  min-height: 2.6em;
+}
+
+.placa__modelo a > span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* La tabla de la placa: etiqueta izquierda, valor derecha, filete entre
+   filas. Es la lectura que hace un comprador industrial. */
+.placa__tabla {
+  margin: var(--e3) 0 0;
+  border-top: 1px solid var(--borde);
+}
+
+.placa__dato {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e3);
+  min-height: 30px;
+  border-bottom: 1px solid var(--borde);
+}
+
+/* La etiqueta cede el sitio; la cifra nunca se parte. Sin esto, en tablet
+   "HORAS DE USO" caia en tres lineas y "12.400 h" se cortaba a la mitad. */
+.placa__dato dt {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: var(--track-etiqueta);
+  text-transform: uppercase;
+  color: var(--gris);
+}
+
+.placa__dato dd {
+  flex: none;
+  margin: 0;
+  white-space: nowrap;
+  font-size: var(--texto-s);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--navy);
+  text-align: right;
+}
+
+.placa__precio {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e1) var(--e3);
+  margin-top: var(--e3);
+}
+
+.placa__precio strong {
+  white-space: nowrap;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: var(--track-placa);
+  font-variant-numeric: tabular-nums;
+  color: var(--navy);
+}
+
+.placa__iva {
+  font-size: var(--etiqueta);
+  color: var(--gris);
+  white-space: nowrap;
+}
+
+.placa__pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e2);
+  margin-top: auto;
+  padding: var(--pad-fila) var(--pad-placa);
+  background: var(--fondo);
+  border-top: 1px solid var(--borde);
+}
+
+.vendedor {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--texto-s);
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.vendedor svg {
+  flex: none;
+  color: var(--azul);
+}
+
+.vendedor span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vendedor--natural {
+  font-weight: 500;
+  color: var(--gris);
+}
+
+.metricas {
+  display: inline-flex;
+  flex: none;
+  gap: var(--e3);
+  font-size: var(--etiqueta);
+  font-variant-numeric: tabular-nums;
+  color: var(--gris);
+}
+
+.metricas span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* --- Placa destacada ---------------------------------------------------
+   Formato apaisado y el doble de superficie. Destacado se paga: si se ve
+   igual que una publicacion gratuita con un sello encima, el vendedor no
+   esta comprando nada.
+   ----------------------------------------------------------------------- */
+
+.rejilla--destacadas {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.placa--destacada .placa__enlace {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+}
+
+.placa--destacada .placa__foto {
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 210px;
+}
+
+.placa--destacada .placa__modelo {
+  font-size: 20px;
+}
+
+.placa--destacada .placa__precio strong {
+  font-size: 30px;
+}
+
+/* =========================================================================
+   PLANO
+   No hay fotografia del catalogo todavia: las 24 publicaciones del seed
+   apuntan a un marcador. En vez de dejar un hueco gris, el estado sin foto
+   se disena como un plano tecnico: retícula fina en azul de marca y el
+   glifo de la categoria en trazo. Resuelve tambien un estado que el
+   producto va a tener siempre, porque habra vendedores que publiquen sin
+   foto.
+   ========================================================================= */
+
+.plano {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--azul-suave);
+  background-image:
+    linear-gradient(rgba(37, 99, 235, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.07) 1px, transparent 1px);
+  background-size: 16px 16px;
+  color: #93b4e8;
+}
+
+.plano svg {
+  width: 30%;
+  max-width: 84px;
+  height: auto;
+}
+
+.plano--vacio {
+  background-color: var(--fondo);
+  background-image:
+    linear-gradient(rgba(17, 24, 39, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 24, 39, 0.05) 1px, transparent 1px);
+  color: #b6c2d4;
+}
+
+.plano__nota {
+  position: absolute;
+  right: var(--e3);
+  top: var(--e2);
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #93b4e8;
+}
+
+/* =========================================================================
+   REGISTRO DE EMPRESAS
+   Un padron, no cuatro tarjetas con parrafo recortado. Es un directorio de
+   proveedores y se lee como tal.
+   ========================================================================= */
+
+.registro {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-placa);
+  overflow: hidden;
+}
+
+.registro thead th {
+  padding: var(--pad-fila) var(--pad-panel);
+  text-align: left;
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: var(--track-etiqueta);
+  text-transform: uppercase;
+  color: var(--gris);
+  background: var(--fondo);
+  border-bottom: 1px solid var(--borde);
+}
+
+.registro tbody td {
+  padding: var(--e3) var(--pad-panel);
+  border-bottom: 1px solid var(--borde);
+  font-size: var(--texto-s);
+  vertical-align: middle;
+}
+
+.registro tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.registro tbody tr {
+  transition: background-color var(--rapido) linear;
+}
+
+.registro tbody tr:hover {
+  background: var(--azul-suave);
+}
+
+.registro__empresa {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e3);
+  min-height: var(--tactil);
+  font-size: var(--texto);
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.registro__meta {
+  display: none;
+}
+
+.registro__sigla {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-campo);
+  background: var(--navy);
+  color: var(--blanco);
+  font-size: var(--texto-s);
+  font-weight: 700;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* =========================================================================
+   SELLOS
+   ========================================================================= */
+
+.sello {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding-inline: var(--e2);
+  border-radius: 999px;
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.sello--verificada {
+  background: var(--verificado-fondo);
+  color: var(--verificado-texto);
+}
+
+.sello--activa {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.sello--neutro {
+  background: var(--borde);
+  color: #374151;
+}
+
+.sello--espera {
+  background: var(--espera-fondo);
+  color: var(--espera);
+}
+
+/* Sobre navy los mismos sellos necesitan otro peso de fondo. */
+.sello--sobre-navy {
+  background: rgba(96, 165, 250, 0.16);
+  color: #bfdbfe;
+}
+
+/* =========================================================================
+   LLAMADA Y PIE
+   ========================================================================= */
+
+/* Todo en esta pagina esta alineado a la izquierda y tabulado. Una caja
+   centrada era lo unico que no seguia esa ley, y ademas es la forma de
+   cierre de cualquier plantilla. Pasa a pieza de dos columnas: el argumento
+   a la izquierda, la accion y su letra pequena a la derecha. */
+.llamada {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e8);
+  overflow: hidden;
+  margin-top: var(--e16);
+  padding: var(--e12) var(--e8);
+  background: var(--navy);
+  color: var(--blanco);
+  border-radius: var(--r-placa);
+}
+
+.llamada__texto {
+  max-width: 54ch;
+}
+
+.llamada h2 {
+  margin: var(--e2) 0 0;
+  font-size: var(--placa-m);
+  font-weight: 600;
+  letter-spacing: var(--track-placa);
+}
+
+.llamada p {
+  margin: var(--e3) 0 0;
+  color: var(--navy-tenue);
+}
+
+.llamada__accion {
+  flex: none;
+  text-align: right;
+}
+
+.llamada__nota {
+  margin: var(--e3) 0 0;
+  font-size: var(--etiqueta);
+  letter-spacing: 0.04em;
+  color: var(--navy-tenue);
+}
+
+.pie {
+  background: var(--navy);
+  color: var(--navy-tenue);
+  padding-block: var(--e16) var(--e8);
+}
+
+.pie__rejilla {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: var(--e8);
+}
+
+/* En el pie si hay sitio, asi que va el lockup completo tal cual, sobre su
+   placa clara. Sin filtro: la M conserva sus dos colores. */
+.pie__marca-placa {
+  display: inline-flex;
+  padding: var(--e3);
+  background: var(--blanco);
+  border-radius: var(--r-campo);
+}
+
+.pie__marca img {
+  height: 52px;
+  width: auto;
+}
+
+.pie__marca p {
+  margin: var(--e4) 0 0;
+  max-width: 30ch;
+  font-size: var(--texto-s);
+}
+
+.pie h3 {
+  margin: 0 0 var(--e2);
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: var(--track-etiqueta);
+  text-transform: uppercase;
+  color: var(--blanco);
+}
+
+.pie ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pie a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tactil);
+  font-size: var(--texto-s);
+  transition: color var(--rapido) linear;
+}
+
+.pie a:hover {
+  color: var(--blanco);
+}
+
+.pie__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--e3);
+  margin-top: var(--e12);
+  padding-top: var(--e6);
+  border-top: 1px solid var(--navy-linea);
+  font-size: var(--etiqueta);
+  letter-spacing: 0.04em;
+}
+
+/* =========================================================================
+   FICHA
+   ========================================================================= */
+
+/* La identidad del activo va en navy, arriba del todo: referencia, modelo y
+   estado. Es la cabecera de la placa antes de la placa. */
+.identidad {
+  background: var(--navy);
+  color: var(--blanco);
+  padding-block: var(--e6) var(--e12);
+}
+
+.miga {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--e2);
+  font-size: var(--texto-s);
+  color: var(--navy-tenue);
+}
+
+.miga a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tactil);
+}
+
+.miga a:hover {
+  color: var(--lectura);
+}
+
+.miga [aria-current] {
+  color: #cbd5e1;
+}
+
+.identidad__ref {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e2);
+  margin-top: var(--e4);
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--lectura);
+}
+
+.identidad h1 {
+  margin: var(--e2) 0 0;
+  max-width: 22ch;
+  font-size: var(--placa-l);
+  font-weight: 800;
+  line-height: var(--alto-apretado);
+  letter-spacing: var(--track-placa);
+}
+
+.identidad__sellos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e2);
+  margin-top: var(--e4);
+}
+
+.ficha {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 372px;
+  grid-template-areas:
+    'galeria lateral'
+    'paneles lateral';
+  gap: var(--e4) var(--e6);
+  align-items: start;
+  margin-top: calc(var(--e8) * -1);
+  padding-bottom: var(--e16);
+}
+
+.ficha__galeria {
+  grid-area: galeria;
+  min-width: 0;
+}
+
+.ficha__col {
+  grid-area: paneles;
+}
+
+.lateral {
+  grid-area: lateral;
+}
+
+.ficha__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e4);
+  min-width: 0;
+}
+
+/* --- Galeria ------------------------------------------------------------ */
+
+/* La columna de foto de la destacada es alta y estrecha: el glifo al 30 %
+   del ancho se quedaba en un sello perdido. */
+.placa--destacada .plano svg {
+  width: 46%;
+  max-width: 120px;
+}
+
+/* En la galeria grande el glifo a 84 px se perdia en 750 px de ancho. */
+.galeria__grande .plano svg {
+  width: 22%;
+  max-width: 170px;
+}
+
+.galeria__grande {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-placa);
+}
+
+.galeria__contador {
+  position: absolute;
+  right: var(--e3);
+  bottom: var(--e3);
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding-inline: var(--e3);
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.85);
+  color: var(--blanco);
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+.galeria__flecha,
+.galeria__zoom {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: var(--tactil);
+  height: var(--tactil);
+  border: 1px solid var(--borde);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--navy);
+  transition: border-color var(--rapido) linear;
+}
+
+.galeria__flecha {
+  top: 50%;
+  translate: 0 -50%;
+  border-radius: 999px;
+}
+
+.galeria__flecha:hover,
+.galeria__zoom:hover {
+  border-color: var(--navy);
+}
+
+.galeria__flecha--izq {
+  left: var(--e3);
+}
+
+.galeria__flecha--der {
+  right: var(--e3);
+}
+
+.galeria__zoom {
+  top: var(--e3);
+  right: var(--e3);
+  border-radius: var(--r-campo);
+}
+
+.galeria__tiras {
+  display: flex;
+  gap: var(--e2);
+  margin-top: var(--e2);
+  overflow-x: auto;
+}
+
+.tira {
+  flex: none;
+  width: 82px;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  border-radius: var(--r-campo);
+  background: var(--azul-suave);
+}
+
+.tira[aria-current='true'] {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 1px var(--azul);
+}
+
+/* --- Panel de lectura ---------------------------------------------------
+   Aqui manda la legibilidad, asi que fondo blanco. El navy es el marco del
+   producto; lo que se lee con calma va en claro.
+   ----------------------------------------------------------------------- */
+
+.panel {
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-placa);
+  padding: var(--pad-panel);
+}
+
+.panel h2 {
+  position: relative;
+  margin: 0 0 var(--e4);
+  padding-left: var(--e3);
+  font-size: var(--placa-sub);
+  font-weight: 600;
+  letter-spacing: var(--track-titulo);
+}
+
+.panel h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  translate: 0 -50%;
+  width: 4px;
+  height: 1.05em;
+  border-radius: 999px;
+  background: var(--azul);
+}
+
+.panel p {
+  margin: 0;
+  color: #1f2937;
+}
+
+/* La ficha tecnica sangra hasta el borde de la tarjeta: la banda cebreada
+   recorre el ancho completo y la etiqueta queda alineada con el titulo. */
+.tecnica {
+  width: calc(100% + var(--pad-panel) * 2);
+  margin-inline: calc(var(--pad-panel) * -1);
+  border-collapse: collapse;
+  font-size: var(--texto-s);
+}
+
+.tecnica th,
+.tecnica td {
+  padding: var(--pad-fila) var(--pad-panel);
+  border-bottom: 1px solid var(--borde);
+}
+
+.tecnica tr:last-child th,
+.tecnica tr:last-child td {
+  border-bottom: 0;
+}
+
+.tecnica th {
+  width: 46%;
+  text-align: left;
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: var(--track-etiqueta);
+  text-transform: uppercase;
+  color: var(--gris);
+}
+
+.tecnica td {
+  text-align: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--navy);
+}
+
+.tecnica tbody tr:nth-child(odd) {
+  background: var(--fondo);
+}
+
+.docs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docs li + li {
+  margin-top: var(--e2);
+}
+
+.docs a {
+  display: flex;
+  align-items: center;
+  gap: var(--e3);
+  min-height: var(--tactil);
+  padding-inline: var(--pad-placa);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-campo);
+  font-size: var(--texto-s);
+  font-weight: 500;
+  transition: border-color var(--rapido) linear, color var(--rapido) linear;
+}
+
+.docs a:hover {
+  border-color: var(--azul);
+  color: var(--azul);
+}
+
+.docs svg {
+  flex: none;
+  color: var(--azul);
+}
+
+/* --- La placa de la ficha ----------------------------------------------
+   El momento firma de esta pagina. La placa definitiva del activo, en navy,
+   con el precio como cifra viva. Es la misma pieza que remata cada tarjeta
+   del catalogo, aqui a tamano real.
+   ----------------------------------------------------------------------- */
+
+.lateral {
+  position: sticky;
+  top: 84px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--e4);
+}
+
+.placa-mayor {
+  overflow: hidden;
+  background: var(--navy);
+  border: 1px solid var(--navy-linea);
+  border-radius: var(--r-placa);
+  color: var(--blanco);
+}
+
+.placa-mayor__precio {
+  padding: var(--pad-panel);
+  border-bottom: 1px solid var(--navy-linea);
+}
+
+.placa-mayor__precio strong {
+  display: block;
+  margin-top: var(--e2);
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: var(--track-placa);
+  font-variant-numeric: tabular-nums;
+}
+
+.placa-mayor__iva {
+  margin: var(--e2) 0 0;
+  font-size: var(--etiqueta);
+  letter-spacing: 0.04em;
+  color: var(--navy-tenue);
+}
+
+.placa-mayor__datos {
+  margin: 0;
+  padding: var(--e2) var(--pad-panel) var(--e4);
+}
+
+.placa-mayor__dato {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e3);
+  min-height: 34px;
+  border-bottom: 1px solid var(--navy-linea);
+}
+
+.placa-mayor__dato:last-child {
+  border-bottom: 0;
+}
+
+.placa-mayor__dato dt {
+  font-size: var(--etiqueta);
+  font-weight: 600;
+  letter-spacing: var(--track-etiqueta);
+  text-transform: uppercase;
+  color: var(--navy-tenue);
+}
+
+.placa-mayor__dato dd {
+  margin: 0;
+  font-size: var(--texto-s);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--blanco);
+  text-align: right;
+}
+
+.contacto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e2);
+  padding: var(--pad-panel);
+  border-top: 1px solid var(--navy-linea);
+  background: var(--navy-alzado);
+}
+
+.contacto__nota {
+  margin: var(--e1) 0 0;
+  font-size: var(--etiqueta);
+  letter-spacing: 0.03em;
+  color: var(--navy-tenue);
+}
+
+/* --- Vendedor ----------------------------------------------------------- */
+
+.ficha-vendedor__nombre {
+  display: flex;
+  align-items: center;
+  min-height: var(--tactil);
+  margin-top: var(--e1);
+  font-size: var(--placa-sub);
+  font-weight: 600;
+  letter-spacing: var(--track-titulo);
+}
+
+.ficha-vendedor__nombre:hover {
+  color: var(--azul);
+}
+
+.ficha-vendedor__sellos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e2);
+  margin-top: var(--e3);
+}
+
+.ficha-vendedor__datos {
+  margin: var(--e4) 0 0;
+  padding-top: var(--e4);
+  border-top: 1px solid var(--borde);
+}
+
+.ficha-vendedor__datos > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e3);
+  min-height: 30px;
+  font-size: var(--texto-s);
+}
+
+.ficha-vendedor__datos dt {
+  color: var(--gris);
+}
+
+.ficha-vendedor__datos dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--e2);
+  margin-top: var(--e4);
+  padding: var(--pad-fila);
+  background: var(--azul-suave);
+  border-radius: var(--r-campo);
+  font-size: var(--texto-s);
+  line-height: 1.5;
+  color: var(--verificado-texto);
+}
+
+.aviso svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+/* Barra de contacto fija, solo telefono. */
+.barra-fija {
+  display: none;
+}
+
+/* =========================================================================
+   RESPONSIVE
+   ========================================================================= */
+
+/* Por debajo de 1100 la ficha de la derecha no cabe sin apretar la consola.
+   Es informacion complementaria, asi que se retira en vez de encogerse. */
+@media (max-width: 1100px) {
+  .banda__rejilla {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ultima {
+    display: none;
+  }
+
+}
+
+@media (max-width: 1024px) {
+  .ficha {
+    grid-template-columns: minmax(0, 1fr);
+    /* El precio y el contacto suben justo debajo de la galeria: son la
+       conversion de la pagina y al final quedaban a cuatro pantallas. */
+    grid-template-areas:
+      'galeria'
+      'lateral'
+      'paneles';
+  }
+
+  .lateral {
+    position: static;
+  }
+
+  .rejilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pie__rejilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* La destacada es apaisada: foto de 240 px mas cuerpo. A dos columnas solo
+   cabe con el contenedor completo. Medido: a 1100 px al cuerpo le quedaban
+   238 px y necesita 282, asi que "IVA incluido" se salia de la tarjeta.
+   Por debajo de 1200 va a una columna.
+
+   Va en bloque propio y despues del de 1024: .rejilla y .rejilla--destacadas
+   tienen la misma especificidad y el elemento lleva las dos clases, asi que
+   manda la que se declara la ultima. */
+@media (max-width: 1200px) {
+  .rejilla--destacadas {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* La barra completa (logo, cuatro secciones, Ingresar y Publicar) necesita
+   unos 630 px. Colapsaba solo por debajo de 640, asi que entre 641 y ~680 se
+   salia de la ventana. Colapsa a partir de 860, con margen de sobra. */
+@media (max-width: 860px) {
+  .barra__nav {
+    display: none;
+  }
+
+  .barra__logo {
+    margin-right: auto;
+  }
+
+  .barra__acciones .btn--linea {
+    display: none;
+  }
+
+  .barra__menu {
+    display: grid;
+    place-items: center;
+    width: var(--tactil);
+    height: var(--tactil);
+    background: transparent;
+    border: 1px solid var(--navy-linea);
+    border-radius: var(--r-campo);
+    color: var(--blanco);
+  }
+}
+
+/* El registro se pliega antes que el resto. Medido: la tabla no baja de
+   647 px de ancho de contenido, asi que por debajo de ~695 px de ventana
+   desbordaba la pagina. Se pliega a bloques a partir de 768. */
+@media (max-width: 768px) {
+  .registro,
+  .registro tbody,
+  .registro tr,
+  .registro td {
+    display: block;
+    width: 100%;
+  }
+
+  .registro thead {
+    display: none;
+  }
+
+  .registro tr {
+    padding: var(--pad-placa);
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .registro tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  .registro tbody td {
+    padding: 0;
+    border: 0;
+  }
+
+  .registro__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e2) var(--e4);
+    margin-top: var(--e2);
+    font-size: var(--etiqueta);
+    color: var(--gris);
+  }
+
+  .num {
+    text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --margen: 16px;
+    /* En movil el titular baja, pero el titulo de seccion y el subtitulo se
+       quedan dentro de los rangos del manual: 24-28 y 18-20. Bajarlos a 20 y
+       15 los sacaba de rango. */
+    --placa-xl: 34px;
+    --placa-l: 28px;
+    --placa-m: 24px;
+    --placa-s: 24px;
+    --pad-placa: 12px;
+    --pad-panel: 16px;
+    --e16: 48px;
+    --e20: 56px;
+  }
+
+  .barra__fila {
+    height: 58px;
+    gap: var(--e3);
+  }
+
+  .banda {
+    padding-block: var(--e12) var(--e16);
+  }
+
+  .banda__marca {
+    top: auto;
+    bottom: -90px;
+    right: -150px;
+    width: 400px;
+  }
+
+  .consulta__fila {
+    flex-direction: column;
+  }
+
+  /* En telefono los filtros pasan a barra desplazable: a dos columnas
+     "Colombia" no cabia, y a una columna la consola se volvia una torre. */
+  .consulta__filtros {
+    display: flex;
+    gap: var(--e2);
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(var(--e4) * -1);
+    padding-inline: var(--e4);
+  }
+
+  .consulta__filtros::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filtro {
+    flex: none;
+  }
+
+  .lectura {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--e3);
+  }
+
+  .lectura__celda:nth-child(odd) {
+    padding-left: var(--e1);
+    border-left: 0;
+  }
+
+  .consulta__fila .btn {
+    width: 100%;
+  }
+
+  .instrumento {
+    margin-top: var(--e8);
+    gap: var(--e2) var(--e4);
+  }
+
+  .cuerpo {
+    padding-block: var(--e12);
+  }
+
+  /* El indice pasa a una columna: dos columnas de nombre mas cifra no caben
+     sin partir los nombres largos. */
+  .indice {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .indice__fila {
+    min-height: 58px;
+    padding-inline: var(--pad-placa);
+  }
+
+  .indice__fila:nth-child(odd) {
+    border-right: 0;
+  }
+
+  .indice__fila:nth-last-child(-n + 2) {
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .indice__fila:last-child {
+    border-bottom: 0;
+  }
+
+  /* En telefono la placa es apaisada. La foto a 4:3 a ancho completo cuesta
+     285 px por publicacion y obliga a recorrer el catalogo de una en una. */
+  .rejilla,
+  .rejilla--destacadas {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e3);
+  }
+
+  .placa__enlace,
+  .placa--destacada .placa__enlace {
+    display: grid;
+    grid-template-columns: 124px minmax(0, 1fr);
+  }
+
+  .placa__foto,
+  .placa--destacada .placa__foto {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 124px;
+  }
+
+  .placa__modelo,
+  .placa--destacada .placa__modelo {
+    font-size: var(--placa-sub);
+  }
+
+  .placa__modelo a {
+    min-height: 0;
+  }
+
+  .placa__precio strong,
+  .placa--destacada .placa__precio strong {
+    font-size: 22px;
+  }
+
+  .chapa {
+    height: 22px;
+    font-size: 10px;
+  }
+
+  .llamada {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--e6);
+    padding: var(--e12) var(--e4);
+  }
+
+  .llamada__accion {
+    width: 100%;
+    text-align: left;
+  }
+
+  .llamada__accion .btn {
+    width: 100%;
+  }
+
+  .pie__rejilla {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--e6);
+  }
+
+  .identidad {
+    padding-block: var(--e2) var(--e12);
+  }
+
+  .ficha {
+    padding-bottom: 92px;
+  }
+
+  .tira {
+    width: 64px;
+  }
+
+  .contacto {
+    display: none;
+  }
+
+  .barra-fija {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--e2);
+    padding: var(--e2) var(--e3);
+    padding-bottom: calc(var(--e2) + env(safe-area-inset-bottom, 0px));
+    background: var(--blanco);
+    border-top: 1px solid var(--borde);
+    box-shadow: 0 -4px 16px rgba(17, 24, 39, 0.08);
+  }
+
+  .barra-fija .btn {
+    padding-inline: var(--e2);
+    font-size: var(--etiqueta);
+  }
+}
+
+/* =========================================================================
+   ESTADO DE CARGA Y ERROR
+   El manual, seccion 6, exige que hover, focus, disabled y loading esten
+   definidos, y que el error no dependa solo del color.
+   ========================================================================= */
+
+/* El boton conserva ancho y etiqueta para que la interfaz no salte. El giro
+   sustituye al icono final. */
+.btn[aria-busy='true'] {
+  cursor: progress;
+  pointer-events: none;
+}
+
+.btn[aria-busy='true'] svg {
+  display: none;
+}
+
+.btn[aria-busy='true']::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 999px;
+  opacity: 0.85;
+  animation: giro 640ms linear infinite;
+}
+
+@keyframes giro {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn[aria-busy='true']::after {
+    animation-duration: 2400ms;
+  }
+}
+
+/* Campo en error. El borde rojo va siempre acompanado de texto: el color
+   nunca es la unica senal. */
+.campo--error {
+  border-color: var(--rojo);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.16);
+}
+
+.campo-error__texto {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: var(--texto-s);
+  color: var(--rojo);
+}
+
+
+/* =========================================================================
+   ENTRADA
+   Una sola secuencia orquestada al cargar, no efectos sueltos por la pagina.
+   Cuatro pasos de 70 ms sobre la banda: epigrafe, titular, entradilla y
+   consola. Nada mas se anima al cargar.
+   ========================================================================= */
+
+@keyframes entra {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.banda__caja > *,
+.ultima {
+  animation: entra 420ms var(--curva) both;
+}
+
+.banda__caja > *:nth-child(1) { animation-delay: 0ms; }
+.banda__caja > *:nth-child(2) { animation-delay: 70ms; }
+.banda__caja > *:nth-child(3) { animation-delay: 140ms; }
+.banda__caja > *:nth-child(4) { animation-delay: 210ms; }
+.ultima { animation-delay: 280ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .banda__caja > *,
+  .ultima {
+    animation: none;
+  }
+}

@@ -13,6 +13,19 @@
   --color-danger: #dc2626;
   --color-accent: #7c3aed;
 
+  /* Extension de la paleta. El manual la define para fondo claro y no da
+     ningun valor para trabajar SOBRE el navy, que es donde esta propuesta
+     apoya la identidad. Son navy y azul, no una familia nueva.
+     Justificacion en design/spec/decisiones-de-diseno.md, seccion 4. */
+  --color-primary-bright: #60a5fa; /* 6.98:1 sobre navy; #2563eb da 3.43:1 */
+  --color-navy-raised: #1a2334; /* superficie elevada sobre el suelo navy */
+  --color-navy-line: #273142; /* filete divisorio sobre navy */
+  --color-navy-muted: #8fa0b8; /* texto secundario sobre navy. 7.4:1 */
+  --color-navy-edge: #31405a; /* filete de la consola, que necesita mas peso */
+  --color-verified-soft: #dbeafe;
+  --color-warning: #b45309; /* Solo Vencida y Pendiente. No es naranja de marca */
+  --color-warning-soft: #fef3c7;
+
   --radius-input: 8px;
   --radius-card: 12px;
   --radius-modal: 16px;
@@ -23,13 +36,34 @@
 
   --font-sans: 'Inter', 'Manrope', Arial, sans-serif;
 
-  --text-display: 40px;
-  --text-title: 32px;
-  --text-section: 28px;
-  --text-subtitle: 20px;
+  /* Seccion 5 del manual: titulo principal 32-40, titulo de seccion 24-28,
+     subtitulo 18-20, texto base 14-16, texto pequeno 12-14. Los tamanos se
+     cumplen enteros y los titulares conservan el peso 700 del manual. La
+     unica desviacion es el peso 800 en las cifras de precio, que no son
+     texto sino el dato por el que se entra en una publicacion.
+
+     Los pasos siguen declarados aqui aunque las pantallas todavia lleven
+     medidas literales: consumirlos es el siguiente tramo de trabajo. */
+  --text-display: 40px; /* h1 del inicio */
+  --text-title: 34px; /* h1 de la ficha */
+  --text-section: 24px; /* titulo de seccion */
+  --text-subtitle: 18px; /* subtitulo y titulo de placa */
   --text-body: 16px;
   --text-small: 14px;
   --text-tiny: 12px;
+
+  /* Relleno interior: un valor por tipo de superficie, no uno por componente.
+     Se aprietan en movil desde una sola media query, mas abajo. */
+  --pad-card: 16px;
+  --pad-panel: 24px;
+  --pad-cell: 12px;
+
+  /* Etiqueta tecnica: el recurso tipografico que sostiene el caracter de
+     hoja de datos en todo el producto. */
+  --text-label: 11px;
+  --tracking-label: 0.16em;
+  --tracking-tight: -0.025em;
+  --tracking-display: -0.04em;
 
   --shadow-card: 0 1px 2px rgba(17, 24, 39, 0.04);
   --shadow-card-hover: 0 8px 24px rgba(17, 24, 39, 0.08);
@@ -40,12 +74,53 @@
   color-scheme: light;
 }
 
+@media (max-width: 640px) {
+  :root {
+    --pad-card: 12px;
+    --pad-panel: 16px;
+  }
+}
+
+/* Etiqueta tecnica. Mayusculas cortas, que el manual admite para etiquetas y
+   descriptores. Encima de cada dato, es lo que convierte una pantalla en una
+   ficha tecnica sin recurrir a ningun color nuevo. */
+.movia-etiqueta {
+  display: block;
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* No hay fotografia del catalogo todavia: el seed apunta a un marcador y hay
+   publicaciones sin foto. En vez de un rectangulo gris, el hueco se dibuja
+   como plano tecnico. Resuelve un estado que el producto va a tener siempre. */
+.movia-plano {
+  background-color: var(--color-primary-soft);
+  background-image:
+    linear-gradient(rgba(37, 99, 235, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.07) 1px, transparent 1px);
+  background-size: 16px 16px;
+  color: #93b4e8;
+}
+
+.movia-etiqueta-navy {
+  color: var(--color-navy-muted);
+}
+
 html,
 body {
   background: var(--color-background);
   color: var(--color-navy);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  /* Cero cortado y formas alternas de Inter. Es lo que hace que un catalogo
+     de maquinaria se lea como una hoja de datos y no como una tienda. Inter
+     lo trae de serie y casi nadie lo enciende. Las cifras tabulares van por
+     componente, no aqui: en texto corrido estorban. */
+  font-feature-settings: 'zero' 1, 'cv05' 1;
 }
 
 /* El manual pide foco visible para navegacion con teclado, pero sin el

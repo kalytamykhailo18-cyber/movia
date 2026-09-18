@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { MapPin, Calendar, Gauge, Package, ShieldCheck, FileText } from 'lucide-react'
+import { ShieldCheck, FileText } from 'lucide-react'
 import { env } from '@/lib/env'
 import { parseJson } from '@/lib/utils'
 import { money, shortDate } from '@/lib/format'
@@ -71,34 +71,50 @@ export default async function PublicationPage({ params }: Props) {
     },
   }
 
+  const filas: { etiqueta: string; valor: string }[] = [
+    ...Object.entries(specs).map(([key, value]) => {
+      const attr = attributes.find((a) => a.key === key)
+      return {
+        etiqueta: attr?.label ?? key,
+        valor: `${String(value)}${attr?.unit ? ` ${attr.unit}` : ''}`,
+      }
+    }),
+    ...(pub.brand ? [{ etiqueta: 'Marca', valor: pub.brand }] : []),
+    ...(pub.model ? [{ etiqueta: 'Modelo', valor: pub.model }] : []),
+  ]
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <ViewTracker publicationId={pub.id} />
 
-      <nav className="flex flex-wrap items-center gap-1 text-[12px] text-[var(--color-text-muted)]">
-        <Link href="/" className="hover:text-[var(--color-primary)]">
+      <nav className="flex flex-wrap items-center gap-2 text-[12px] text-[var(--color-text-muted)]">
+        <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-[var(--color-primary)]">
           Inicio
         </Link>
-        <span>/</span>
-        <Link href={`/buscar?category=${pub.category.slug}`} className="hover:text-[var(--color-primary)]">
+        <span aria-hidden>/</span>
+        <Link
+          href={`/buscar?category=${pub.category.slug}`}
+          className="inline-flex min-h-[44px] items-center hover:text-[var(--color-primary)]"
+        >
           {pub.category.name}
         </Link>
-        <span>/</span>
+        <span aria-hidden>/</span>
         <span className="text-[var(--color-navy)]">{pub.title}</span>
       </nav>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
-        <div className="space-y-6">
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="flex min-w-0 flex-col gap-4">
           <Gallery photos={photos} title={pub.title} />
 
-          <section className="overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white">
-            {/* El precio manda en esta pagina, asi que va sobre el navy de la
-                marca en vez de perderse entre el resto del texto. */}
-            <div className="relative overflow-hidden bg-[var(--color-navy)] p-5 md:p-6">
+          {/* Identidad del activo y cifras se leen como una sola pieza: el
+              bloque navy arriba y los datos clave pegados debajo. El precio es
+              lo que se compara entre publicaciones, asi que gana a la foto. */}
+          <section>
+            <div className="relative overflow-hidden rounded-t-[var(--radius-card)] bg-[var(--color-navy)] p-[var(--pad-panel)]">
               <img
                 src="/brand/isotipo.png"
                 alt=""
@@ -115,135 +131,107 @@ export default async function PublicationPage({ params }: Props) {
                   {pub.negotiable ? <Badge tone="neutral">Precio negociable</Badge> : null}
                 </div>
 
-                <h1 className="mt-3 text-[24px] font-bold leading-tight tracking-tight text-white md:text-[32px]">
+                <h1 className="mt-3 text-[24px] font-bold leading-[1.15] tracking-[var(--tracking-display)] text-white md:text-[32px]">
                   {pub.title}
                 </h1>
 
                 <p
-                  className="mt-4 text-[32px] font-bold leading-none tracking-tight text-white"
+                  className="mt-4 text-[32px] font-bold leading-none tracking-[var(--tracking-display)] tabular-nums text-white md:text-[38px]"
                   data-testid="detail-price"
                 >
                   {money(pub.price, pub.currency)}
                 </p>
-                <p className="mt-1.5 text-[12px] text-white/55">
+                <p className="mt-2 text-[12px] text-[var(--color-navy-muted)]">
                   {env.tax.includedInPrice ? `${env.tax.label} incluido` : `Mas ${env.tax.label}`}
+                  {' · Publicado el '}
+                  {shortDate(pub.publishedAt)}
                 </p>
               </div>
             </div>
 
-            <dl className="grid grid-cols-2 gap-4 p-5 sm:grid-cols-4">
-              <Fact icon={<MapPin className="size-3.5" />} label="Ubicacion" value={pub.city?.name ?? '-'} />
-              <Fact icon={<Calendar className="size-3.5" />} label="Ano" value={pub.year?.toString() ?? '-'} />
-              <Fact
-                icon={<Gauge className="size-3.5" />}
-                label="Horas de uso"
-                value={pub.usageHours ? `${pub.usageHours.toLocaleString(env.locale.locale)} h` : '-'}
+            <dl className="grid grid-cols-2 gap-4 rounded-b-[var(--radius-card)] border border-t-0 border-[var(--color-border)] bg-white p-[var(--pad-panel)] sm:grid-cols-4">
+              <Dato etiqueta="Ubicacion" valor={pub.city?.name ?? '-'} />
+              <Dato etiqueta="Ano" valor={pub.year?.toString() ?? '-'} />
+              <Dato
+                etiqueta="Horas de uso"
+                valor={pub.usageHours ? `${pub.usageHours.toLocaleString(env.locale.locale)} h` : '-'}
               />
-              <Fact icon={<Package className="size-3.5" />} label="Condicion" value={pub.condition ?? '-'} />
+              <Dato etiqueta="Condicion" valor={pub.condition ?? '-'} />
             </dl>
           </section>
 
           {pub.description ? (
-            <section className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5">
-              <h2 className="relative pl-3.5 text-[20px] font-semibold text-[var(--color-navy)]">
-                <span className="absolute left-0 top-1/2 h-[1.05em] w-1 -translate-y-1/2 rounded-full bg-[var(--color-primary)]" />
-                Descripcion
-              </h2>
-              <p className="mt-3 whitespace-pre-line text-[16px] leading-relaxed text-[var(--color-navy)]">
+            <Panel titulo="Descripcion">
+              <p className="whitespace-pre-line text-[16px] leading-relaxed text-[var(--color-navy)]">
                 {pub.description}
               </p>
-            </section>
+            </Panel>
           ) : null}
 
-          {Object.keys(specs).length ? (
-            <section
-              className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5"
-              data-testid="specs-section"
-            >
-              <h2 className="relative pl-3.5 text-[20px] font-semibold text-[var(--color-navy)]">
-                <span className="absolute left-0 top-1/2 h-[1.05em] w-1 -translate-y-1/2 rounded-full bg-[var(--color-primary)]" />
-                Ficha tecnica
-              </h2>
-              <dl className="mt-3 overflow-hidden rounded-[var(--radius-input)] border border-[var(--color-border)]">
-                {Object.entries(specs).map(([key, value]) => {
-                  const attr = attributes.find((a) => a.key === key)
-                  return (
-                    <div
-                      key={key}
-                      className="flex items-baseline justify-between gap-4 px-3 py-2.5 odd:bg-[var(--color-background)]"
-                    >
-                      <dt className="text-[14px] text-[var(--color-text-muted)]">{attr?.label ?? key}</dt>
-                      <dd className="text-[14px] font-medium text-[var(--color-navy)]">
-                        {String(value)}
-                        {attr?.unit ? ` ${attr.unit}` : ''}
-                      </dd>
-                    </div>
-                  )
-                })}
-                {pub.brand ? (
-                  <div className="flex items-baseline justify-between gap-4 px-3 py-2.5 odd:bg-[var(--color-background)]">
-                    <dt className="text-[14px] text-[var(--color-text-muted)]">Marca</dt>
-                    <dd className="text-[14px] font-medium text-[var(--color-navy)]">{pub.brand}</dd>
-                  </div>
-                ) : null}
-                {pub.model ? (
-                  <div className="flex items-baseline justify-between gap-4 px-3 py-2.5 odd:bg-[var(--color-background)]">
-                    <dt className="text-[14px] text-[var(--color-text-muted)]">Modelo</dt>
-                    <dd className="text-[14px] font-medium text-[var(--color-navy)]">{pub.model}</dd>
-                  </div>
-                ) : null}
-              </dl>
-            </section>
+          {filas.length ? (
+            <Panel titulo="Ficha tecnica" testId="specs-section">
+              {/* Es el contenido por el que existe la pagina. Tabla real, con
+                  cifras de ancho fijo alineadas a la derecha, para comparar dos
+                  publicaciones linea a linea. Sangra hasta el borde de la
+                  tarjeta para que la etiqueta quede alineada con el titulo. */}
+              <table className="-mx-[var(--pad-panel)] w-[calc(100%+var(--pad-panel)*2)] border-collapse text-[14px]">
+                <tbody>
+                  {filas.map((fila) => (
+                    <tr key={fila.etiqueta} className="border-b border-[var(--color-border)] last:border-0 odd:bg-[var(--color-background)]">
+                      <th scope="row" className="w-[44%] px-[var(--pad-panel)] py-[var(--pad-cell)] text-left font-normal text-[var(--color-text-muted)]">
+                        {fila.etiqueta}
+                      </th>
+                      <td className="px-[var(--pad-panel)] py-[var(--pad-cell)] text-right font-semibold tabular-nums text-[var(--color-navy)]">
+                        {fila.valor}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </Panel>
           ) : null}
 
           {documents.length ? (
-            <section className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5">
-              <h2 className="relative pl-3.5 text-[20px] font-semibold text-[var(--color-navy)]">
-                <span className="absolute left-0 top-1/2 h-[1.05em] w-1 -translate-y-1/2 rounded-full bg-[var(--color-primary)]" />
-                Documentos
-              </h2>
-              <ul className="mt-3 space-y-2">
+            <Panel titulo="Documentos">
+              <ul className="space-y-1">
                 {documents.map((doc) => (
                   <li key={doc.url}>
-                    <span className="inline-flex items-center gap-2 text-[14px] text-[var(--color-navy)]">
-                      <FileText className="size-4 text-[var(--color-primary)]" aria-hidden />
+                    <span className="flex min-h-[44px] items-center gap-3 rounded-[var(--radius-input)] border border-[var(--color-border)] px-[var(--pad-card)] text-[14px] font-medium text-[var(--color-navy)]">
+                      <FileText className="size-4 shrink-0 text-[var(--color-primary)]" aria-hidden />
                       {doc.name}
                     </span>
                   </li>
                 ))}
               </ul>
-            </section>
+            </Panel>
           ) : null}
         </div>
 
-        <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+        <aside className="flex flex-col gap-4 lg:sticky lg:top-24 lg:self-start">
           {pub.company ? (
-            <section className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-5">
-              <h2 className="text-[14px] font-medium text-[var(--color-text-muted)]">Vendedor</h2>
+            <section className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-[var(--pad-panel)]">
+              <span className="movia-etiqueta">Vendedor</span>
               <Link
                 href={`/empresa/${pub.company.id}`}
-                className="mt-1 block text-[18px] font-semibold text-[var(--color-navy)] hover:text-[var(--color-primary)]"
+                className="mt-1 flex min-h-[44px] items-center text-[20px] font-semibold tracking-[var(--tracking-tight)] text-[var(--color-navy)] hover:text-[var(--color-primary)]"
                 data-testid="seller-name"
               >
                 {pub.company.name}
               </Link>
 
-              <div className="mt-2">
+              <div className="mt-3 flex flex-wrap gap-2">
                 <VerifiedBadge status={pub.company.verificationStatus} />
-              </div>
-
-              <div className="mt-3">
                 <CompanyBadges badges={parseJson<string[]>(pub.company.badges, [])} />
               </div>
 
-              <dl className="mt-4 space-y-1.5 border-t border-[var(--color-border)] pt-4 text-[13px]">
-                <Row label="Publicaciones activas" value={String(pub.company._count.publications)} />
-                <Row label="Seguidores" value={String(pub.company._count.followers)} />
-                <Row label="En MOVIA desde" value={shortDate(pub.company.createdAt)} />
+              <dl className="mt-4 border-t border-[var(--color-border)] pt-4 text-[13px]">
+                <Fila etiqueta="Publicaciones activas" valor={String(pub.company._count.publications)} />
+                <Fila etiqueta="Seguidores" valor={String(pub.company._count.followers)} />
+                <Fila etiqueta="En MOVIA desde" valor={shortDate(pub.company.createdAt)} />
                 {pub.company.responseTimeMins ? (
-                  <Row
-                    label="Tiempo de respuesta"
-                    value={
+                  <Fila
+                    etiqueta="Tiempo de respuesta"
+                    valor={
                       pub.company.responseTimeMins < 60
                         ? `${pub.company.responseTimeMins} min`
                         : `${Math.round(pub.company.responseTimeMins / 60)} h`
@@ -253,9 +241,9 @@ export default async function PublicationPage({ params }: Props) {
               </dl>
 
               {pub.company.verificationStatus === 'approved' ? (
-                <p className="mt-4 flex items-start gap-2 rounded-[var(--radius-input)] bg-[var(--color-primary-soft)] p-3 text-[12px] text-[var(--color-primary)]">
+                <p className="mt-4 flex items-start gap-2 rounded-[var(--radius-input)] bg-[var(--color-primary-soft)] p-[var(--pad-cell)] text-[12px] leading-relaxed text-[#1E40AF]">
                   <ShieldCheck className="mt-0.5 size-4 shrink-0" aria-hidden />
-                  Identidad empresarial validada con NIT y Camara de Comercio.
+                  <span>Identidad empresarial validada con NIT y Camara de Comercio.</span>
                 </p>
               ) : null}
             </section>
@@ -273,10 +261,14 @@ export default async function PublicationPage({ params }: Props) {
 
       {similar.length ? (
         <section>
-          <h2 className="relative mb-5 pl-4 text-[24px] font-semibold tracking-tight text-[var(--color-navy)]">
-            <span className="absolute left-0 top-1/2 h-[1.1em] w-1 -translate-y-1/2 rounded-full bg-[var(--color-primary)]" />
-            Activos similares
-          </h2>
+          <div className="mb-6">
+            <h2 className="text-[24px] font-semibold leading-tight tracking-[var(--tracking-tight)] text-[var(--color-navy)] md:text-[28px]">
+              Activos similares
+            </h2>
+            <p className="mt-2 text-[14px] text-[var(--color-text-muted)]">
+              Mas {pub.category.name.toLowerCase()} en el catalogo
+            </p>
+          </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" data-testid="similar-grid">
             {similar.map((item, i) => (
               <PublicationCard key={item.id} item={item} index={i} />
@@ -288,23 +280,42 @@ export default async function PublicationPage({ params }: Props) {
   )
 }
 
-function Fact({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function Panel({
+  titulo,
+  testId,
+  children,
+}: {
+  titulo: string
+  testId?: string
+  children: React.ReactNode
+}) {
   return (
-    <div>
-      <dt className="flex items-center gap-1.5 text-[12px] text-[var(--color-text-muted)]">
-        <span className="text-[var(--color-primary)]">{icon}</span>
-        {label}
-      </dt>
-      <dd className="mt-1 text-[14px] font-medium text-[var(--color-navy)]">{value}</dd>
+    <section
+      className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-[var(--pad-panel)]"
+      data-testid={testId}
+    >
+      <h2 className="mb-4 text-[20px] font-semibold tracking-[var(--tracking-tight)] text-[var(--color-navy)]">
+        {titulo}
+      </h2>
+      {children}
+    </section>
+  )
+}
+
+function Dato({ etiqueta, valor }: { etiqueta: string; valor: string }) {
+  return (
+    <div className="min-w-0">
+      <dt className="movia-etiqueta">{etiqueta}</dt>
+      <dd className="mt-1.5 text-[14px] font-semibold tabular-nums text-[var(--color-navy)]">{valor}</dd>
     </div>
   )
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function Fila({ etiqueta, valor }: { etiqueta: string; valor: string }) {
   return (
-    <div className="flex items-baseline justify-between gap-3">
-      <dt className="text-[var(--color-text-muted)]">{label}</dt>
-      <dd className="font-medium text-[var(--color-navy)]">{value}</dd>
+    <div className="flex min-h-7 items-baseline justify-between gap-3">
+      <dt className="text-[var(--color-text-muted)]">{etiqueta}</dt>
+      <dd className="font-semibold tabular-nums text-[var(--color-navy)]">{valor}</dd>
     </div>
   )
 }

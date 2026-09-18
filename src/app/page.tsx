@@ -22,27 +22,45 @@ export default async function HomePage() {
   ])
 
   return (
-    <div className="space-y-12">
+    // 32 px entre secciones en vez de 48: sostiene mejor un catalogo denso.
+    <div className="space-y-8 md:space-y-12">
       <HeroSearch activos={totalActivos} empresas={totalEmpresas} />
 
       <AnimatedSection>
-        <SectionHeading title="Categorias" href="/categorias" linkLabel="Ver todas" />
+        <SectionHeading
+          title="Categorias"
+          subtitle={`${totalActivos} activos publicados en ${categories.length} categorias`}
+          href="/categorias"
+          linkLabel="Ver todas"
+        />
         <CategoryGrid categories={categories} />
       </AnimatedSection>
 
       {featured.length ? (
         <AnimatedSection>
-          <SectionHeading title="Activos destacados" href="/buscar?sort=featured" linkLabel="Ver mas" />
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" data-testid="featured-grid">
+          <SectionHeading
+            title="Activos destacados"
+            subtitle="Publicaciones con visibilidad contratada"
+            href="/buscar?sort=featured"
+            linkLabel="Ver mas"
+          />
+          {/* Formato apaisado y el doble de superficie: es lo que se compra al
+              contratar una publicacion destacada. */}
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2" data-testid="featured-grid">
             {featured.map((item, i) => (
-              <PublicationCard key={item.id} item={item} index={i} />
+              <PublicationCard key={item.id} item={item} index={i} variante="destacada" />
             ))}
           </div>
         </AnimatedSection>
       ) : null}
 
       <AnimatedSection>
-        <SectionHeading title="Ultimas publicaciones" href="/buscar" linkLabel="Ver todas" />
+        <SectionHeading
+          title="Ultimas publicaciones"
+          subtitle="Lo mas reciente del catalogo"
+          href="/buscar"
+          linkLabel="Ver todas"
+        />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" data-testid="latest-grid">
           {latest.map((item, i) => (
             <PublicationCard key={item.id} item={item} index={i} />
@@ -51,50 +69,71 @@ export default async function HomePage() {
       </AnimatedSection>
 
       <AnimatedSection>
-        <SectionHeading title="Empresas verificadas" href="/empresas" linkLabel="Ver todas" />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" data-testid="companies-grid">
+        <SectionHeading
+          title="Empresas verificadas"
+          subtitle="Identidad validada con NIT y Camara de Comercio"
+          href="/empresas"
+          linkLabel="Ver todas"
+        />
+        {/* Directorio, no catalogo: filas con la cifra que importa a la
+            derecha, en vez de cuatro tarjetas con el parrafo recortado. */}
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2" data-testid="companies-grid">
           {companies.map((company) => (
             <Link
               key={company.id}
               href={`/empresa/${company.id}`}
-              className="rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)] transition-shadow hover:shadow-[var(--shadow-card-hover)]"
+              className="flex items-center gap-4 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white p-[var(--pad-card)] transition-[border-color,box-shadow] duration-200 hover:border-[#BFDBFE] hover:shadow-[var(--shadow-card-hover)]"
             >
-              <div className="flex items-start justify-between gap-2">
-                <h3 className="text-[16px] font-semibold text-[var(--color-navy)]">{company.name}</h3>
-                <BadgeCheck className="size-5 shrink-0 text-[var(--color-primary)]" aria-hidden />
-              </div>
-              <p className="mt-1 text-[12px] text-[var(--color-text-muted)]">{company.city?.name}</p>
-              <p className="mt-2 line-clamp-2 text-[14px] text-[var(--color-text-muted)]">
-                {company.description}
-              </p>
-              <p className="mt-3 text-[12px] font-medium text-[var(--color-primary)]">
-                {company._count.publications} publicaciones activas
-              </p>
-              <div className="mt-2 flex flex-wrap gap-1">
-                {parseJson<string[]>(company.badges, []).slice(0, 2).map((b) => (
-                  <span
-                    key={b}
-                    className="rounded-full bg-[var(--color-primary-soft)] px-2 py-0.5 text-[11px] text-[var(--color-primary)]"
-                  >
-                    {b === 'top_seller' ? 'Top seller' : b === 'fast_response' ? 'Respuesta rapida' : 'Verificada'}
+              <span className="flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-input)] bg-[var(--color-navy)] text-[18px] font-bold text-white">
+                {iniciales(company.name)}
+              </span>
+
+              <span className="min-w-0 flex-1">
+                <span className="flex items-center gap-2">
+                  <span className="truncate text-[16px] font-semibold text-[var(--color-navy)]">
+                    {company.name}
                   </span>
-                ))}
-              </div>
+                  <BadgeCheck className="size-4 shrink-0 text-[var(--color-primary)]" aria-hidden />
+                </span>
+                <span className="mt-0.5 block truncate text-[12px] text-[var(--color-text-muted)]">
+                  {company.city?.name}
+                  {company.description ? ` · ${company.description}` : ''}
+                </span>
+                <span className="mt-2 flex flex-wrap gap-1">
+                  {parseJson<string[]>(company.badges, []).slice(0, 2).map((b) => (
+                    <span
+                      key={b}
+                      className="inline-flex h-6 items-center rounded-full bg-[var(--color-verified-soft)] px-2 text-[length:var(--text-label)] font-semibold tracking-[0.04em] text-[#1E40AF]"
+                    >
+                      {b === 'top_seller' ? 'Top seller' : b === 'fast_response' ? 'Respuesta rapida' : 'Verificada'}
+                    </span>
+                  ))}
+                </span>
+              </span>
+
+              <span className="w-24 shrink-0 text-right">
+                <strong className="block text-[20px] font-bold leading-none tabular-nums text-[var(--color-navy)]">
+                  {company._count.publications}
+                </strong>
+                <span className="movia-etiqueta mt-1">Publicaciones activas</span>
+              </span>
             </Link>
           ))}
         </div>
       </AnimatedSection>
 
       <AnimatedSection>
-        <div className="rounded-[var(--radius-card)] bg-[var(--color-navy)] px-6 py-10 text-center md:px-12">
-          <h2 className="text-[28px] font-bold text-white md:text-[32px]">Tenes equipo parado?</h2>
-          <p className="mx-auto mt-2 max-w-xl text-[16px] text-white/70">
+        <div className="relative overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-navy)] px-6 py-12 text-center md:px-12 md:py-16">
+          <h2 className="text-[24px] font-bold tracking-[var(--tracking-tight)] text-white md:text-[28px]">
+            Tenes equipo parado?
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-[16px] text-[var(--color-navy-muted)]">
             Publicalo hoy y empeza a recibir contactos de empresas que lo estan buscando en{' '}
             {env.locale.countryName}.
           </p>
           <Link
             href="/publicar"
-            className="mt-6 inline-flex min-h-[44px] items-center gap-2 rounded-[var(--radius-input)] bg-[var(--color-primary)] px-6 text-[16px] font-semibold text-white transition-colors hover:bg-[var(--color-primary-hover)]"
+            className="mt-6 inline-flex min-h-[52px] items-center gap-2 rounded-[var(--radius-input)] bg-[var(--color-primary)] px-6 text-[16px] font-semibold text-white transition-colors hover:bg-[var(--color-primary-hover)]"
           >
             Publicar un activo
             <ArrowRight className="size-4" aria-hidden />
@@ -105,16 +144,39 @@ export default async function HomePage() {
   )
 }
 
-function SectionHeading({ title, href, linkLabel }: { title: string; href: string; linkLabel: string }) {
+function iniciales(nombre: string) {
+  return nombre
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase() ?? '')
+    .join('')
+}
+
+function SectionHeading({
+  title,
+  subtitle,
+  href,
+  linkLabel,
+}: {
+  title: string
+  subtitle?: string
+  href: string
+  linkLabel: string
+}) {
   return (
-    <div className="mb-5 flex items-baseline justify-between gap-4">
-      <h2 className="relative pl-4 text-[24px] font-semibold tracking-tight text-[var(--color-navy)] md:text-[28px]">
-        <span className="absolute left-0 top-1/2 h-[1.1em] w-1 -translate-y-1/2 rounded-full bg-[var(--color-primary)]" />
-        {title}
-      </h2>
+    <div className="mb-6 flex items-end justify-between gap-4">
+      <div className="min-w-0">
+        <h2 className="text-[24px] font-semibold leading-tight tracking-[var(--tracking-tight)] text-[var(--color-navy)] md:text-[28px]">
+          {title}
+        </h2>
+        {subtitle ? (
+          <p className="mt-2 text-[14px] text-[var(--color-text-muted)]">{subtitle}</p>
+        ) : null}
+      </div>
       <Link
         href={href}
-        className="inline-flex items-center gap-1 text-[14px] font-medium text-[var(--color-primary)] hover:text-[var(--color-primary-hover)]"
+        className="inline-flex min-h-[44px] shrink-0 items-center gap-2 whitespace-nowrap text-[14px] font-semibold text-[var(--color-primary)] transition-colors hover:text-[var(--color-primary-hover)]"
       >
         {linkLabel}
         <ArrowRight className="size-4" aria-hidden />

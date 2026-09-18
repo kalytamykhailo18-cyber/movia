@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOVIA · Inicio · Maqueta de diseño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css">
+</head>
+<body>
+
+<!-- Glifos. Familia lineal Lucide, trazo 1.5, como fija el manual en la
+     seccion 7. El glifo de WhatsApp es el de la marca, solido, porque no
+     pertenece a una familia lineal. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="i-buscar" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></g>
+    <g id="i-flecha" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></g>
+    <g id="i-lugar" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></g>
+    <g id="i-ojo" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></g>
+    <g id="i-mensaje" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></g>
+    <g id="i-verificada" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></g>
+    <g id="i-estrella" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6 .8-4.4 4.2 1.1 6-5.3-2.9L6.7 19.6l1.1-6L3.4 9.4l6-.8Z"/></g>
+    <g id="i-menu" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></g>
+    <g id="i-mas" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></g>
+    <g id="i-foto" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="m21 16-5-5-5.5 5.5L8 14l-5 5"/></g>
+    <!-- Categorias -->
+    <g id="c-maquinaria" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 20V9l5 3V9l5 3V6l4 2v12"/><path d="M8 20v-3h3v3"/></g>
+    <g id="c-equipos" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0 5 5L15 16l-3.5 3.5a2.1 2.1 0 0 1-3-3L12 13Z"/></g>
+    <g id="c-vehiculos" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17V7h11v10M14 10h4l3 3.5V17"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></g>
+    <g id="c-construccion" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18v3H3zM6 17V9a6 6 0 0 1 12 0v8"/><path d="M12 3v6"/></g>
+    <g id="c-alimentos" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v7a2 2 0 0 0 4 0V3M7 10v11M19 3c-1.5 2-2 4-2 6s.5 3 2 3v9"/></g>
+    <g id="c-muebles" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11V8a2 2 0 0 1 4 0v3h8V8a2 2 0 0 1 4 0v3a2 2 0 0 1 0 4v3H4v-3a2 2 0 0 1 0-4Z"/></g>
+    <g id="c-tecnologia" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="8" height="8" rx="1"/><path d="M10 3v3M14 3v3M10 18v3M14 18v3M3 10h3M3 14h3M18 10h3M18 14h3"/></g>
+    <g id="c-otros" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 7.5v9L12 21l9-4.5v-9Z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/></g>
+  </defs>
+</svg>
+
+<header class="encabezado">
+  <div class="contenedor encabezado__barra">
+    <a class="encabezado__logo" href="#" aria-label="MOVIA, inicio">
+      <img src="../../public/brand/logo-web.png" alt="MOVIA">
+    </a>
+
+    <nav class="encabezado__nav" aria-label="Principal">
+      <!-- El manual, seccion 9, define la navegacion como
+           "Logo MOVIA | Buscar | Categorias | Publicar | ...": el logo es el
+           enlace al inicio, asi que no lleva ademas un item "Inicio".
+
+           En estas dos pantallas ningun item queda activo. El inicio se
+           alcanza por el logo, y una ficha no pertenece a ninguna seccion de
+           primer nivel: el rastro de migas da el contexto. Es la misma regla
+           que aplica site-header.tsx con el pathname. El indicador activo se
+           ve en /buscar, /categorias, /empresas y /planes. -->
+      <a class="nav-enlace" href="#">Buscar</a>
+      <a class="nav-enlace" href="#">Categorías</a>
+      <a class="nav-enlace" href="#">Empresas</a>
+      <a class="nav-enlace" href="#">Planes</a>
+    </nav>
+
+    <div class="encabezado__acciones">
+      <a class="boton boton--secundario" href="#">Ingresar</a>
+      <a class="boton boton--principal" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mas"/></svg>
+        Publicar
+      </a>
+      <button class="encabezado__menu" type="button" aria-label="Abrir menú">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ===================================================================
+       BANDA DE MARCA
+       El navy deja de ser una tarjeta sobre gris y pasa a ser el marco:
+       la pagina empieza en navy a sangre y el catalogo sale de el.
+       =================================================================== -->
+  <section class="banda">
+    <img class="banda__marca" src="../../public/brand/isotipo.png" alt="" aria-hidden="true">
+    <div class="contenedor">
+      <div class="banda__contenido">
+        <p class="banda__epigrafe">Marketplace de activos empresariales</p>
+
+        <h1>Lo que tu empresa no usa, <span class="resalte">muévelo</span></h1>
+
+        <p class="banda__entrada">
+          Maquinaria, equipos, inventarios y excedentes de empresas verificadas
+          en Colombia. Publica lo que ya no rota y encuentra lo que necesitas.
+        </p>
+
+        <form class="buscador" role="search" onsubmit="return false">
+          <div class="buscador__campo">
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-buscar"/></svg>
+            <input type="search" aria-label="Buscar activos" placeholder="¿Qué activo estás buscando?">
+          </div>
+          <button class="boton boton--principal" type="submit">
+            Buscar
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+          </button>
+        </form>
+
+        <div class="sugerencias">
+          <span class="etiqueta etiqueta--navy">Populares</span>
+          <a class="pastilla" href="#">Torno CNC</a>
+          <a class="pastilla" href="#">Montacargas</a>
+          <a class="pastilla" href="#">Compresor</a>
+          <a class="pastilla" href="#">Retroexcavadora</a>
+          <a class="pastilla" href="#">Servidor</a>
+        </div>
+
+        <dl class="indicadores">
+          <div class="indicador">
+            <dt class="etiqueta etiqueta--navy">Activos publicados</dt>
+            <dd class="cifra">200</dd>
+          </div>
+          <div class="indicador">
+            <dt class="etiqueta etiqueta--navy">Empresas verificadas</dt>
+            <dd class="cifra">29</dd>
+          </div>
+          <div class="indicador">
+            <dt class="etiqueta etiqueta--navy">Ciudades</dt>
+            <dd class="cifra">8</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <div class="contenedor principal">
+
+    <!-- =================================================================
+         CATEGORIAS
+         Fila densa. Antes ocho tarjetas cuadradas con mucho aire que
+         ocupaban una pantalla entera sin decir gran cosa.
+         ================================================================= -->
+    <section class="seccion">
+      <div class="seccion__cabecera">
+        <div>
+          <h2>Categorías</h2>
+          <p>200 activos publicados en ocho categorías</p>
+        </div>
+        <a class="enlace-seccion" href="#">
+          Ver todas
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+        </a>
+      </div>
+
+      <div class="categorias">
+        <a class="categoria" href="#">
+          <span class="categoria__icono"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-maquinaria"/></svg></span>
+          <span class="categoria__texto">
+            <span class="categoria__nombre">Maquinaria industrial</span>
+            <span class="categoria__conteo">77 activos</span>
+          </span>
+        </a>
+        <a class="categoria" href="#">
+          <span class="categoria__icono"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-equipos"/></svg></span>
+          <span class="categoria__texto">
+            <span class="categoria__nombre">Equipos</span>
+            <span class="categoria__conteo">55 activos</span>
+          </span>
+        </a>
+        <a class="categoria" href="#">
+          <span class="categoria__icono"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-vehiculos"/></svg></span>
+          <span class="categoria__texto">
+            <span class="categoria__nombre">Vehículos</span>
+            <span class="categoria__conteo">54 activos</span>
+          </span>
+        </a>
+        <a class="categoria" href="#">
+          <span class="categoria__icono"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-construccion"/></svg></span>
+          <span class="categoria__texto">
+            <span class="categoria__nombre">Construcción</span>
+            <span class="categoria__conteo">3 activos</span>
+          </span>
+        </a>
+        <a class="categoria" href="#">
+          <span class="categoria__icono"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-alimentos"/></svg></span>
+          <span class="categoria__texto">
+            <span class="categoria__nombre">Alimentos</span>
+            <span class="categoria__conteo">3 activos</span>
+          </span>
+        </a>
+        <a class="categoria" href="#">
+          <span class="categoria__icono"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-muebles"/></svg></span>
+          <span class="categoria__texto">
+            <span class="categoria__nombre">Muebles</span>
+            <span class="categoria__conteo">2 activos</span>
+          </span>
+        </a>
+        <a class="categoria" href="#">
+          <span class="categoria__icono"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-tecnologia"/></svg></span>
+          <span class="categoria__texto">
+            <span class="categoria__nombre">Tecnología</span>
+            <span class="categoria__conteo">3 activos</span>
+          </span>
+        </a>
+        <a class="categoria" href="#">
+          <span class="categoria__icono"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-otros"/></svg></span>
+          <span class="categoria__texto">
+            <span class="categoria__nombre">Otros</span>
+            <span class="categoria__conteo">3 activos</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         ACTIVOS DESTACADOS
+         Destacado se paga. Si una publicacion destacada se ve igual que
+         una normal con un sello encima, el vendedor no esta comprando
+         nada. Formato apaisado, el doble de superficie y ficha visible.
+         ================================================================= -->
+    <section class="seccion">
+      <div class="seccion__cabecera">
+        <div>
+          <h2>Activos destacados</h2>
+          <p>Publicaciones con visibilidad contratada</p>
+        </div>
+        <a class="enlace-seccion" href="#">
+          Ver más
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+        </a>
+      </div>
+
+      <div class="rejilla rejilla--destacados">
+        <article class="destacada">
+          <div class="destacada__foto">
+            <span class="insignia-destacado">
+              <svg width="11" height="11" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-estrella"/></svg>
+              Destacado
+            </span>
+            <div class="marcador">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#c-maquinaria"/></svg>
+              <span class="marcador__ref">REF 0003</span>
+            </div>
+          </div>
+          <div class="destacada__cuerpo">
+            <h3 class="destacada__titulo"><a href="#">Torno CNC Mazak Quick Turn 250</a></h3>
+            <p class="destacada__precio">$ 185.000.000</p>
+            <p class="tarjeta__impuesto">IVA incluido</p>
+
+            <dl class="especificaciones">
+              <div>
+                <dt class="etiqueta">Año</dt>
+                <dd>2016</dd>
+              </div>
+              <div>
+                <dt class="etiqueta">Horas</dt>
+                <dd>12.400 h</dd>
+              </div>
+              <div>
+                <dt class="etiqueta">Condición</dt>
+                <dd>Buen estado</dd>
+              </div>
+            </dl>
+
+            <div class="destacada__pie">
+              <span class="vendedor-franja__nombre">
+                <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-verificada"/></svg>
+                <span>Industrias Andinas</span>
+              </span>
+              <span class="tarjeta__lugar" style="margin:0">
+                <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lugar"/></svg>
+                Bogotá
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="destacada">
+          <div class="destacada__foto">
+            <span class="insignia-destacado">
+              <svg width="11" height="11" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-estrella"/></svg>
+              Destacado
+            </span>
+            <div class="marcador">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#c-construccion"/></svg>
+              <span class="marcador__ref">REF 0012</span>
+            </div>
+          </div>
+          <div class="destacada__cuerpo">
+            <h3 class="destacada__titulo"><a href="#">Retroexcavadora Caterpillar 416F</a></h3>
+            <p class="destacada__precio">$ 245.000.000</p>
+            <p class="tarjeta__impuesto">IVA incluido</p>
+
+            <dl class="especificaciones">
+              <div>
+                <dt class="etiqueta">Año</dt>
+                <dd>2018</dd>
+              </div>
+              <div>
+                <dt class="etiqueta">Horas</dt>
+                <dd>6.900 h</dd>
+              </div>
+              <div>
+                <dt class="etiqueta">Condición</dt>
+                <dd>Buen estado</dd>
+              </div>
+            </dl>
+
+            <div class="destacada__pie">
+              <span class="vendedor-franja__nombre">
+                <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-verificada"/></svg>
+                <span>Construcciones Paisas</span>
+              </span>
+              <span class="tarjeta__lugar" style="margin:0">
+                <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lugar"/></svg>
+                Medellín
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         ULTIMAS PUBLICACIONES
+         Cuatro columnas, pero con la ficha en la tarjeta. El comprador
+         llega sabiendo el modelo y compara cifras: las cifras tienen que
+         estar antes del clic, no detras.
+         ================================================================= -->
+    <section class="seccion">
+      <div class="seccion__cabecera">
+        <div>
+          <h2>Últimas publicaciones</h2>
+          <p>Actualizado hace 2 horas</p>
+        </div>
+        <a class="enlace-seccion" href="#">
+          Ver todas
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+        </a>
+      </div>
+
+      <div class="rejilla">
+        <article class="tarjeta">
+          <div class="tarjeta__foto">
+            <div class="marcador">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#c-equipos"/></svg>
+              <span class="marcador__ref">REF 0006</span>
+            </div>
+          </div>
+          <div class="tarjeta__cuerpo">
+            <h3 class="tarjeta__titulo"><a href="#">Compresor de tornillo Atlas Copco GA 37</a></h3>
+            <p class="tarjeta__precio">$ 54.000.000</p>
+            <p class="tarjeta__impuesto">IVA incluido</p>
+            <dl class="especificaciones">
+              <div><dt class="etiqueta">Año</dt><dd>2019</dd></div>
+              <div><dt class="etiqueta">Horas</dt><dd>8.100 h</dd></div>
+            </dl>
+            <p class="tarjeta__lugar">
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lugar"/></svg>Bogotá</span>
+              <span class="chip-estado">Buen estado</span>
+            </p>
+          </div>
+          <div class="vendedor-franja">
+            <span class="vendedor-franja__nombre">
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-verificada"/></svg>
+              <span>Industrias Andinas</span>
+            </span>
+            <span class="vendedor-franja__metricas">
+              <span title="Visualizaciones"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ojo"/></svg>409</span>
+              <span title="Contactos"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mensaje"/></svg>19</span>
+            </span>
+          </div>
+        </article>
+
+        <article class="tarjeta">
+          <div class="tarjeta__foto">
+            <div class="marcador">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#c-vehiculos"/></svg>
+              <span class="marcador__ref">REF 0009</span>
+            </div>
+          </div>
+          <div class="tarjeta__cuerpo">
+            <h3 class="tarjeta__titulo"><a href="#">Camión Chevrolet NPR 2018 furgón seco</a></h3>
+            <p class="tarjeta__precio">$ 135.000.000</p>
+            <p class="tarjeta__impuesto">IVA incluido</p>
+            <dl class="especificaciones">
+              <div><dt class="etiqueta">Año</dt><dd>2018</dd></div>
+              <div><dt class="etiqueta">Kilómetros</dt><dd>184.000 km</dd></div>
+            </dl>
+            <p class="tarjeta__lugar">
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lugar"/></svg>Barranquilla</span>
+              <span class="chip-estado">Buen estado</span>
+            </p>
+          </div>
+          <div class="vendedor-franja">
+            <span class="vendedor-franja__nombre">
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-verificada"/></svg>
+              <span>Logística Caribe</span>
+            </span>
+            <span class="vendedor-franja__metricas">
+              <span title="Visualizaciones"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ojo"/></svg>257</span>
+              <span title="Contactos"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mensaje"/></svg>12</span>
+            </span>
+          </div>
+        </article>
+
+        <article class="tarjeta">
+          <div class="tarjeta__foto">
+            <div class="marcador">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#c-tecnologia"/></svg>
+              <span class="marcador__ref">REF 0022</span>
+            </div>
+          </div>
+          <div class="tarjeta__cuerpo">
+            <h3 class="tarjeta__titulo"><a href="#">Impresora 3D industrial Markforged X7</a></h3>
+            <p class="tarjeta__precio">$ 165.000.000</p>
+            <p class="tarjeta__impuesto">IVA incluido</p>
+            <dl class="especificaciones">
+              <div><dt class="etiqueta">Año</dt><dd>2021</dd></div>
+              <div><dt class="etiqueta">Horas</dt><dd>1.240 h</dd></div>
+            </dl>
+            <p class="tarjeta__lugar">
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lugar"/></svg>Cali</span>
+              <span class="chip-estado">Como nuevo</span>
+            </p>
+          </div>
+          <div class="vendedor-franja">
+            <span class="vendedor-franja__nombre">
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-verificada"/></svg>
+              <span>Metalmecánica del Valle</span>
+            </span>
+            <span class="vendedor-franja__metricas">
+              <span title="Visualizaciones"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ojo"/></svg>477</span>
+              <span title="Contactos"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mensaje"/></svg>21</span>
+            </span>
+          </div>
+        </article>
+
+        <!-- Publicacion de persona natural y sin fotografia. Los dos casos
+             reales que el inicio actual muestra sin haberlos disenado. -->
+        <article class="tarjeta">
+          <div class="tarjeta__foto">
+            <div class="marcador marcador--vacio">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-foto"/></svg>
+              <span class="marcador__ref">REF 0031</span>
+              <span class="marcador__aviso">Sin fotografía</span>
+            </div>
+          </div>
+          <div class="tarjeta__cuerpo">
+            <h3 class="tarjeta__titulo"><a href="#">Compresor tornillo Kaeser SK25</a></h3>
+            <p class="tarjeta__precio">$ 38.000.000</p>
+            <p class="tarjeta__impuesto">IVA incluido</p>
+            <dl class="especificaciones">
+              <div><dt class="etiqueta">Año</dt><dd>2015</dd></div>
+              <div><dt class="etiqueta">Horas</dt><dd>21.700 h</dd></div>
+            </dl>
+            <p class="tarjeta__lugar">
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lugar"/></svg>Medellín</span>
+              <span class="chip-estado">Operativo</span>
+            </p>
+          </div>
+          <div class="vendedor-franja">
+            <span class="vendedor-franja__nombre vendedor-franja__nombre--natural">
+              <span>Persona natural</span>
+            </span>
+            <span class="vendedor-franja__metricas">
+              <span title="Visualizaciones"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ojo"/></svg>44</span>
+              <span title="Contactos"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mensaje"/></svg>2</span>
+            </span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         EMPRESAS VERIFICADAS
+         Directorio, no catalogo: filas con la cifra que importa a la
+         derecha, no cuatro tarjetas con parrafo recortado.
+         ================================================================= -->
+    <section class="seccion">
+      <div class="seccion__cabecera">
+        <div>
+          <h2>Empresas verificadas</h2>
+          <p>Identidad validada con NIT y Cámara de Comercio</p>
+        </div>
+        <a class="enlace-seccion" href="#">
+          Ver todas
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+        </a>
+      </div>
+
+      <div class="empresas">
+        <a class="empresa" href="#">
+          <span class="empresa__inicial">IA</span>
+          <span class="empresa__datos">
+            <span class="empresa__nombre">
+              Industrias Andinas
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--color-primary)"><use href="#i-verificada"/></svg>
+            </span>
+            <span class="empresa__meta">Bogotá · Fabricación y renovación de maquinaria</span>
+          </span>
+          <span class="empresa__conteo">
+            <strong>179</strong>
+            <span class="etiqueta">Publicaciones</span>
+          </span>
+        </a>
+
+        <a class="empresa" href="#">
+          <span class="empresa__inicial">MV</span>
+          <span class="empresa__datos">
+            <span class="empresa__nombre">
+              Metalmecánica del Valle
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--color-primary)"><use href="#i-verificada"/></svg>
+            </span>
+            <span class="empresa__meta">Cali · Mecanizado de precisión y excedentes</span>
+          </span>
+          <span class="empresa__conteo">
+            <strong>5</strong>
+            <span class="etiqueta">Publicaciones</span>
+          </span>
+        </a>
+
+        <a class="empresa" href="#">
+          <span class="empresa__inicial">LC</span>
+          <span class="empresa__datos">
+            <span class="empresa__nombre">
+              Logística Caribe
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--color-primary)"><use href="#i-verificada"/></svg>
+            </span>
+            <span class="empresa__meta">Barranquilla · Flota de transporte de carga</span>
+          </span>
+          <span class="empresa__conteo">
+            <strong>3</strong>
+            <span class="etiqueta">Publicaciones</span>
+          </span>
+        </a>
+
+        <a class="empresa" href="#">
+          <span class="empresa__inicial">CP</span>
+          <span class="empresa__datos">
+            <span class="empresa__nombre">
+              Construcciones Paisas
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--color-primary)"><use href="#i-verificada"/></svg>
+            </span>
+            <span class="empresa__meta">Medellín · Constructora con 15 años de trayectoria</span>
+          </span>
+          <span class="empresa__conteo">
+            <strong>5</strong>
+            <span class="etiqueta">Publicaciones</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <section class="llamada">
+      <h2>¿Tienes equipo parado?</h2>
+      <p>
+        Publícalo hoy y empieza a recibir contactos de empresas que lo están
+        buscando en Colombia.
+      </p>
+      <a class="boton boton--principal boton--grande" href="#">
+        Publicar un activo
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+      </a>
+    </section>
+
+  </div>
+</main>
+
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie__rejilla">
+      <div class="pie__marca">
+        <img src="../../public/brand/logo-web.png" alt="MOVIA">
+        <p>Lo que tu empresa no usa, muévelo.</p>
+      </div>
+
+      <div>
+        <h3>Comprar</h3>
+        <ul>
+          <li><a href="#">Buscar activos</a></li>
+          <li><a href="#">Categorías</a></li>
+          <li><a href="#">Empresas verificadas</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Vender</h3>
+        <ul>
+          <li><a href="#">Publicar un activo</a></li>
+          <li><a href="#">Carga masiva</a></li>
+          <li><a href="#">Planes y precios</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>MOVIA</h3>
+        <ul>
+          <li><a href="#">Cómo funciona</a></li>
+          <li><a href="#">Verificación de empresas</a></li>
+          <li><a href="#">Ayuda</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pie__legal">
+      <span>MOVIA · Colombia</span>
+      <span>Precios en pesos colombianos con IVA incluido</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

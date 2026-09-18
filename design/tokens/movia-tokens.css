@@ -1,0 +1,171 @@
+/* =========================================================================
+   MOVIA - Tokens de diseno
+   Propuesta para inicio y ficha. Los valores son definitivos y entran
+   directo en src/app/globals.css cuando se apruebe la direccion.
+
+   Tres bloques:
+     1. Manual      valores del Manual de Marca v1.0. No se tocan.
+     2. Extension   valores nuevos. Cada uno lleva su justificacion.
+     3. Derivados   composiciones que dependen de los dos anteriores.
+   ========================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------------
+     1. MANUAL. Seccion 4 y 14 del Manual de Marca. Sin cambios.
+     --------------------------------------------------------------------- */
+  --color-navy: #111827;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-soft: #eff6ff;
+  --color-surface: #ffffff;
+  --color-background: #f8fafc;
+  --color-border: #e5e7eb;
+  --color-text-muted: #6b7280;
+  --color-success: #16a34a;
+  --color-danger: #dc2626;
+  --color-accent: #7c3aed; /* Solo analitica. Nunca como color principal. */
+
+  --radius-input: 8px;
+  --radius-card: 12px;
+  --radius-modal: 16px;
+
+  --font-sans: 'Inter', 'Manrope', Arial, sans-serif;
+
+  /* ---------------------------------------------------------------------
+     2. EXTENSION
+
+     El manual define la paleta para fondo claro. No define ningun valor
+     para trabajar SOBRE el navy, y la direccion que pide el cliente apoya
+     la identidad justamente ahi. Estos seis valores son los minimos para
+     que una superficie navy funcione: no introducen una familia nueva,
+     son navy y azul.
+     --------------------------------------------------------------------- */
+
+  /* Azul para texto y acentos sobre navy. #2563EB sobre #111827 da 3.1:1 y
+     no pasa AA para texto. Este da 6.4:1. Es el mismo azul de la marca
+     aclarado, no un color nuevo. */
+  --color-primary-bright: #60a5fa;
+
+  /* Superficie elevada sobre navy: tarjetas y campos dentro de una banda
+     navy necesitan separarse del fondo sin recurrir al blanco. */
+  --color-navy-raised: #1b2435;
+
+  /* Linea divisoria sobre navy. #E5E7EB sobre navy es un golpe demasiado
+     duro; este es el equivalente optico del borde gris en claro. */
+  --color-navy-line: #253044;
+
+  /* Texto secundario sobre navy. Equivale a --color-text-muted en claro.
+     Da 7.2:1 sobre #111827. */
+  --color-navy-muted: #94a3b8;
+
+  /* Relleno de la insignia de verificacion. El manual pide que la empresa
+     verificada se lea de un vistazo; el azul suave sobre blanco no basta
+     cuando la tarjeta ya es blanca. */
+  --color-verified-soft: #dbeafe;
+
+  /* Amarillo de estado, unicamente para "Vencida" y "Pendiente". El manual
+     solo da verde y rojo, que no cubren un estado de espera. No es naranja
+     y no se usa como color de marca en ningun sitio. */
+  --color-warning: #b45309;
+  --color-warning-soft: #fef3c7;
+
+  /* ---------------------------------------------------------------------
+     3. TIPOGRAFIA
+     Rangos del manual, seccion 5. Se fija un valor por uso para que no
+     haya que decidir en cada pantalla.
+     --------------------------------------------------------------------- */
+  --text-display: 40px;   /* Hero. Peso 700 */
+  --text-title: 32px;     /* Encabezado de pantalla y precio de ficha. 700 */
+  --text-section: 28px;   /* Titulo de seccion en escritorio. 600 */
+  --text-section-sm: 24px;/* Titulo de seccion en movil. 600 */
+  --text-subtitle: 20px;  /* Subtitulo de bloque. 600 */
+  --text-card: 18px;      /* Titulo de tarjeta. 600 */
+  --text-body: 16px;      /* Texto base. 400 */
+  --text-small: 14px;     /* Interfaz densa, tablas. 400 a 500 */
+  --text-tiny: 12px;      /* Fechas, ubicacion, ayuda. 400 a 500 */
+
+  /* Etiqueta tecnica. Es el recurso tipografico que da caracter: versalita
+     ancha para cada dato de ficha. El manual admite mayusculas en
+     descriptores y etiquetas cortas. */
+  --text-label: 11px;
+  --tracking-label: 0.14em;
+
+  /* El precio es el dato que mas se compara. Cifras de ancho fijo para que
+     alineen en columna entre tarjetas. */
+  --tracking-tight: -0.02em;
+  --tracking-display: -0.03em;
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-body: 1.6;
+
+  /* ---------------------------------------------------------------------
+     4. ESPACIADO
+     Escala del manual, seccion 14: 8, 16, 24, 32, 48, 64.
+     --------------------------------------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Relleno interior. Un valor por tipo de superficie, no uno por componente:
+     asi dos tarjetas distintas nunca acaban con rellenos distintos. Se
+     redefinen en movil desde :root, de modo que ningun componente necesita
+     su propia excepcion. Todos caen en la escala del manual. */
+  --pad-card: var(--space-4);   /* 16px  interior de tarjeta */
+  --pad-panel: var(--space-6);  /* 24px  interior de panel y bloque de precio */
+  --pad-cell: var(--space-3);   /* 12px  celda de tabla, franja y aviso */
+
+  /* Separacion entre secciones. Antes 48px en todas, lo que dejaba la
+     pagina flotando. 32px sostiene mejor un catalogo denso. */
+  --space-section: 32px;
+  --space-section-lg: 48px;
+
+  --container: 1200px;
+  --container-pad: 24px;
+
+  /* ---------------------------------------------------------------------
+     5. ELEVACION
+     El manual pide sombra extremadamente suave y hover sin exageracion.
+     --------------------------------------------------------------------- */
+  --shadow-card: 0 1px 2px rgba(17, 24, 39, 0.04);
+  --shadow-card-hover: 0 8px 24px rgba(17, 24, 39, 0.08);
+  --shadow-modal: 0 24px 48px rgba(17, 24, 39, 0.16);
+  --shadow-rail: 0 1px 0 rgba(17, 24, 39, 0.06);
+
+  /* ---------------------------------------------------------------------
+     6. GEOMETRIA DE MARCA
+     El isotipo esta construido con un trazo a 58 grados. Ese angulo es lo
+     unico geometricamente propio que tiene la marca, asi que se reutiliza
+     como recurso grafico: corte de la banda navy, indicador de seccion
+     activa y filo de la insignia de destacado.
+
+     No se dibuja otra M. Se reutiliza el angulo, no la forma.
+     --------------------------------------------------------------------- */
+  --angle-brand: 58deg;
+  --angle-cut: 14px; /* Profundidad del corte diagonal en bandas */
+
+  /* ---------------------------------------------------------------------
+     7. INTERACCION
+     --------------------------------------------------------------------- */
+  --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.18);
+  --focus-ring-navy: 0 0 0 3px rgba(96, 165, 250, 0.35);
+  --tap-min: 44px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 400ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0.01ms;
+    --duration-base: 0.01ms;
+    --duration-slow: 0.01ms;
+  }
+}
