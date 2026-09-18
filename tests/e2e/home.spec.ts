@@ -5,14 +5,28 @@ test.describe('Inicio', () => {
     await page.goto('/')
   })
 
+  // La seccion 2 del manual autoriza el isotipo "en tamanos menores", y una
+  // barra de 64 px lo es: el lockup completo dejaria el wordmark en unos pocos
+  // pixeles de alto. La barra lleva entonces el isotipo y el pie, que si tiene
+  // sitio, el lockup completo con la palabra legible. Se comprueban los dos, y
+  // que ninguno se recoloree, que es lo que la seccion 3 prohibe.
   test('muestra el logo oficial de MOVIA', async ({ page }) => {
-    const logo = page.locator('header img[alt="MOVIA"]').first()
-    await expect(logo).toBeVisible()
-    await expect(logo).toHaveAttribute('src', '/brand/logo-web.png')
+    const marca = page.locator('header img[alt="MOVIA"]').first()
+    await expect(marca).toBeVisible()
+    await expect(marca).toHaveAttribute('src', '/brand/isotipo.png')
 
-    // El logo conserva la proporcion del archivo maestro (3000x2088).
-    const box = await logo.boundingBox()
-    expect(box!.width / box!.height).toBeCloseTo(3000 / 2088, 1)
+    // El isotipo es cuadrado y se sirve sin filtro sobre placa clara.
+    const caja = await marca.boundingBox()
+    expect(caja!.width / caja!.height).toBeCloseTo(1, 1)
+    await expect(marca).toHaveCSS('filter', 'none')
+
+    const lockup = page.locator('footer img[alt="MOVIA"]').first()
+    await expect(lockup).toHaveAttribute('src', '/brand/logo-web.png')
+
+    // El lockup conserva la proporcion del archivo maestro (3000x2088).
+    const cajaPie = await lockup.boundingBox()
+    expect(cajaPie!.width / cajaPie!.height).toBeCloseTo(3000 / 2088, 1)
+    await expect(lockup).toHaveCSS('filter', 'none')
   })
 
   // El manual escribe el claim con tilde, "muévelo", en su seccion 1, y la
