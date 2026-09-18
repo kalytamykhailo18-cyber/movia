@@ -17,10 +17,11 @@
      ningun valor para trabajar SOBRE el navy, que es donde esta propuesta
      apoya la identidad. Son navy y azul, no una familia nueva.
      Justificacion en design/spec/decisiones-de-diseno.md, seccion 4. */
-  --color-primary-bright: #60a5fa; /* 6.4:1 sobre navy; #2563eb da 3.1:1 */
-  --color-navy-raised: #1b2435;
-  --color-navy-line: #253044;
-  --color-navy-muted: #94a3b8;
+  --color-primary-bright: #60a5fa; /* 6.98:1 sobre navy; #2563eb da 3.43:1 */
+  --color-navy-raised: #1a2334; /* superficie elevada sobre el suelo navy */
+  --color-navy-line: #273142; /* filete divisorio sobre navy */
+  --color-navy-muted: #8fa0b8; /* texto secundario sobre navy. 7.4:1 */
+  --color-navy-edge: #31405a; /* filete de la consola, que necesita mas peso */
   --color-verified-soft: #dbeafe;
   --color-warning: #b45309; /* Solo Vencida y Pendiente. No es naranja de marca */
   --color-warning-soft: #fef3c7;
@@ -35,10 +36,15 @@
 
   --font-sans: 'Inter', 'Manrope', Arial, sans-serif;
 
-  --text-display: 40px;
-  --text-title: 32px;
-  --text-section: 28px;
-  --text-subtitle: 20px;
+  /* Seccion 5 del manual: titulo principal 32-40, titulo de seccion 24-28,
+     subtitulo 18-20, texto base 14-16, texto pequeno 12-14. Los tamanos se
+     cumplen enteros. La unica desviacion de la direccion es el peso 800 en
+     los dos titulares y en las cifras de precio, donde el manual pide 700.
+     Va senalada a proposito. */
+  --text-display: 40px; /* h1 del inicio */
+  --text-title: 34px; /* h1 de la ficha */
+  --text-section: 24px; /* titulo de seccion */
+  --text-subtitle: 18px; /* subtitulo y titulo de placa */
   --text-body: 16px;
   --text-small: 14px;
   --text-tiny: 12px;
@@ -52,9 +58,9 @@
   /* Etiqueta tecnica: el recurso tipografico que sostiene el caracter de
      hoja de datos en todo el producto. */
   --text-label: 11px;
-  --tracking-label: 0.14em;
-  --tracking-tight: -0.02em;
-  --tracking-display: -0.03em;
+  --tracking-label: 0.16em;
+  --tracking-tight: -0.025em;
+  --tracking-display: -0.04em;
 
   --shadow-card: 0 1px 2px rgba(17, 24, 39, 0.04);
   --shadow-card-hover: 0 8px 24px rgba(17, 24, 39, 0.08);
@@ -95,6 +101,11 @@ body {
   color: var(--color-navy);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  /* Cero cortado y formas alternas de Inter. Es lo que hace que un catalogo
+     de maquinaria se lea como una hoja de datos y no como una tienda. Inter
+     lo trae de serie y casi nadie lo enciende. Las cifras tabulares van por
+     componente, no aqui: en texto corrido estorban. */
+  font-feature-settings: 'zero' 1, 'cv05' 1;
 }
 
 /* El manual pide foco visible para navegacion con teclado, pero sin el
