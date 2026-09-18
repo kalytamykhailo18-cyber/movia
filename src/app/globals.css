@@ -147,6 +147,21 @@ body {
   font-feature-settings: 'zero' 1, 'cv05' 1;
 }
 
+/* Tailwind 4 alinea el cursor de <button> con el del navegador, que es la
+   flecha, no la mano. En la practica eso deja sin senal tactil todo lo que no
+   sea un enlace: en /buscar son veinticuatro controles, la lista de categorias
+   incluida, y el filtro parece texto muerto hasta que se pulsa. Medido: los
+   <a> salen en pointer y los <button> en default.
+
+   Se restituye la mano en lo que se pulsa, y solo ahi. Lo deshabilitado
+   conserva su not-allowed, que es la senal de que no se puede. */
+button:not(:disabled):not([aria-disabled='true']),
+[role='button']:not([aria-disabled='true']),
+select:not(:disabled),
+summary {
+  cursor: pointer;
+}
+
 /* El manual pide foco visible para navegacion con teclado, pero sin el
    contorno duro del navegador: se usa un halo suave del azul MOVIA. */
 *:focus {
