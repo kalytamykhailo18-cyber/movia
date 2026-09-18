@@ -1,36 +1,31 @@
 import { NextResponse } from 'next/server'
 
-const TONES = [
-  ['#EFF6FF', '#DBEAFE'],
-  ['#F8FAFC', '#E5E7EB'],
-  ['#EEF2FF', '#E0E7FF'],
-  ['#F1F5F9', '#E2E8F0'],
-]
+// El catalogo todavia no tiene fotografia propia: 26 de las 37 publicaciones
+// del seed apuntan aqui y el resto no trae foto ninguna. Antes eran dos huecos
+// distintos, un icono de foto girado sobre degradado y una retícula, uno al
+// lado del otro en la misma rejilla.
+//
+// Ahora son el mismo hueco. El fondo y la retícula los pone .movia-plano en el
+// contenedor, en pixeles reales y con el mismo paso en cualquier tamano; este
+// archivo solo dibuja encima, sobre fondo transparente. Un activo sin
+// fotografia se lee entonces como un plano sin levantar, que es lo que es, y
+// no como una imagen rota.
+//
+// Sin texto a proposito: el mismo dibujo se sirve a 124 px en la tarjeta y a
+// 600 en la galeria, y cualquier rotulo quedaria ilegible en el primero.
+export async function GET() {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" fill="none">
+  <g stroke="#111827" stroke-opacity="0.16" stroke-width="4" stroke-linecap="square">
+    <path d="M 40 96 V 40 H 96"/>
+    <path d="M 704 40 H 760 V 96"/>
+    <path d="M 760 504 V 560 H 704"/>
+    <path d="M 96 560 H 40 V 504"/>
+  </g>
 
-function hash(input: string): number {
-  let h = 0
-  for (let i = 0; i < input.length; i++) h = (h * 31 + input.charCodeAt(i)) >>> 0
-  return h
-}
-
-export async function GET(_req: Request, ctx: { params: Promise<{ seed: string }> }) {
-  const { seed } = await ctx.params
-  const h = hash(seed)
-  const [bg, fg] = TONES[h % TONES.length]
-  const angle = h % 45
-
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="${bg}"/>
-      <stop offset="100%" stop-color="${fg}"/>
-    </linearGradient>
-  </defs>
-  <rect width="800" height="600" fill="url(#g)"/>
-  <g transform="translate(400 300) rotate(${angle})" opacity="0.35">
-    <rect x="-120" y="-80" width="240" height="160" rx="16" fill="none" stroke="#2563EB" stroke-width="6"/>
-    <circle cx="-60" cy="-20" r="26" fill="none" stroke="#111827" stroke-width="6"/>
-    <path d="M -20 40 L 40 -30 L 100 40" fill="none" stroke="#2563EB" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <g stroke="#2563EB" stroke-opacity="0.24" stroke-width="5">
+    <circle cx="400" cy="300" r="78"/>
+    <path d="M 400 168 V 204 M 400 396 V 432 M 268 300 H 304 M 496 300 H 532" stroke-linecap="round"/>
+    <path d="M 400 282 V 318 M 382 300 H 418" stroke-opacity="0.4" stroke-linecap="round"/>
   </g>
 </svg>`
 
