@@ -20,17 +20,19 @@ export async function SiteFooter() {
       <div className="mx-auto w-full max-w-[1200px] px-4 py-12 md:px-6">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm space-y-4">
-            {/* No existe version clara del logo entre los archivos suministrados
-                y el manual la exige para fondos oscuros. El filtro devuelve la
-                forma exacta en blanco sin redibujar la M, que es lo que prohibe
-                la seccion 2. Sustituir en cuanto llegue el archivo claro. */}
-            <img
-              src="/brand/logo-web.png"
-              alt={env.ui.brandName}
-              width={115}
-              height={80}
-              className="h-11 w-auto [filter:brightness(0)_invert(1)]"
-            />
+            {/* El archivo lleva el wordmark en navy, asi que sobre fondo oscuro
+                va sobre placa clara. Nunca con filtro: recolorear la marca es
+                un uso incorrecto segun la seccion 3 del manual. Aqui si hay
+                sitio, asi que va el lockup completo y la palabra se lee. */}
+            <span className="inline-flex rounded-[var(--radius-input)] bg-white p-3">
+              <img
+                src="/brand/logo-web.png"
+                alt={env.ui.brandName}
+                width={115}
+                height={80}
+                className="h-[52px] w-auto"
+              />
+            </span>
             <p className="text-[14px] text-[var(--color-navy-muted)]">{env.ui.brandClaim}</p>
           </div>
 
@@ -51,7 +53,7 @@ export async function SiteFooter() {
           </nav>
         </div>
 
-        <div className="mt-10 flex flex-wrap justify-between gap-3 border-t border-[var(--color-navy-line)] pt-6 text-[12px] text-[var(--color-navy-muted)]">
+        <div className="mt-10 flex flex-wrap justify-between gap-3 border-t border-[var(--color-navy-line)] pt-6 text-[var(--text-label)] tracking-[0.04em] text-[var(--color-navy-muted)]">
           <span>
             {env.ui.brandName} - {env.locale.countryName}
           </span>

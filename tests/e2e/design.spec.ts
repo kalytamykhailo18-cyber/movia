@@ -159,6 +159,11 @@ test.describe('Manual de marca - componentes', () => {
 })
 
 test.describe('Manual de marca - identidad', () => {
+  // El encabezado pasa a navy. La seccion 4 del manual asigna el navy a
+  // "estructura, encabezados, navegacion y footer", asi que una barra navy
+  // cumple el manual mas de cerca que una blanca. Lo que sigue importando, y
+  // es lo que esta prueba protege, es que sea opaco: sin translucidez ni
+  // desenfoque que deje ver el contenido por detras al hacer scroll.
   test('el encabezado fijo es opaco y no deja ver el contenido detras', async ({ page }) => {
     await page.goto('/buscar')
     await page.evaluate(() => window.scrollBy(0, 600))
@@ -169,7 +174,7 @@ test.describe('Manual de marca - identidad', () => {
       return { bg: s.backgroundColor, backdrop: s.backdropFilter }
     })
 
-    expect(style.bg).toBe('rgb(255, 255, 255)')
+    expect(style.bg).toBe(NAVY)
     expect(style.backdrop).toBe('none')
   })
 
@@ -422,11 +427,19 @@ test.describe('La identidad se sostiene en las paginas principales', () => {
     expect(fondo).toBe(NAVY)
   })
 
+  // El isotipo tiene ahora dos oficios distintos y la prueba solo vigila uno.
+  //   1. Marca, en el encabezado, a opacidad completa. La seccion 2 del manual
+  //      pide usar el isotipo en tamanos reducidos, y en una barra el lockup
+  //      completo saldria a 43 px de ancho con el wordmark ilegible.
+  //   2. Elemento grafico, de fondo, donde si tiene que quedarse por debajo
+  //      del texto.
+  // Se acota a las apariciones decorativas, que son las marcadas aria-hidden.
+  // La intencion de la prueba no cambia: el isotipo de fondo no compite.
   test('el isotipo se usa como elemento grafico, no solo como logo', async ({ page }) => {
     await page.goto('/')
 
     const marcas = await page
-      .locator('img[src="/brand/isotipo.png"]')
+      .locator('img[src="/brand/isotipo.png"][aria-hidden="true"]')
       .evaluateAll((els) => els.map((el) => Number(getComputedStyle(el).opacity)))
 
     expect(marcas.length).toBeGreaterThan(0)

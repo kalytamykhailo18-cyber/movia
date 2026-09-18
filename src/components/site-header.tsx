@@ -45,14 +45,27 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-white">
+    /* Navy, no blanco. La seccion 4 del manual asigna el navy a "estructura,
+       encabezados, navegacion y footer": una barra navy cumple el manual mas
+       de cerca que una blanca, y ancla la direccion desde el primer pixel. */
+    <header className="sticky top-0 z-40 border-b border-[var(--color-navy-line)] bg-[var(--color-navy)]">
       <Suspense fallback={null}>
         <NavigationProgress />
       </Suspense>
 
       <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center gap-4 px-4 md:px-6">
-        <Link href="/" className="flex min-h-[44px] shrink-0 items-center" aria-label="MOVIA inicio">
-          <img src="/brand/logo-web.png" alt="MOVIA" width={115} height={80} className="h-9 w-auto" />
+        {/* Medido: el 54 % del logo suministrado es #0C1830/#182430, que sobre
+            #111827 da 1.0:1. Recolorearlo con un filtro lo haria visible pero
+            altera los colores institucionales, que la seccion 3 prohibe. La
+            salida la da la seccion 2: "en tamanos menores, utilizar el
+            isotipo". Va sobre placa clara de 44 px, que es ademas el area
+            tactil minima. */}
+        <Link
+          href="/"
+          className="grid size-11 shrink-0 place-items-center rounded-[var(--radius-input)] bg-white"
+          aria-label="MOVIA inicio"
+        >
+          <img src="/brand/isotipo.png" alt="MOVIA" width={2048} height={2048} className="size-[30px]" />
         </Link>
 
         <nav className="hidden items-center gap-1 xl:flex" aria-label="Principal">
@@ -64,10 +77,10 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
                 href={item.href}
                 data-testid={`header-nav-${item.href.replace('/', '')}`}
                 className={cn(
-                  'relative flex h-16 items-center whitespace-nowrap px-2.5 text-[14px] font-medium transition-colors',
+                  'relative flex h-16 items-center whitespace-nowrap px-2.5 text-[14px] transition-colors',
                   active
-                    ? 'text-[var(--color-primary)]'
-                    : 'text-[var(--color-navy)] hover:text-[var(--color-primary)]',
+                    ? 'font-semibold text-white'
+                    : 'font-medium text-[var(--color-navy-muted)] hover:text-white',
                 )}
               >
                 {item.label}
@@ -75,7 +88,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
                   <motion.span
                     layoutId="nav-indicator"
                     transition={tabIndicatorTransition}
-                    className="pointer-events-none absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-[var(--color-primary)]"
+                    className="pointer-events-none absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-[var(--color-primary-bright)]"
                   />
                 ) : null}
               </Link>
@@ -100,7 +113,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
                   href="/admin"
                   data-testid="nav-admin"
                   title="Administracion"
-                  className="inline-flex min-h-[44px] items-center gap-1.5 rounded-[var(--radius-input)] border border-[#D1D5DB] px-3 text-[14px] font-medium text-[var(--color-navy)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+                  className="inline-flex min-h-[44px] items-center gap-1.5 rounded-[var(--radius-input)] border border-[var(--color-navy-line)] px-3 text-[14px] font-medium text-white transition-colors hover:border-[var(--color-primary-bright)]"
                 >
                   <Shield className="size-4" aria-hidden />
                   Admin
@@ -108,7 +121,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
               ) : null}
 
               <span
-                className="hidden min-h-[44px] items-center gap-1.5 whitespace-nowrap px-2 text-[14px] text-[var(--color-navy)] 2xl:inline-flex"
+                className="hidden min-h-[44px] items-center gap-1.5 whitespace-nowrap px-2 text-[14px] text-[var(--color-navy-muted)] 2xl:inline-flex"
                 data-testid="session-user"
               >
                 <UserRound className="size-4" aria-hidden />
@@ -120,7 +133,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
                 onClick={logout}
                 data-testid="logout"
                 aria-label="Cerrar sesion"
-                className="inline-flex size-11 items-center justify-center rounded-[var(--radius-input)] text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-danger)]"
+                className="inline-flex size-11 items-center justify-center rounded-[var(--radius-input)] text-[var(--color-navy-muted)] transition-colors hover:text-white"
               >
                 <LogOut className="size-4" aria-hidden />
               </button>
@@ -129,7 +142,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
             <Link
               href="/ingresar"
               data-testid="nav-login"
-              className="hidden min-h-[44px] items-center whitespace-nowrap rounded-[var(--radius-input)] border border-[#D1D5DB] px-4 text-[14px] font-medium text-[var(--color-navy)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] xl:inline-flex"
+              className="hidden min-h-[44px] items-center whitespace-nowrap rounded-[var(--radius-input)] border border-[var(--color-navy-line)] px-4 text-[14px] font-medium text-white transition-colors hover:border-[var(--color-primary-bright)] xl:inline-flex"
             >
               Ingresar
             </Link>
@@ -139,7 +152,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Abrir menu"
-            className="inline-flex size-11 items-center justify-center rounded-[var(--radius-input)] border border-[var(--color-border)] xl:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-[var(--radius-input)] border border-[var(--color-navy-line)] text-white xl:hidden"
           >
             <Menu className="size-5" aria-hidden />
           </button>
@@ -166,7 +179,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
               data-testid="mobile-menu"
             >
               <div className="mb-4 flex items-center justify-between">
-                <img src="/brand/logo-web.png" alt="MOVIA" width={115} height={80} className="h-8 w-auto" />
+                <img src="/brand/logo-web.png" alt="MOVIA" width={115} height={80} className="h-9 w-auto" />
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
