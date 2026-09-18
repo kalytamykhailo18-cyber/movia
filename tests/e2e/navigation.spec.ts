@@ -63,7 +63,7 @@ test.describe('Categorias', () => {
 
   test('una categoria lleva a la busqueda filtrada', async ({ page }) => {
     await page.goto('/categorias')
-    await page.getByRole('link', { name: /vehiculos/i }).first().click()
+    await page.getByRole('link', { name: /veh[ií]culos/i }).first().click()
     await expect(page).toHaveURL(/category=vehiculos/)
     await expect(page.getByTestId('publication-card').first()).toBeVisible()
   })
