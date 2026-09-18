@@ -28,8 +28,8 @@ export default async function HomePage() {
 
       <AnimatedSection>
         <SectionHeading
-          title="Categorias"
-          subtitle={`${totalActivos} activos publicados en ${categories.length} categorias`}
+          epigrafe={`${totalActivos} activos publicados en ${categories.length} categorías`}
+          title="Categorías"
           href="/categorias"
           linkLabel="Ver todas"
         />
@@ -39,10 +39,10 @@ export default async function HomePage() {
       {featured.length ? (
         <AnimatedSection>
           <SectionHeading
+            epigrafe="Visibilidad contratada"
             title="Activos destacados"
-            subtitle="Publicaciones con visibilidad contratada"
             href="/buscar?sort=featured"
-            linkLabel="Ver mas"
+            linkLabel="Ver más"
           />
           {/* Formato apaisado y el doble de superficie: es lo que se compra al
               contratar una publicacion destacada. */}
@@ -56,8 +56,8 @@ export default async function HomePage() {
 
       <AnimatedSection>
         <SectionHeading
-          title="Ultimas publicaciones"
-          subtitle="Lo mas reciente del catalogo"
+          epigrafe="Lo más reciente del catálogo"
+          title="Últimas publicaciones"
           href="/buscar"
           linkLabel="Ver todas"
         />
@@ -70,8 +70,8 @@ export default async function HomePage() {
 
       <AnimatedSection>
         <SectionHeading
+          epigrafe="Identidad validada con NIT y Cámara de Comercio"
           title="Empresas verificadas"
-          subtitle="Identidad validada con NIT y Camara de Comercio"
           href="/empresas"
           linkLabel="Ver todas"
         />
@@ -133,10 +133,10 @@ export default async function HomePage() {
             de color. */}
         <div className="movia-sangrado relative -mb-16 overflow-hidden bg-[var(--color-navy)] px-6 py-16 text-center md:px-12 md:py-20">
           <h2 className="text-[24px] font-bold tracking-[var(--tracking-tight)] text-white md:text-[28px]">
-            Tenes equipo parado?
+            ¿Tienes equipo parado?
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-[16px] text-[var(--color-navy-muted)]">
-            Publicalo hoy y empeza a recibir contactos de empresas que lo estan buscando en{' '}
+            Publícalo hoy y empieza a recibir contactos de empresas que lo están buscando en{' '}
             {env.locale.countryName}.
           </p>
           <Link
@@ -161,26 +161,29 @@ function iniciales(nombre: string) {
     .join('')
 }
 
+// La cabecera de seccion de la maqueta: filete azul de 4 px abarcando el
+// bloque entero, epigrafe encima del titulo en mayuscula tecnica y una linea
+// fina cerrando la fila. El epigrafe iba debajo del titulo, como parrafo
+// suelto, que es justo lo que impedia leer la seccion como una seccion.
 function SectionHeading({
+  epigrafe,
   title,
-  subtitle,
   href,
   linkLabel,
 }: {
+  epigrafe?: string
   title: string
-  subtitle?: string
   href: string
   linkLabel: string
 }) {
   return (
-    <div className="mb-6 flex items-end justify-between gap-4">
-      <div className="min-w-0">
-        <h2 className="text-[24px] font-semibold leading-tight tracking-[var(--tracking-tight)] text-[var(--color-navy)] md:text-[28px]">
+    <div className="mb-6 flex items-end justify-between gap-4 border-b border-[var(--color-border)] pb-3">
+      <div className="relative min-w-0 pl-4">
+        <span aria-hidden className="absolute inset-y-[3px] left-0 w-1 rounded-full bg-[var(--color-primary)]" />
+        {epigrafe ? <span className="movia-etiqueta">{epigrafe}</span> : null}
+        <h2 className="mt-2 text-[24px] font-semibold leading-tight tracking-[var(--tracking-tight)] text-[var(--color-navy)] md:text-[28px]">
           {title}
         </h2>
-        {subtitle ? (
-          <p className="mt-2 text-[14px] text-[var(--color-text-muted)]">{subtitle}</p>
-        ) : null}
       </div>
       <Link
         href={href}

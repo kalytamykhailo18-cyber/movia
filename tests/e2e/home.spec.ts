@@ -15,15 +15,21 @@ test.describe('Inicio', () => {
     expect(box!.width / box!.height).toBeCloseTo(3000 / 2088, 1)
   })
 
+  // El manual escribe el claim con tilde, "muévelo", en su seccion 1, y la
+  // pregunta del buscador con tildes y con signo de apertura, "¿Que activo
+  // estas buscando?", en la seccion 11. La interfaz las tenia sin acentuar y
+  // estas dos aserciones fijaban la falta. Se acentua la interfaz y las
+  // aserciones pasan a aceptar las dos formas, para no volver a fijar una
+  // ortografia concreta en una prueba de contenido.
   test('el titulo principal lleva el claim de la marca', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/lo que tu empresa no usa/i)
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/muevelo/i)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/mu[eé]velo/i)
   })
 
   test('el buscador usa la pregunta del manual', async ({ page }) => {
     const buscador = page.getByTestId('hero-search-input')
     await expect(buscador).toBeVisible()
-    await expect(buscador).toHaveAttribute('placeholder', /que activo estas buscando/i)
+    await expect(buscador).toHaveAttribute('placeholder', /qu[eé] activo est[aá]s buscando/i)
   })
 
   test('el inicio muestra el volumen real del marketplace', async ({ page }) => {

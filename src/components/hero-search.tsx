@@ -50,7 +50,7 @@ export function HeroSearch({ activos, empresas }: { activos: number; empresas: n
             className="mt-4 text-[32px] font-bold leading-[1.15] tracking-[var(--tracking-display)] text-white md:text-[40px]"
           >
             Lo que tu empresa no usa,{' '}
-            <span className="text-[var(--color-primary-bright)]">muevelo</span>
+            <span className="text-[var(--color-primary-bright)]">muévelo</span>
           </motion.h1>
 
           <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-[var(--color-navy-muted)]">
@@ -71,7 +71,7 @@ export function HeroSearch({ activos, empresas }: { activos: number; empresas: n
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Que activo estas buscando?"
+                placeholder="¿Qué activo estás buscando?"
                 aria-label="Buscar activos"
                 data-testid="hero-search-input"
                 // self-stretch y min-h: sin ellos el campo se queda en 20 px de
