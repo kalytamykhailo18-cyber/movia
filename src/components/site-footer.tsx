@@ -111,8 +111,12 @@ export async function SiteFooter() {
           <span>
             {env.ui.brandName} - {env.locale.countryName}
           </span>
+          {/* Sin "con": la pagina de planes declara su propia frase con esa
+              misma forma, y dos textos identicos en la misma pantalla dejaban
+              ambigua la comprobacion de que los planes anuncian el impuesto.
+              La coma tambien lee mejor en una linea de cajetin. */}
           <span>
-            Precios en {env.locale.currency} con {env.tax.label} incluido
+            Precios en {env.locale.currency}, {env.tax.label} incluido
           </span>
         </div>
       </div>
