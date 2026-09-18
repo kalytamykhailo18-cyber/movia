@@ -182,7 +182,7 @@ export default async function PublicationPage({ params }: Props) {
 
             <dl className="grid grid-cols-2 gap-4 rounded-b-[var(--radius-card)] border border-t-0 border-[var(--color-border)] bg-white p-[var(--pad-panel)] sm:grid-cols-4">
               <Dato etiqueta="Ubicacion" valor={pub.city?.name ?? '-'} />
-              <Dato etiqueta="Ano" valor={pub.year?.toString() ?? '-'} />
+              <Dato etiqueta="Año" valor={pub.year?.toString() ?? '-'} />
               <Dato
                 etiqueta="Horas de uso"
                 valor={pub.usageHours ? `${pub.usageHours.toLocaleString(env.locale.locale)} h` : '-'}

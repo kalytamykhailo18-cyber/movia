@@ -178,7 +178,7 @@ export function PublicationCard({
               <dl className="mt-3 border-t border-[var(--color-border)]">
                 {item.year || item.usageHours ? (
                   <>
-                    <Dato etiqueta="Ano" valor={item.year ? String(item.year) : '-'} />
+                    <Dato etiqueta="Año" valor={item.year ? String(item.year) : '-'} />
                     <Dato etiqueta={destacada ? 'Horas de uso' : 'Horas'} valor={horas} />
                   </>
                 ) : null}

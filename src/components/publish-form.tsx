@@ -193,7 +193,7 @@ export function PublishForm({ categories, cities }: { categories: Category[]; ci
 
         <div className="grid gap-4 sm:grid-cols-3">
           <Field
-            label="Ano"
+            label="Año"
             type="number"
             value={form.year}
             onChange={(v) => set('year', v)}

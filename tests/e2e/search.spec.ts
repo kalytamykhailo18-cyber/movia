@@ -37,10 +37,10 @@ test.describe('Busqueda', () => {
   })
 
   test('filtra por ciudad', async ({ page }) => {
-    await page.goto('/buscar?city=Medellin')
+    await page.goto(`/buscar?city=${encodeURIComponent('Medellín')}`)
     const cards = page.getByTestId('publication-card')
     expect(await cards.count()).toBeGreaterThan(0)
-    await expect(cards.first()).toContainText('Medellin')
+    await expect(cards.first()).toContainText('Medellín')
   })
 
   test('filtra por rango de precio', async ({ page }) => {
@@ -116,7 +116,7 @@ test.describe('Filtros en escritorio @desktop', () => {
   })
 
   test('limpiar filtros restablece la busqueda', async ({ page }) => {
-    await page.goto('/buscar?category=vehiculos&city=Medellin')
+    await page.goto(`/buscar?category=vehiculos&city=${encodeURIComponent('Medellín')}`)
     await page.getByTestId('clear-filters').click()
     await expect(page).toHaveURL(/\/buscar$/)
   })

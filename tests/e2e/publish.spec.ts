@@ -115,7 +115,7 @@ test.describe('Alta de publicacion', () => {
     await select.selectOption(maquinaria!)
     await expect(page.getByTestId('spec-potencia')).toBeVisible()
 
-    const vehiculos = await select.locator('option', { hasText: 'Vehiculos' }).getAttribute('value')
+    const vehiculos = await select.locator('option', { hasText: 'Vehículos' }).getAttribute('value')
     await select.selectOption(vehiculos!)
     await expect(page.getByTestId('spec-kilometraje')).toBeVisible()
     await expect(page.getByTestId('spec-potencia')).toBeHidden()

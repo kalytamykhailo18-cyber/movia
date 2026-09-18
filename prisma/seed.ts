@@ -9,10 +9,10 @@ import { slugify } from '../src/lib/utils'
 const db = new PrismaClient()
 
 const CITIES = [
-  { name: 'Bogota', region: 'Cundinamarca' },
-  { name: 'Medellin', region: 'Antioquia' },
+  { name: 'Bogotá', region: 'Cundinamarca' },
+  { name: 'Medellín', region: 'Antioquia' },
   { name: 'Cali', region: 'Valle del Cauca' },
-  { name: 'Barranquilla', region: 'Atlantico' },
+  { name: 'Barranquilla', region: 'Atlántico' },
   { name: 'Cartagena', region: 'Bolivar' },
   { name: 'Bucaramanga', region: 'Santander' },
   { name: 'Pereira', region: 'Risaralda' },
@@ -38,23 +38,23 @@ const CATEGORIES = [
     attributes: [
       { key: 'capacidad', label: 'Capacidad', type: 'number', unit: 'L' },
       { key: 'material', label: 'Material', type: 'select', options: ['Acero inoxidable', 'Acero al carbono', 'Aluminio'] },
-      { key: 'presion', label: 'Presion maxima', type: 'number', unit: 'bar' },
+      { key: 'presion', label: 'Presión máxima', type: 'number', unit: 'bar' },
     ],
   },
   {
     slug: 'vehiculos',
-    name: 'Vehiculos',
+    name: 'Vehículos',
     icon: 'Truck',
     attributes: [
       { key: 'kilometraje', label: 'Kilometraje', type: 'number', unit: 'km' },
-      { key: 'combustible', label: 'Combustible', type: 'select', options: ['Diesel', 'Gasolina', 'Electrico', 'Gas'] },
+      { key: 'combustible', label: 'Combustible', type: 'select', options: ['Diesel', 'Gasolina', 'Eléctrico', 'Gas'] },
       { key: 'capacidadCarga', label: 'Capacidad de carga', type: 'number', unit: 'ton' },
-      { key: 'transmision', label: 'Transmision', type: 'select', options: ['Manual', 'Automatica'] },
+      { key: 'transmision', label: 'Transmisión', type: 'select', options: ['Manual', 'Automática'] },
     ],
   },
   {
     slug: 'construccion',
-    name: 'Construccion',
+    name: 'Construcción',
     icon: 'HardHat',
     attributes: [
       { key: 'alcance', label: 'Alcance', type: 'number', unit: 'm' },
@@ -67,9 +67,9 @@ const CATEGORIES = [
     name: 'Alimentos',
     icon: 'UtensilsCrossed',
     attributes: [
-      { key: 'produccionHora', label: 'Produccion por hora', type: 'number', unit: 'kg/h' },
+      { key: 'produccionHora', label: 'Producción por hora', type: 'number', unit: 'kg/h' },
       { key: 'temperatura', label: 'Rango de temperatura', type: 'text' },
-      { key: 'certificacion', label: 'Certificacion', type: 'select', options: ['INVIMA', 'HACCP', 'ISO 22000', 'Ninguna'] },
+      { key: 'certificacion', label: 'Certificación', type: 'select', options: ['INVIMA', 'HACCP', 'ISO 22000', 'Ninguna'] },
     ],
   },
   {
@@ -84,7 +84,7 @@ const CATEGORIES = [
   },
   {
     slug: 'tecnologia',
-    name: 'Tecnologia',
+    name: 'Tecnología',
     icon: 'Cpu',
     attributes: [
       { key: 'cantidad', label: 'Cantidad', type: 'number', unit: 'unidades' },
@@ -167,9 +167,9 @@ const COMPANIES = [
     name: 'Industrias Andinas',
     legalName: 'Industrias Andinas S.A.S.',
     nit: '900123456',
-    city: 'Bogota',
+    city: 'Bogotá',
     verificationStatus: 'approved',
-    description: 'Fabricacion y renovacion de maquinaria para la industria metalmecanica. Operamos desde 2008 con planta en Bogota.',
+    description: 'Fabricación y renovación de maquinaria para la industria metalmecánica. Operamos desde 2008 con planta en Bogotá.',
     badges: ['verified', 'top_seller', 'fast_response'],
     responseTimeMins: 45,
   },
@@ -179,7 +179,7 @@ const COMPANIES = [
     nit: '830456789',
     city: 'Cali',
     verificationStatus: 'approved',
-    description: 'Taller de mecanizado de precision y venta de excedentes industriales del Valle del Cauca.',
+    description: 'Taller de mecanizado de precisión y venta de excedentes industriales del Valle del Cauca.',
     badges: ['verified', 'fast_response'],
     responseTimeMins: 90,
   },
@@ -189,7 +189,7 @@ const COMPANIES = [
     nit: '901987654',
     city: 'Barranquilla',
     verificationStatus: 'approved',
-    description: 'Flota de transporte de carga y equipos de bodega. Renovamos flota cada 5 anos.',
+    description: 'Flota de transporte de carga y equipos de bodega. Renovamos flota cada 5 años.',
     badges: ['verified'],
     responseTimeMins: 180,
   },
@@ -199,7 +199,7 @@ const COMPANIES = [
     nit: '900555111',
     city: 'Pereira',
     verificationStatus: 'pending',
-    description: 'Procesamiento de alimentos. Vendemos equipos por modernizacion de planta.',
+    description: 'Procesamiento de alimentos. Vendemos equipos por modernización de planta.',
     badges: [],
     responseTimeMins: null,
   },
@@ -207,9 +207,9 @@ const COMPANIES = [
     name: 'Construcciones Paisas',
     legalName: 'Construcciones Paisas S.A.S.',
     nit: '811222333',
-    city: 'Medellin',
+    city: 'Medellín',
     verificationStatus: 'approved',
-    description: 'Constructora con 15 anos de trayectoria. Liquidamos equipo de obra periodicamente.',
+    description: 'Constructora con 15 años de trayectoria. Liquidamos equipo de obra periodicamente.',
     badges: ['verified', 'top_seller'],
     responseTimeMins: 60,
   },
@@ -245,7 +245,7 @@ const PUBLICATIONS: PubSeed[] = [
     usageHours: 900,
     condition: 'Usado - buen estado',
     price: 4200000,
-    city: 'Bogota',
+    city: 'Bogotá',
     description:
       'Compresor de piston de 5 HP con tanque de 300 litros, usado en taller propio de carpinteria. Poco uso, mantenimiento al dia con cambio de aceite reciente. Vendo por cierre del taller.',
     specs: { capacidad: 300, material: 'Acero al carbono', presion: 10 },
@@ -260,7 +260,7 @@ const PUBLICATIONS: PubSeed[] = [
     year: 2022,
     condition: 'Usado - buen estado',
     price: 3800000,
-    city: 'Medellin',
+    city: 'Medellín',
     description:
       'Lote de herramienta electrica profesional Bosch: rotomartillo, pulidora, caladora y atornillador, con sus estuches originales. Herramienta de uso personal en buen estado.',
     specs: { cantidad: 4, estadoLote: 'Usado' },
@@ -276,7 +276,7 @@ const PUBLICATIONS: PubSeed[] = [
     usageHours: 12400,
     condition: 'Usado - buen estado',
     price: 185000000,
-    city: 'Bogota',
+    city: 'Bogotá',
     description:
       'Torno CNC Mazak Quick Turn 250 con control Mazatrol. Mantenimiento preventivo al dia, husillo revisado en 2025. Se entrega con juego de portaherramientas, manuales originales y capacitacion basica de operacion. Motivo de venta: renovacion de linea de produccion.',
     specs: { potencia: 22, voltaje: '440V', peso: 4200, control: 'CNC' },
@@ -311,7 +311,7 @@ const PUBLICATIONS: PubSeed[] = [
     usageHours: 6200,
     condition: 'Usado - excelente estado',
     price: 68000000,
-    city: 'Bogota',
+    city: 'Bogotá',
     description:
       'Prensa hidraulica de taller de 100 toneladas, marco en H, cilindro central desplazable. Bomba electrica incluida, manometro calibrado en 2026. Ideal para montaje y desmontaje de rodamientos y enderezado de piezas.',
     specs: { potencia: 5.5, voltaje: '440V', peso: 2800, control: 'Manual' },
@@ -327,7 +327,7 @@ const PUBLICATIONS: PubSeed[] = [
     usageHours: 9800,
     condition: 'Usado - buen estado',
     price: 54000000,
-    city: 'Bogota',
+    city: 'Bogotá',
     description:
       'Compresor de tornillo rotativo con variador de velocidad, 37 kW. Incluye secador refrigerativo y tanque pulmon de 500 litros. Historial de mantenimiento completo disponible. Consumo optimizado por VSD.',
     specs: { capacidad: 500, material: 'Acero al carbono', presion: 10 },
@@ -361,7 +361,7 @@ const PUBLICATIONS: PubSeed[] = [
     usageHours: 4100,
     condition: 'Usado - operativo',
     price: 95000000,
-    city: 'Medellin',
+    city: 'Medellín',
     description:
       'Planta electrica diesel Cummins de 250 kVA en cabina insonorizada. Tablero de transferencia automatica incluido. Usada como respaldo en obra, bajo horometro. Se entrega con tanque de 400 litros.',
     specs: { capacidad: 400, material: 'Acero al carbono', presion: 1 },
@@ -397,7 +397,7 @@ const PUBLICATIONS: PubSeed[] = [
     city: 'Barranquilla',
     description:
       'Montacargas Toyota a gas de 2.5 toneladas, torre triplex 4.7 metros, desplazador lateral. Llantas nuevas, bateria y sistema electrico revisados. Operativo en bodega climatizada.',
-    specs: { kilometraje: 0, combustible: 'Gas', capacidadCarga: 2.5, transmision: 'Automatica' },
+    specs: { kilometraje: 0, combustible: 'Gas', capacidadCarga: 2.5, transmision: 'Automática' },
     photos: 5,
   },
   {
@@ -409,7 +409,7 @@ const PUBLICATIONS: PubSeed[] = [
     year: 2015,
     condition: 'Usado - operativo',
     price: 210000000,
-    city: 'Medellin',
+    city: 'Medellín',
     description:
       'Volqueta doble troque Kenworth T370, platon de 16 metros cubicos. Motor PACCAR revisado en 2025, caja Eaton de 10 velocidades. Trabajo en obra civil, mantenimiento programado al dia.',
     specs: { kilometraje: 380000, combustible: 'Diesel', capacidadCarga: 16, transmision: 'Manual' },
@@ -426,7 +426,7 @@ const PUBLICATIONS: PubSeed[] = [
     usageHours: 7800,
     condition: 'Usado - buen estado',
     price: 245000000,
-    city: 'Medellin',
+    city: 'Medellín',
     description:
       'Retroexcavadora CAT 416F2 4x4, cabina cerrada con aire acondicionado. Balde frontal 1 metro cubico y balde trasero 60 cm. Horometro real, sin reparaciones mayores. Disponible para inspeccion tecnica.',
     specs: { alcance: 6.5, capacidadIzaje: 3.2, motor: 'CAT 3054C 87 HP' },
@@ -443,7 +443,7 @@ const PUBLICATIONS: PubSeed[] = [
     year: 2019,
     condition: 'Usado - buen estado',
     price: 48000000,
-    city: 'Medellin',
+    city: 'Medellín',
     description:
       'Lote de andamio multidireccional Layher Allround equivalente a 500 metros cuadrados de fachada. Incluye plataformas metalicas, barandas, diagonales y bases regulables. Almacenado bajo techo.',
     specs: { alcance: 20, capacidadIzaje: 0.5, motor: 'No aplica' },
@@ -459,7 +459,7 @@ const PUBLICATIONS: PubSeed[] = [
     usageHours: 2200,
     condition: 'Usado - como nuevo',
     price: 6800000,
-    city: 'Medellin',
+    city: 'Medellín',
     description:
       'Mezcladora de concreto de 1 saco con motor electrico de 2 HP. Poco uso, pintura original. Ideal para obra pequena o remodelacion. Se entregan 3 unidades disponibles.',
     specs: { alcance: 0, capacidadIzaje: 0.35, motor: 'Electrico 2 HP' },
@@ -522,7 +522,7 @@ const PUBLICATIONS: PubSeed[] = [
     year: 2021,
     condition: 'Usado - buen estado',
     price: 32000000,
-    city: 'Bogota',
+    city: 'Bogotá',
     description:
       'Lote de 40 puestos de trabajo modulares con divisiones acusticas, cada uno con cajonera metalica y silla ergonomica. Desmontados y embalados, listos para retirar. Se vende el lote completo.',
     specs: { cantidad: 40, material: 'Melamina', dimensiones: '140 x 70 x 75 cm' },
@@ -552,7 +552,7 @@ const PUBLICATIONS: PubSeed[] = [
     year: 2021,
     condition: 'Usado - buen estado',
     price: 42000000,
-    city: 'Bogota',
+    city: 'Bogotá',
     description:
       'Lote de 25 portatiles corporativos Dell Latitude 5420, procesador Intel i5 de 11va generacion. Baterias con salud superior al 80 por ciento, formateados y con licencia Windows 11 Pro. Renovacion de parque tecnologico.',
     specs: { cantidad: 25, procesador: 'Intel Core i5-1135G7', memoria: 16, almacenamiento: 'SSD 512 GB' },
@@ -618,7 +618,7 @@ const PUBLICATIONS: PubSeed[] = [
     year: 2023,
     condition: 'Nuevo',
     price: 22000000,
-    city: 'Bogota',
+    city: 'Bogotá',
     description:
       'Inventario de repuestos hidraulicos Parker: mangueras, racores, sellos y valvulas. Aproximadamente 800 referencias nuevas en empaque original. Se entrega listado detallado en Excel al interesado.',
     specs: { cantidad: 800, estadoLote: 'Nuevo' },
