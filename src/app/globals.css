@@ -87,15 +87,17 @@
 
    El margen negativo saca la seccion hasta el borde de la ventana. Como 50vw
    incluye la barra de desplazamiento, sobra el ancho de esa barra: se recorta
-   con overflow-x en el body. Tiene que ser "clip" y no "hidden", porque
-   "hidden" crea un contenedor de desplazamiento y el encabezado sticky
-   dejaria de pegarse.
+   en la raiz. Donde la barra se superpone, como aqui, no sobra nada y el
+   recorte no hace nada; donde ocupa sitio, evita quince pixeles de scroll
+   horizontal. Tiene que ser "clip" y no "hidden": "hidden" crearia un
+   contenedor de desplazamiento y romperia el encabezado pegajoso y el panel
+   de contacto de la ficha, que tambien se pega.
 
    El relleno interior no se recalcula: la caja interna de la seccion es
    max-w-[1152px] centrada, que es exactamente 1200 menos los dos rellenos de
    24 px de <main>. Asi el titular arranca en la misma vertical que el resto
    de la pagina. */
-body {
+html {
   overflow-x: clip;
 }
 

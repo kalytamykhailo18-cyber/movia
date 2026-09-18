@@ -7,14 +7,19 @@ import { badgeVariants, motionEnabled } from '@/lib/motion'
 
 type Tone = 'verified' | 'pending' | 'rejected' | 'featured' | 'neutral' | 'success' | 'danger'
 
+// Los fondos suaves eran colores sueltos de Tailwind, amber-50, red-50,
+// green-50, slate-100, ajenos a la paleta del encargo. Ahora cada uno es su
+// propio color de marca al 10 %, asi que no se anade ningun valor nuevo: son
+// los mismos nueve, rebajados sobre blanco. El neutro no tiene color propio
+// que rebajar, asi que se marca con filete en vez de con fondo.
 const TONE: Record<Tone, string> = {
   verified: 'bg-[var(--color-primary-soft)] text-[var(--color-primary)]',
-  pending: 'bg-amber-50 text-amber-700',
-  rejected: 'bg-red-50 text-[var(--color-danger)]',
+  pending: 'bg-[rgba(180,83,9,0.10)] text-[var(--color-warning)]',
+  rejected: 'bg-[rgba(220,38,38,0.10)] text-[var(--color-danger)]',
   featured: 'bg-[var(--color-navy)] text-white',
-  neutral: 'bg-slate-100 text-[var(--color-text-muted)]',
-  success: 'bg-green-50 text-[var(--color-success)]',
-  danger: 'bg-red-50 text-[var(--color-danger)]',
+  neutral: 'border border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-text-muted)]',
+  success: 'bg-[rgba(22,163,74,0.10)] text-[var(--color-success)]',
+  danger: 'bg-[rgba(220,38,38,0.10)] text-[var(--color-danger)]',
 }
 
 export function Badge({

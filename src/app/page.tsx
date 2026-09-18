@@ -100,14 +100,19 @@ export default async function HomePage() {
                   {company.description ? ` · ${company.description}` : ''}
                 </span>
                 <span className="mt-2 flex flex-wrap gap-1">
-                  {parseJson<string[]>(company.badges, []).slice(0, 2).map((b) => (
+                  {/* El sello de verificacion ya va junto al nombre, asi que
+                      el distintivo "Verificada" repetiria el dato. */}
+                  {parseJson<string[]>(company.badges, [])
+                    .filter((b) => b !== 'verified')
+                    .slice(0, 2)
+                    .map((b) => (
                     <span
                       key={b}
                       className="inline-flex h-6 items-center rounded-full bg-[var(--color-verified-soft)] px-2 text-[length:var(--text-label)] font-semibold tracking-[0.04em] text-[#1E40AF]"
                     >
-                      {b === 'top_seller' ? 'Top seller' : b === 'fast_response' ? 'Respuesta rapida' : 'Verificada'}
+                      {b === 'top_seller' ? 'Top seller' : b === 'fast_response' ? 'Respuesta rapida' : 'Anos en MOVIA'}
                     </span>
-                  ))}
+                    ))}
                 </span>
               </span>
 
