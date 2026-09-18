@@ -9,3 +9,4 @@ build
 test-results
 playwright-report
 storage/uploads
+tsconfig.tsbuildinfo
