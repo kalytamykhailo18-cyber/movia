@@ -14,7 +14,12 @@ test.describe('Ficha de publicacion', () => {
   test('muestra titulo, precio e impuesto incluido', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     await expect(page.getByTestId('detail-price')).toContainText('$')
-    await expect(page.getByText(/IVA incluido/i)).toBeVisible()
+    // Se apunta a la linea de impuesto de la ficha, no a cualquier "IVA
+    // incluido" de la pagina. Cada precio del catalogo declara ahora si lleva
+    // impuesto, que en un marketplace B2B colombiano es lo que permite
+    // comparar dos publicaciones, y el cajetin lo repite al pie. El texto
+    // suelto aparecia en seis sitios y el localizador no sabia a cual ir.
+    await expect(page.getByTestId('detail-tax')).toContainText(/IVA incluido/i)
   })
 
   test('muestra la galeria con contador de imagenes', async ({ page }) => {

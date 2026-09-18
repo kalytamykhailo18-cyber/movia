@@ -169,7 +169,10 @@ export default async function PublicationPage({ params }: Props) {
                 >
                   {money(pub.price, pub.currency)}
                 </p>
-                <p className="mt-2 text-[12px] text-[var(--color-navy-muted)]">
+                <p
+                  className="mt-2 text-[12px] text-[var(--color-navy-muted)]"
+                  data-testid="detail-tax"
+                >
                   {env.tax.includedInPrice ? `${env.tax.label} incluido` : `Mas ${env.tax.label}`}
                   {' · Publicado el '}
                   {shortDate(pub.publishedAt)}
