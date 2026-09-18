@@ -35,8 +35,8 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
 
   if (!total) {
     return (
-      <div className="flex aspect-[4/3] items-center justify-center rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white text-[14px] text-[var(--color-text-muted)]">
-        Sin fotografias
+      <div className="movia-plano flex aspect-[4/3] items-center justify-center rounded-[var(--radius-card)] border border-[var(--color-border)]">
+        <span className="movia-etiqueta text-[#7f9fd0]">Sin fotografias</span>
       </div>
     )
   }
@@ -44,7 +44,10 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
   return (
     <>
       <section className="space-y-3" data-testid="gallery">
-        <div className="relative overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white">
+        {/* El marco se apoya en el mismo plano que la tarjeta, asi el
+            marcador generado, que llega transparente, cae sobre la retícula y
+            no sobre un blanco suelto. */}
+        <div className="movia-plano relative overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-border)]">
           <div className="relative z-0 aspect-[4/3] w-full">
             <AnimatePresence initial={false} custom={direction} mode="wait">
               <motion.img
@@ -62,8 +65,10 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
             </AnimatePresence>
           </div>
 
+          {/* La misma chapa remachada de la tarjeta, en la misma esquina: la
+              galeria y el catalogo hablan el mismo idioma. */}
           <span
-            className="pointer-events-none absolute bottom-3 right-3 z-20 rounded-full bg-[var(--color-navy)]/80 px-2.5 py-1 text-[12px] font-medium text-white"
+            className="pointer-events-none absolute bottom-0 left-0 z-20 inline-flex h-[26px] items-center rounded-tr-[var(--radius-input)] bg-[var(--color-navy)] px-3 text-[length:var(--text-label)] font-semibold uppercase tracking-[0.1em] tabular-nums text-white"
             data-testid="gallery-counter"
           >
             {index + 1} / {total}
@@ -74,7 +79,7 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
             onClick={() => setZoom(true)}
             aria-label="Ampliar imagen"
             data-testid="gallery-expand"
-            className="absolute right-3 top-3 z-20 inline-flex size-11 items-center justify-center rounded-full bg-white/90 text-[var(--color-navy)] transition-colors hover:bg-white"
+            className="absolute right-3 top-3 z-20 inline-flex size-11 items-center justify-center rounded-[var(--radius-input)] border border-[var(--color-border)] bg-white/95 text-[var(--color-navy)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
           >
             <Expand className="size-4" aria-hidden />
           </button>
@@ -98,8 +103,12 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
                 aria-current={i === index}
                 whileHover={motionEnabled ? { y: -2 } : undefined}
                 className={cn(
-                  'relative size-16 shrink-0 overflow-hidden rounded-[var(--radius-input)] border-2 transition-colors',
-                  i === index ? 'border-[var(--color-primary)]' : 'border-[var(--color-border)]',
+                  // 4:3 como el marco: una miniatura cuadrada recorta un
+                  // encuadre distinto del que se va a abrir.
+                  'movia-plano relative h-14 w-[74px] shrink-0 overflow-hidden rounded-[var(--radius-input)] border-2 transition-[border-color,opacity]',
+                  i === index
+                    ? 'border-[var(--color-primary)] opacity-100'
+                    : 'border-[var(--color-border)] opacity-60 hover:opacity-100',
                 )}
               >
                 <img src={photo} alt="" className="size-full object-cover" />
@@ -141,7 +150,7 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
               className="max-h-[85vh] max-w-full rounded-[var(--radius-modal)] object-contain"
             />
 
-            <span className="absolute bottom-6 rounded-full bg-white/10 px-3 py-1 text-[13px] text-white">
+            <span className="absolute bottom-6 rounded-[var(--radius-input)] bg-white/10 px-3 py-1.5 text-[length:var(--text-label)] font-semibold uppercase tracking-[0.1em] tabular-nums text-white">
               {index + 1} / {total}
             </span>
           </motion.div>
@@ -177,7 +186,7 @@ function NavButton({
         data-testid={testId}
         whileHover={motionEnabled ? { scale: 1.06 } : undefined}
         whileTap={motionEnabled ? { scale: 0.94 } : undefined}
-        className="inline-flex size-11 items-center justify-center rounded-full bg-white/90 text-[var(--color-navy)] shadow-sm transition-colors hover:bg-white"
+        className="inline-flex size-11 items-center justify-center rounded-[var(--radius-input)] border border-[var(--color-border)] bg-white/95 text-[var(--color-navy)] shadow-[var(--shadow-card)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
       >
         <Icon className="size-5" aria-hidden />
       </motion.button>

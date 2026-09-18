@@ -427,11 +427,19 @@ test.describe('La identidad se sostiene en las paginas principales', () => {
     expect(fondo).toBe(NAVY)
   })
 
+  // El isotipo tiene ahora dos oficios y esta prueba vigila uno solo:
+  //   1. Marca, en la barra, a opacidad completa. La seccion 2 del manual pide
+  //      el isotipo en tamanos reducidos y una barra de 64 px lo es.
+  //   2. Elemento grafico, de fondo, donde si tiene que quedarse por debajo
+  //      del texto y no competir con el.
+  // Se acota a las apariciones decorativas, que son las marcadas aria-hidden.
+  // La intencion no cambia: el isotipo de fondo no compite. Que la barra lleve
+  // el isotipo a plena opacidad lo comprueba home.spec.
   test('el isotipo se usa como elemento grafico, no solo como logo', async ({ page }) => {
     await page.goto('/')
 
     const marcas = await page
-      .locator('img[src="/brand/isotipo.png"]')
+      .locator('img[src="/brand/isotipo.png"][aria-hidden="true"]')
       .evaluateAll((els) => els.map((el) => Number(getComputedStyle(el).opacity)))
 
     expect(marcas.length).toBeGreaterThan(0)

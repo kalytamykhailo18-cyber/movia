@@ -81,6 +81,30 @@
   }
 }
 
+/* Sangrado completo desde dentro de <main>, que esta limitado a 1200 px y
+   centrado. El encabezado es navy de borde a borde, asi que un bloque navy
+   mas estrecho colgando de el se lee como un error, no como una decision.
+
+   El margen negativo saca la seccion hasta el borde de la ventana. Como 50vw
+   incluye la barra de desplazamiento, sobra el ancho de esa barra: se recorta
+   en la raiz. Donde la barra se superpone, como aqui, no sobra nada y el
+   recorte no hace nada; donde ocupa sitio, evita quince pixeles de scroll
+   horizontal. Tiene que ser "clip" y no "hidden": "hidden" crearia un
+   contenedor de desplazamiento y romperia el encabezado pegajoso y el panel
+   de contacto de la ficha, que tambien se pega.
+
+   El relleno interior no se recalcula: la caja interna de la seccion es
+   max-w-[1152px] centrada, que es exactamente 1200 menos los dos rellenos de
+   24 px de <main>. Asi el titular arranca en la misma vertical que el resto
+   de la pagina. */
+html {
+  overflow-x: clip;
+}
+
+.movia-sangrado {
+  margin-inline: calc(50% - 50vw);
+}
+
 /* Etiqueta tecnica. Mayusculas cortas, que el manual admite para etiquetas y
    descriptores. Encima de cada dato, es lo que convierte una pantalla en una
    ficha tecnica sin recurrir a ningun color nuevo. */
@@ -121,6 +145,21 @@ body {
      lo trae de serie y casi nadie lo enciende. Las cifras tabulares van por
      componente, no aqui: en texto corrido estorban. */
   font-feature-settings: 'zero' 1, 'cv05' 1;
+}
+
+/* Tailwind 4 alinea el cursor de <button> con el del navegador, que es la
+   flecha, no la mano. En la practica eso deja sin senal tactil todo lo que no
+   sea un enlace: en /buscar son veinticuatro controles, la lista de categorias
+   incluida, y el filtro parece texto muerto hasta que se pulsa. Medido: los
+   <a> salen en pointer y los <button> en default.
+
+   Se restituye la mano en lo que se pulsa, y solo ahi. Lo deshabilitado
+   conserva su not-allowed, que es la senal de que no se puede. */
+button:not(:disabled):not([aria-disabled='true']),
+[role='button']:not([aria-disabled='true']),
+select:not(:disabled),
+summary {
+  cursor: pointer;
 }
 
 /* El manual pide foco visible para navegacion con teclado, pero sin el

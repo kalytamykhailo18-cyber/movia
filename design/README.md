@@ -30,12 +30,18 @@ Ni `package.json` ni `package-lock.json` se modifican.
 ## Contenido
 
 ```
-placa/           Direccion vigente, "La Placa". Maquetas, tokens y estados.
-mockups/         Direccion anterior, conservada como alternativa.
-spec/            Especificacion de la direccion anterior.
-tokens/          Tokens de la direccion anterior.
-observaciones.md Hallazgos tecnicos ajenos al diseno. No se tocan aqui.
+especificacion.md  Entregable: valores exactos de color, tamano, espaciado y
+                   estados, medidos sobre el build. Empezar por aqui.
+placa/             Direccion vigente, "La Placa". Maquetas, tokens y estados.
+mockups/           Direccion anterior, conservada como alternativa.
+spec/              Especificacion de la direccion anterior.
+tokens/            Tokens de la direccion anterior.
+observaciones.md   Hallazgos tecnicos ajenos al diseno. No se tocan aqui.
 ```
+
+El encargo pide numeros y no solo capturas: "el front es token-driven, los
+numeros reales entran directos". Eso es `especificacion.md`, y esta medido con
+getComputedStyle sobre el build en ejecucion, no escrito de memoria.
 
 La dirección vigente es **`placa/`**. Empezar por `placa/README.md`.
 

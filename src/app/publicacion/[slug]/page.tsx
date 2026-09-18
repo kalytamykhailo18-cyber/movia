@@ -102,8 +102,15 @@ export default async function PublicationPage({ params }: Props) {
         >
           {pub.category.name}
         </Link>
-        <span aria-hidden>/</span>
-        <span className="text-[var(--color-navy)]">{pub.title}</span>
+        {/* El ultimo escalon repite palabra por palabra el h1 que viene justo
+            debajo. En escritorio cabe en una linea y sirve de orientacion; en
+            telefono parte la miga en dos y deja la barra suelta al final de la
+            primera, asi que alli se deja fuera. El rastro estructurado del
+            JSON-LD lo conserva entero. */}
+        <span aria-hidden className="hidden sm:inline">
+          /
+        </span>
+        <span className="hidden text-[var(--color-navy)] sm:inline">{pub.title}</span>
       </nav>
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
@@ -123,12 +130,33 @@ export default async function PublicationPage({ params }: Props) {
               />
 
               <div className="relative">
+                {/* Los tonos del distintivo estan calculados para fondo
+                    claro y este bloque es navy: "Destacado" salia navy sobre
+                    navy, o sea invisible, y el neutro se iba a un chip casi
+                    blanco. Aqui van las versiones de la consola.
+
+                    El estado solo aparece cuando no es "Activa". Un
+                    distintivo que sale en el cien por cien de las fichas no
+                    distingue nada; si esta, es porque hay algo que mirar. */}
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge tone={pub.status === 'active' ? 'success' : 'neutral'}>
-                    {STATUS_LABEL[pub.status] ?? pub.status}
-                  </Badge>
-                  {pub.featured ? <Badge tone="featured">Destacado</Badge> : null}
-                  {pub.negotiable ? <Badge tone="neutral">Precio negociable</Badge> : null}
+                  {pub.status !== 'active' ? (
+                    <Badge tone="neutral" className="border-[var(--color-navy-edge)] bg-transparent text-white">
+                      {STATUS_LABEL[pub.status] ?? pub.status}
+                    </Badge>
+                  ) : null}
+                  {pub.featured ? (
+                    <Badge tone="featured" className="bg-[var(--color-primary)] text-white">
+                      Destacado
+                    </Badge>
+                  ) : null}
+                  {pub.negotiable ? (
+                    <Badge
+                      tone="neutral"
+                      className="border-[var(--color-navy-edge)] bg-transparent text-[var(--color-navy-muted)]"
+                    >
+                      Precio negociable
+                    </Badge>
+                  ) : null}
                 </div>
 
                 <h1 className="mt-3 text-[24px] font-bold leading-[1.15] tracking-[var(--tracking-display)] text-white md:text-[32px]">
@@ -141,7 +169,10 @@ export default async function PublicationPage({ params }: Props) {
                 >
                   {money(pub.price, pub.currency)}
                 </p>
-                <p className="mt-2 text-[12px] text-[var(--color-navy-muted)]">
+                <p
+                  className="mt-2 text-[12px] text-[var(--color-navy-muted)]"
+                  data-testid="detail-tax"
+                >
                   {env.tax.includedInPrice ? `${env.tax.label} incluido` : `Mas ${env.tax.label}`}
                   {' · Publicado el '}
                   {shortDate(pub.publishedAt)}
@@ -178,8 +209,11 @@ export default async function PublicationPage({ params }: Props) {
                 <tbody>
                   {filas.map((fila) => (
                     <tr key={fila.etiqueta} className="border-b border-[var(--color-border)] last:border-0 odd:bg-[var(--color-background)]">
-                      <th scope="row" className="w-[44%] px-[var(--pad-panel)] py-[var(--pad-cell)] text-left font-normal text-[var(--color-text-muted)]">
-                        {fila.etiqueta}
+                      {/* La tira de datos de arriba rotula en mayuscula
+                          tecnica y esta tabla lo hacia en caja baja: eran dos
+                          idiomas en la misma columna. */}
+                      <th scope="row" className="w-[44%] px-[var(--pad-panel)] py-[var(--pad-cell)] text-left align-middle">
+                        <span className="movia-etiqueta">{fila.etiqueta}</span>
                       </th>
                       <td className="px-[var(--pad-panel)] py-[var(--pad-cell)] text-right font-semibold tabular-nums text-[var(--color-navy)]">
                         {fila.valor}
@@ -220,8 +254,13 @@ export default async function PublicationPage({ params }: Props) {
               </Link>
 
               <div className="mt-3 flex flex-wrap gap-2">
+                {/* "Empresa verificada" ya lo dice el sello de al lado, asi
+                    que el distintivo "Verificada" del listado sobra aqui: eran
+                    dos pastillas seguidas afirmando lo mismo. */}
                 <VerifiedBadge status={pub.company.verificationStatus} />
-                <CompanyBadges badges={parseJson<string[]>(pub.company.badges, [])} />
+                <CompanyBadges
+                  badges={parseJson<string[]>(pub.company.badges, []).filter((b) => b !== 'verified')}
+                />
               </div>
 
               <dl className="mt-4 border-t border-[var(--color-border)] pt-4 text-[13px]">

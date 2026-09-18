@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Eye, MessageSquare, BadgeCheck, ImageOff } from 'lucide-react'
+import { Eye, MessageSquare, BadgeCheck } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { money } from '@/lib/format'
 import { cardVariants, motionEnabled } from '@/lib/motion'
@@ -31,6 +31,9 @@ export type PublicationCardData = {
 // asi que tiene que verse distinta y no solo llevar un sello encima.
 type Variante = 'compacta' | 'destacada'
 
+// Un unico origen para el hueco sin fotografia, para que no haya dos.
+const SIN_FOTOGRAFIA = '/api/placeholder/sin-fotografia'
+
 // Toda maquina industrial lleva remachada una placa de caracteristicas:
 // referencia, marca, modelo, ano, potencia. Etiqueta a la izquierda, cifra
 // tabulada a la derecha. Aqui cada publicacion es una placa.
@@ -38,12 +41,23 @@ function referencia(id: string) {
   return `REF ${id.slice(-6).toUpperCase()}`
 }
 
+// 33 de las 37 publicaciones traen la condicion con el prefijo "Usado - ".
+// En un catalogo de maquinaria de segunda mano ese prefijo no informa de nada:
+// lo que distingue una maquina de otra es el grado. La ficha conserva el valor
+// entero, que ahi hay sitio y es la pagina donde se decide; la tarjeta, que es
+// densa, muestra solo el grado.
+function grado(condicion: string) {
+  const corte = condicion.replace(/^usado\s*-\s*/i, '')
+  return corte.charAt(0).toUpperCase() + corte.slice(1)
+}
+
 function Dato({ etiqueta, valor }: { etiqueta: string; valor: string }) {
   return (
     <div className="flex min-h-[30px] items-baseline justify-between gap-3 border-b border-[var(--color-border)]">
-      <dt className="movia-etiqueta min-w-0 truncate">{etiqueta}</dt>
-      {/* La etiqueta cede el sitio; la cifra no se parte nunca. */}
-      <dd className="shrink-0 whitespace-nowrap text-[13px] font-semibold tabular-nums text-[var(--color-navy)]">
+      {/* Las etiquetas son cortas y conocidas, asi que no ceden ancho. El que
+          cede es el valor, que es el unico que puede traer texto largo. */}
+      <dt className="movia-etiqueta shrink-0">{etiqueta}</dt>
+      <dd className="min-w-0 truncate text-right text-[13px] font-semibold tabular-nums text-[var(--color-navy)]">
         {valor}
       </dd>
     </div>
@@ -91,52 +105,54 @@ export function PublicationCard({
       >
         <div
           className={cn(
-            'relative overflow-hidden bg-[var(--color-primary-soft)]',
+            // La retícula va siempre en el contenedor, no solo cuando falta
+            // la foto: asi el marcador generado, que llega con fondo
+            // transparente, se apoya en el mismo plano y a la misma escala
+            // que el hueco vacio. Una fotografia real la tapa entera.
+            'movia-plano relative overflow-hidden',
             // En telefono la tarjeta es apaisada: la foto a 4:3 a ancho
             // completo cuesta 285 px por publicacion y obliga a recorrer el
             // catalogo de una en una.
             destacada ? 'h-full min-h-[124px]' : 'h-full min-h-[124px] sm:aspect-[4/3] sm:h-auto sm:min-h-0',
           )}
         >
-          {item.photo ? (
-            <motion.img
-              src={item.photo}
-              alt={item.title}
-              className="size-full object-cover"
-              initial={{ scale: 1 }}
-              whileHover={motionEnabled ? { scale: 1.03 } : undefined}
-              transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
-            />
-          ) : (
-            /* No hay fotografia: el hueco se disena como plano tecnico en vez
-               de dejar un rectangulo gris. Es un estado que el producto va a
-               tener siempre, porque habra vendedores que publiquen sin foto. */
-            <div className="movia-plano flex size-full flex-col items-center justify-center gap-1.5 p-2 text-center">
-              <ImageOff className="size-7 opacity-50" aria-hidden />
-              <span className="text-[length:var(--text-label)] font-semibold uppercase tracking-[var(--tracking-label)] text-[#93b4e8]">
-                Sin fotografia
-              </span>
-            </div>
-          )}
+          {/* Falte la foto o venga apuntada al marcador generado, es el mismo
+              estado y se dibuja igual: el mismo plano, sin dos huecos
+              distintos en la misma rejilla. Un rotulo "sin fotografia" en 35
+              de las 37 tarjetas seria ruido; quien necesita el dato lo tiene
+              en la ficha, donde hay sitio para leerlo. */}
+          <motion.img
+            src={item.photo ?? SIN_FOTOGRAFIA}
+            alt={item.photo ? item.title : ''}
+            aria-hidden={item.photo ? undefined : true}
+            className="size-full object-cover"
+            initial={{ scale: 1 }}
+            whileHover={motionEnabled && item.photo ? { scale: 1.03 } : undefined}
+            transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+          />
 
-          {/* La chapa remachada: referencia y condicion, que es exactamente lo
-              que lleva grabada una placa real. */}
+          {/* La chapa remachada, con la referencia grabada. Solo lleva lo que
+              cabe entero: en la tarjeta compacta la placa mide 124 px y
+              cualquier segundo dato se partia a media palabra. Alli lo
+              destacado lo dice el color de la chapa, no una palabra mas; la
+              condicion baja a las filas de datos, donde tiene el ancho de la
+              tarjeta. */}
           <span
             className={cn(
-              'absolute bottom-0 left-0 inline-flex h-[26px] max-w-full items-center gap-1.5 overflow-hidden',
+              'absolute bottom-0 left-0 inline-flex h-[26px] max-w-full items-center gap-1.5',
               'rounded-tr-[var(--radius-input)] px-3 text-[length:var(--text-label)] font-semibold uppercase',
               'tracking-[0.1em] tabular-nums text-white',
-              destacada ? 'bg-[var(--color-primary)]' : 'bg-[var(--color-navy)]',
+              item.featured ? 'bg-[var(--color-primary)]' : 'bg-[var(--color-navy)]',
             )}
             data-testid={item.featured ? 'featured-badge' : undefined}
           >
-            <span className="truncate">{referencia(item.id)}</span>
-            {item.condition ? (
+            <span className="whitespace-nowrap">{referencia(item.id)}</span>
+            {destacada && item.featured ? (
               <>
-                <span aria-hidden className={destacada ? 'text-[#BFDBFE]' : 'text-[var(--color-primary-bright)]'}>
+                <span aria-hidden className="text-[#BFDBFE]">
                   ·
                 </span>
-                <span className="truncate">{item.featured ? 'Destacado' : item.condition}</span>
+                <span className="whitespace-nowrap">Destacado</span>
               </>
             ) : null}
           </span>
@@ -158,11 +174,15 @@ export function PublicationCard({
               </span>
             </h3>
 
-            {item.year || item.usageHours ? (
+            {item.year || item.usageHours || item.condition ? (
               <dl className="mt-3 border-t border-[var(--color-border)]">
-                <Dato etiqueta="Ano" valor={item.year ? String(item.year) : '-'} />
-                <Dato etiqueta={destacada ? 'Horas de uso' : 'Horas'} valor={horas} />
-                {destacada && item.condition ? <Dato etiqueta="Condicion" valor={item.condition} /> : null}
+                {item.year || item.usageHours ? (
+                  <>
+                    <Dato etiqueta="Ano" valor={item.year ? String(item.year) : '-'} />
+                    <Dato etiqueta={destacada ? 'Horas de uso' : 'Horas'} valor={horas} />
+                  </>
+                ) : null}
+                {item.condition ? <Dato etiqueta="Estado" valor={grado(item.condition)} /> : null}
               </dl>
             ) : null}
 
