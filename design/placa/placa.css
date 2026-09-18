@@ -390,7 +390,7 @@ button {
 }
 
 /* "Muevelo" es el claim de la marca y va subrayado con el mismo trazo a mano
-   que ya usa el build de Mykhailo, por decision del cliente. Mismos valores
+   que ya usa el build actual, por decision del cliente. Mismos valores
    que el original: viewBox 200x12, curva M2 9 C 50 3, 150 3, 198 8, grosor 4,
    extremos redondeados, en azul de marca y a 4 px de la linea base. */
 .banda h1 em {

@@ -10,7 +10,7 @@ Capturas del antes y del después en la carpeta de entrega.
 ## 1. El problema, medido
 
 El build actual no incumple el Manual de Marca. Lo cumple casi al pie de la letra.
-Valores leídos del DOM de `eduardo.ustymkushnir.com`:
+Valores leídos del DOM del despliegue actual:
 
 | Token | Manual | Producción | |
 |---|---|---|---|

@@ -356,7 +356,7 @@ de 640 px: la foto a 4:3 a ancho completo costaba 285 px por publicación y
 obligaba a recorrer el catálogo de una en una. Cada tarjeta bajó de 557 px a
 299 px y la sección de últimas publicaciones de 4.456 px a 2.483 px.
 
-La suite de Mykhailo sigue verde: `design.spec.ts` pasa entera en escritorio
+La suite del repositorio sigue verde: `design.spec.ts` pasa entera en escritorio
 (29 pruebas) y en móvil (42 pruebas), incluidas las de desbordamiento en las
 19 rutas.
 
