@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOVIA · Inicio · Dirección La Placa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="placa.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <g id="i-buscar" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></g>
+  <g id="i-flecha" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></g>
+  <g id="i-abajo" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></g>
+  <g id="i-ojo" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></g>
+  <g id="i-msj" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></g>
+  <g id="i-verif" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></g>
+  <g id="i-menu" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></g>
+  <g id="i-mas" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></g>
+  <g id="g-torno" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18M5 17v-4h6v4M11 13h4l2-3h3v7"/><circle cx="8" cy="9" r="3"/></g>
+  <g id="g-compresor" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="12" height="8" rx="4"/><path d="M16 13h4M18 9v8M8 9V5h5"/></g>
+  <g id="g-camion" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V7h11v9M14 10h4l3 3.5V16"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></g>
+  <g id="g-retro" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18M5 18v-5h7v5M12 13l3-6 4 2-2 7"/><circle cx="7" cy="18" r="2"/></g>
+  <g id="g-cpu" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="8" height="8" rx="1"/><path d="M10 3v3M14 3v3M10 18v3M14 18v3M3 10h3M3 14h3M18 10h3M18 14h3"/></g>
+  <g id="i-cheuron" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></g>
+  <g id="c-maquinaria" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 20V9l5 3V9l5 3V6l4 2v12"/><path d="M8 20v-3h3v3"/></g>
+  <g id="c-equipos" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0 5 5L15 16l-3.5 3.5a2.1 2.1 0 0 1-3-3L12 13Z"/></g>
+  <g id="c-vehiculos" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17V7h11v10M14 10h4l3 3.5V17"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></g>
+  <g id="c-construccion" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18v3H3zM6 17V9a6 6 0 0 1 12 0v8"/><path d="M12 3v6"/></g>
+  <g id="c-alimentos" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v7a2 2 0 0 0 4 0V3M7 10v11M19 3c-1.5 2-2 4-2 6s.5 3 2 3v9"/></g>
+  <g id="c-muebles" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11V8a2 2 0 0 1 4 0v3h8V8a2 2 0 0 1 4 0v3a2 2 0 0 1 0 4v3H4v-3a2 2 0 0 1 0-4Z"/></g>
+  <g id="c-tecnologia" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="8" height="8" rx="1"/><path d="M10 3v3M14 3v3M10 18v3M14 18v3M3 10h3M3 14h3M18 10h3M18 14h3"/></g>
+  <g id="c-otros" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 7.5v9L12 21l9-4.5v-9Z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/></g>
+  <g id="g-foto" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="m21 16-5-5-5.5 5.5L8 14l-5 5"/></g>
+</defs></svg>
+
+<header class="barra">
+  <div class="limite barra__fila">
+    <a class="barra__logo" href="#" aria-label="MOVIA, inicio">
+      <img src="../../public/brand/isotipo.png" alt="MOVIA">
+    </a>
+
+    <nav class="barra__nav" aria-label="Principal">
+      <a class="enlace" href="#">Buscar</a>
+      <a class="enlace" href="#">Categorías</a>
+      <a class="enlace" href="#">Empresas</a>
+      <a class="enlace" href="#">Planes</a>
+    </nav>
+
+    <div class="barra__acciones">
+      <a class="btn btn--linea" href="#">Ingresar</a>
+      <a class="btn btn--azul" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mas"/></svg>
+        Publicar
+      </a>
+      <button class="barra__menu" type="button" aria-label="Abrir menú">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ===================================================================
+       BANDA DE MARCA
+       El comprador llega sabiendo el modelo que necesita, asi que lo que
+       manda aqui no es un eslogan sino la consulta. La busqueda se trata
+       como el instrumento principal del producto.
+       =================================================================== -->
+  <section class="banda">
+    <img class="banda__marca" src="../../public/brand/isotipo.png" alt="" aria-hidden="true">
+    <div class="limite banda__rejilla">
+      <div class="banda__caja">
+        <p class="etiqueta etiqueta-lectura">Marketplace de activos empresariales</p>
+
+        <h1>Lo que tu empresa no usa, <em>muévelo<svg class="banda__trazo" aria-hidden="true" viewBox="0 0 200 12" preserveAspectRatio="none"><path d="M2 9 C 50 3, 150 3, 198 8" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></em></h1>
+
+        <p class="banda__entrada">
+          Maquinaria, equipos e inventarios de empresas verificadas con NIT.
+          Busca por modelo, compara fichas técnicas y contacta al vendedor el
+          mismo día.
+        </p>
+
+        <form class="consulta" role="search" onsubmit="return false">
+          <div class="consulta__fila">
+            <div class="consulta__campo">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-buscar"/></svg>
+              <input type="search" aria-label="Buscar por modelo, marca o referencia"
+                     placeholder="Torno CNC, Atlas Copco GA 37, retroexcavadora…">
+            </div>
+            <button class="btn btn--azul" type="submit">
+              Buscar
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+            </button>
+          </div>
+
+          <!-- La consulta compuesta: nadie busca "torno" a secas, busca un
+               torno de cierta potencia, en cierta ciudad, de cierto ano. -->
+          <div class="consulta__filtros">
+            <button class="filtro" type="button">
+              <span class="etiqueta">Categoría</span>
+              <span class="filtro__valor">Todas</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-abajo"/></svg>
+            </button>
+            <button class="filtro" type="button">
+              <span class="etiqueta">Ubicación</span>
+              <span class="filtro__valor">Colombia</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-abajo"/></svg>
+            </button>
+            <button class="filtro" type="button">
+              <span class="etiqueta">Año</span>
+              <span class="filtro__valor">Desde 2010</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-abajo"/></svg>
+            </button>
+            <button class="filtro" type="button">
+              <span class="etiqueta">Condición</span>
+              <span class="filtro__valor">Todas</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-abajo"/></svg>
+            </button>
+          </div>
+
+          <!-- La lectura del instrumento: el corpus sobre el que se busca.
+               Dentro de la consola y con peso, no sueltas y en 13 px. -->
+          <dl class="lectura">
+            <div class="lectura__celda"><dt>Activos</dt><dd>200</dd></div>
+            <div class="lectura__celda"><dt>Empresas</dt><dd>29</dd></div>
+            <div class="lectura__celda"><dt>Ciudades</dt><dd>8</dd></div>
+            <div class="lectura__celda"><dt>Nuevos hoy</dt><dd>6</dd></div>
+          </dl>
+        </form>
+      </div>
+
+      <!-- La ultima publicacion, en vivo. Ocupa el hueco que solo tenia la
+           marca de agua y demuestra de un vistazo que el catalogo se mueve.
+           Sin foto a proposito: es una placa de datos, que es de lo que va
+           este producto. -->
+      <aside class="ultima">
+        <span class="etiqueta etiqueta-lectura">Última publicación · hace 12 min</span>
+
+        <p class="ultima__modelo">Compresor de tornillo Atlas Copco GA 37</p>
+
+        <dl class="ultima__datos">
+          <div class="ultima__dato"><dt>Año</dt><dd>2019</dd></div>
+          <div class="ultima__dato"><dt>Horas</dt><dd>8.100 h</dd></div>
+          <div class="ultima__dato"><dt>Ubicación</dt><dd>Bogotá</dd></div>
+        </dl>
+
+        <p class="ultima__precio">
+          <strong>$ 54.000.000</strong>
+          <span class="ultima__iva">IVA incl.</span>
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <div class="limite cuerpo">
+
+    <!-- =================================================================
+         ÍNDICE
+         Un índice de catálogo de repuestos. El conteo es un dato, no una
+         nota al pie, así que se tabula a la derecha.
+         ================================================================= -->
+    <section class="seccion">
+      <div class="seccion__cabeza">
+        <div class="seccion__titulo">
+          <span class="etiqueta">Índice</span>
+          <h2>Categorías</h2>
+        </div>
+        <a class="seccion__ver" href="#">
+          Ver todas
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+        </a>
+      </div>
+
+      <div class="indice">
+        <a class="indice__fila" href="#">
+          <span class="indice__glifo"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-maquinaria"/></svg></span>
+          <span class="indice__nombre">Maquinaria industrial</span>
+          <span class="indice__puntos" aria-hidden="true"></span>
+          <span class="indice__conteo">77</span>
+          <svg class="indice__cheuron" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cheuron"/></svg>
+        </a>
+        <a class="indice__fila" href="#">
+          <span class="indice__glifo"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-equipos"/></svg></span>
+          <span class="indice__nombre">Equipos</span>
+          <span class="indice__puntos" aria-hidden="true"></span>
+          <span class="indice__conteo">55</span>
+          <svg class="indice__cheuron" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cheuron"/></svg>
+        </a>
+        <a class="indice__fila" href="#">
+          <span class="indice__glifo"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-vehiculos"/></svg></span>
+          <span class="indice__nombre">Vehículos</span>
+          <span class="indice__puntos" aria-hidden="true"></span>
+          <span class="indice__conteo">54</span>
+          <svg class="indice__cheuron" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cheuron"/></svg>
+        </a>
+        <a class="indice__fila" href="#">
+          <span class="indice__glifo"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-construccion"/></svg></span>
+          <span class="indice__nombre">Construcción</span>
+          <span class="indice__puntos" aria-hidden="true"></span>
+          <span class="indice__conteo">3</span>
+          <svg class="indice__cheuron" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cheuron"/></svg>
+        </a>
+        <a class="indice__fila" href="#">
+          <span class="indice__glifo"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-alimentos"/></svg></span>
+          <span class="indice__nombre">Alimentos</span>
+          <span class="indice__puntos" aria-hidden="true"></span>
+          <span class="indice__conteo">3</span>
+          <svg class="indice__cheuron" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cheuron"/></svg>
+        </a>
+        <a class="indice__fila" href="#">
+          <span class="indice__glifo"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-muebles"/></svg></span>
+          <span class="indice__nombre">Muebles</span>
+          <span class="indice__puntos" aria-hidden="true"></span>
+          <span class="indice__conteo">2</span>
+          <svg class="indice__cheuron" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cheuron"/></svg>
+        </a>
+        <a class="indice__fila" href="#">
+          <span class="indice__glifo"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-tecnologia"/></svg></span>
+          <span class="indice__nombre">Tecnología</span>
+          <span class="indice__puntos" aria-hidden="true"></span>
+          <span class="indice__conteo">3</span>
+          <svg class="indice__cheuron" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cheuron"/></svg>
+        </a>
+        <a class="indice__fila" href="#">
+          <span class="indice__glifo"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><use href="#c-otros"/></svg></span>
+          <span class="indice__nombre">Otros</span>
+          <span class="indice__puntos" aria-hidden="true"></span>
+          <span class="indice__conteo">3</span>
+          <svg class="indice__cheuron" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cheuron"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         DESTACADOS
+         ================================================================= -->
+    <section class="seccion">
+      <div class="seccion__cabeza">
+        <div class="seccion__titulo">
+          <span class="etiqueta">Visibilidad contratada</span>
+          <h2>Activos destacados</h2>
+        </div>
+        <a class="seccion__ver" href="#">
+          Ver más
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+        </a>
+      </div>
+
+      <div class="rejilla rejilla--destacadas">
+        <article class="placa placa--destacada">
+          <a class="placa__enlace" href="ficha.html">
+            <div class="placa__foto">
+              <div class="plano">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#g-torno"/></svg>
+              </div>
+              <span class="chapa chapa--destacada">
+                REF 0003 <span class="chapa__sep" style="color:#bfdbfe">·</span> Destacado
+              </span>
+            </div>
+            <div class="placa__cuerpo">
+              <h3 class="placa__modelo"><span><span>Torno CNC Mazak Quick Turn 250</span></span></h3>
+              <dl class="placa__tabla">
+                <div class="placa__dato"><dt>Año</dt><dd>2016</dd></div>
+                <div class="placa__dato"><dt>Horas de uso</dt><dd>12.400 h</dd></div>
+                <div class="placa__dato"><dt>Potencia</dt><dd>22 kW</dd></div>
+                <div class="placa__dato"><dt>Condición</dt><dd>Usado · buen estado</dd></div>
+              </dl>
+              <p class="placa__precio">
+                <strong>$ 185.000.000</strong>
+                <span class="placa__iva">IVA incluido</span>
+              </p>
+            </div>
+          </a>
+          <div class="placa__pie">
+            <span class="vendedor">
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-verif"/></svg>
+              <span>Industrias Andinas · Bogotá</span>
+            </span>
+            <span class="metricas">
+              <span title="Visualizaciones"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ojo"/></svg>761</span>
+              <span title="Contactos"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-msj"/></svg>58</span>
+            </span>
+          </div>
+        </article>
+
+        <article class="placa placa--destacada">
+          <a class="placa__enlace" href="ficha.html">
+            <div class="placa__foto">
+              <div class="plano">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#g-retro"/></svg>
+              </div>
+              <span class="chapa chapa--destacada">
+                REF 0012 <span class="chapa__sep" style="color:#bfdbfe">·</span> Destacado
+              </span>
+            </div>
+            <div class="placa__cuerpo">
+              <h3 class="placa__modelo"><span><span>Retroexcavadora Caterpillar 416F</span></span></h3>
+              <dl class="placa__tabla">
+                <div class="placa__dato"><dt>Año</dt><dd>2018</dd></div>
+                <div class="placa__dato"><dt>Horas de uso</dt><dd>6.900 h</dd></div>
+                <div class="placa__dato"><dt>Potencia</dt><dd>74 kW</dd></div>
+                <div class="placa__dato"><dt>Condición</dt><dd>Usado · buen estado</dd></div>
+              </dl>
+              <p class="placa__precio">
+                <strong>$ 245.000.000</strong>
+                <span class="placa__iva">IVA incluido</span>
+              </p>
+            </div>
+          </a>
+          <div class="placa__pie">
+            <span class="vendedor">
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-verif"/></svg>
+              <span>Construcciones Paisas · Medellín</span>
+            </span>
+            <span class="metricas">
+              <span title="Visualizaciones"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ojo"/></svg>368</span>
+              <span title="Contactos"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-msj"/></svg>16</span>
+            </span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         ÚLTIMAS PUBLICACIONES
+         ================================================================= -->
+    <section class="seccion">
+      <div class="seccion__cabeza">
+        <div class="seccion__titulo">
+          <span class="etiqueta">Actualizado hace 2 horas</span>
+          <h2>Últimas publicaciones</h2>
+        </div>
+        <a class="seccion__ver" href="#">
+          Ver todas
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+        </a>
+      </div>
+
+      <div class="rejilla">
+        <article class="placa">
+          <a class="placa__enlace" href="ficha.html">
+            <div class="placa__foto">
+              <div class="plano"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#g-compresor"/></svg></div>
+              <span class="chapa">REF 0006 <span class="chapa__sep">·</span> Buen estado</span>
+            </div>
+            <div class="placa__cuerpo">
+              <h3 class="placa__modelo"><span><span>Compresor de tornillo Atlas Copco GA 37</span></span></h3>
+              <dl class="placa__tabla">
+                <div class="placa__dato"><dt>Año</dt><dd>2019</dd></div>
+                <div class="placa__dato"><dt>Horas</dt><dd>8.100 h</dd></div>
+              </dl>
+              <p class="placa__precio">
+                <strong>$ 54.000.000</strong>
+                <span class="placa__iva">IVA incl.</span>
+              </p>
+            </div>
+          </a>
+          <div class="placa__pie">
+            <span class="vendedor">
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-verif"/></svg>
+              <span>Industrias Andinas</span>
+            </span>
+            <span class="metricas">
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ojo"/></svg>409</span>
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-msj"/></svg>19</span>
+            </span>
+          </div>
+        </article>
+
+        <article class="placa">
+          <a class="placa__enlace" href="ficha.html">
+            <div class="placa__foto">
+              <div class="plano"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#g-camion"/></svg></div>
+              <span class="chapa">REF 0009 <span class="chapa__sep">·</span> Buen estado</span>
+            </div>
+            <div class="placa__cuerpo">
+              <h3 class="placa__modelo"><span><span>Camión Chevrolet NPR 2018 furgón seco</span></span></h3>
+              <dl class="placa__tabla">
+                <div class="placa__dato"><dt>Año</dt><dd>2018</dd></div>
+                <div class="placa__dato"><dt>Kilómetros</dt><dd>184.000 km</dd></div>
+              </dl>
+              <p class="placa__precio">
+                <strong>$ 135.000.000</strong>
+                <span class="placa__iva">IVA incl.</span>
+              </p>
+            </div>
+          </a>
+          <div class="placa__pie">
+            <span class="vendedor">
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-verif"/></svg>
+              <span>Logística Caribe</span>
+            </span>
+            <span class="metricas">
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ojo"/></svg>257</span>
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-msj"/></svg>12</span>
+            </span>
+          </div>
+        </article>
+
+        <article class="placa">
+          <a class="placa__enlace" href="ficha.html">
+            <div class="placa__foto">
+              <div class="plano"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#g-cpu"/></svg></div>
+              <span class="chapa">REF 0022 <span class="chapa__sep">·</span> Como nuevo</span>
+            </div>
+            <div class="placa__cuerpo">
+              <h3 class="placa__modelo"><span><span>Impresora 3D industrial Markforged X7</span></span></h3>
+              <dl class="placa__tabla">
+                <div class="placa__dato"><dt>Año</dt><dd>2021</dd></div>
+                <div class="placa__dato"><dt>Horas</dt><dd>1.240 h</dd></div>
+              </dl>
+              <p class="placa__precio">
+                <strong>$ 165.000.000</strong>
+                <span class="placa__iva">IVA incl.</span>
+              </p>
+            </div>
+          </a>
+          <div class="placa__pie">
+            <span class="vendedor">
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-verif"/></svg>
+              <span>Metalmecánica del Valle</span>
+            </span>
+            <span class="metricas">
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ojo"/></svg>477</span>
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-msj"/></svg>21</span>
+            </span>
+          </div>
+        </article>
+
+        <!-- Persona natural y sin fotografia: los dos casos reales que el
+             catalogo tiene hoy y que nadie ha disenado. -->
+        <article class="placa">
+          <a class="placa__enlace" href="ficha.html">
+            <div class="placa__foto">
+              <div class="plano plano--vacio">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#g-foto"/></svg>
+                <span class="plano__nota" style="color:#9aa6b8">Sin fotografía</span>
+              </div>
+              <span class="chapa">REF 0031 <span class="chapa__sep">·</span> Operativo</span>
+            </div>
+            <div class="placa__cuerpo">
+              <h3 class="placa__modelo"><span><span>Compresor tornillo Kaeser SK25</span></span></h3>
+              <dl class="placa__tabla">
+                <div class="placa__dato"><dt>Año</dt><dd>2015</dd></div>
+                <div class="placa__dato"><dt>Horas</dt><dd>21.700 h</dd></div>
+              </dl>
+              <p class="placa__precio">
+                <strong>$ 38.000.000</strong>
+                <span class="placa__iva">IVA incl.</span>
+              </p>
+            </div>
+          </a>
+          <div class="placa__pie">
+            <span class="vendedor vendedor--natural"><span>Persona natural</span></span>
+            <span class="metricas">
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ojo"/></svg>44</span>
+              <span><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-msj"/></svg>2</span>
+            </span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         REGISTRO DE EMPRESAS
+         ================================================================= -->
+    <section class="seccion">
+      <div class="seccion__cabeza">
+        <div class="seccion__titulo">
+          <span class="etiqueta">Identidad validada con NIT y Cámara de Comercio</span>
+          <h2>Empresas verificadas</h2>
+        </div>
+        <a class="seccion__ver" href="#">
+          Ver todas
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+        </a>
+      </div>
+
+      <table class="registro">
+        <thead>
+          <tr>
+            <th scope="col">Empresa</th>
+            <th scope="col">Ciudad</th>
+            <th scope="col" style="text-align:right">Publicaciones activas</th>
+            <th scope="col" style="text-align:right">Respuesta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a class="registro__empresa" href="#">
+                <span class="registro__sigla">IA</span>
+                Industrias Andinas
+                <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--azul)"><use href="#i-verif"/></svg>
+              </a>
+              <span class="registro__meta">Bogotá · 179 publicaciones · responde en 45 min</span>
+            </td>
+            <td>Bogotá</td>
+            <td class="num">179</td>
+            <td class="num">45 min</td>
+          </tr>
+          <tr>
+            <td>
+              <a class="registro__empresa" href="#">
+                <span class="registro__sigla">MV</span>
+                Metalmecánica del Valle
+                <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--azul)"><use href="#i-verif"/></svg>
+              </a>
+              <span class="registro__meta">Cali · 5 publicaciones · responde en 2 h</span>
+            </td>
+            <td>Cali</td>
+            <td class="num">5</td>
+            <td class="num">2 h</td>
+          </tr>
+          <tr>
+            <td>
+              <a class="registro__empresa" href="#">
+                <span class="registro__sigla">LC</span>
+                Logística Caribe
+                <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--azul)"><use href="#i-verif"/></svg>
+              </a>
+              <span class="registro__meta">Barranquilla · 3 publicaciones · responde en 1 h</span>
+            </td>
+            <td>Barranquilla</td>
+            <td class="num">3</td>
+            <td class="num">1 h</td>
+          </tr>
+          <tr>
+            <td>
+              <a class="registro__empresa" href="#">
+                <span class="registro__sigla">CP</span>
+                Construcciones Paisas
+                <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--azul)"><use href="#i-verif"/></svg>
+              </a>
+              <span class="registro__meta">Medellín · 5 publicaciones · responde en 3 h</span>
+            </td>
+            <td>Medellín</td>
+            <td class="num">5</td>
+            <td class="num">3 h</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="llamada">
+      <div class="llamada__texto">
+        <span class="etiqueta etiqueta-lectura">Vender en MOVIA</span>
+        <h2>¿Tienes equipo parado?</h2>
+        <p>
+          Publícalo hoy y empieza a recibir contactos de empresas que lo están
+          buscando en Colombia.
+        </p>
+      </div>
+      <div class="llamada__accion">
+        <a class="btn btn--azul btn--grande" href="#">
+          Publicar un activo
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flecha"/></svg>
+        </a>
+        <p class="llamada__nota">Publicación por 15 o 30 días · IVA incluido</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="pie">
+  <div class="limite">
+    <div class="pie__rejilla">
+      <div class="pie__marca">
+        <span class="pie__marca-placa">
+          <img src="../../public/brand/logo-web.png" alt="MOVIA">
+        </span>
+        <p>Convierte lo que una empresa ya no usa en oportunidad para otra.</p>
+      </div>
+      <div>
+        <h3>Comprar</h3>
+        <ul>
+          <li><a href="#">Buscar activos</a></li>
+          <li><a href="#">Categorías</a></li>
+          <li><a href="#">Empresas verificadas</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Vender</h3>
+        <ul>
+          <li><a href="#">Publicar un activo</a></li>
+          <li><a href="#">Carga masiva</a></li>
+          <li><a href="#">Planes y precios</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>MOVIA</h3>
+        <ul>
+          <li><a href="#">Cómo funciona</a></li>
+          <li><a href="#">Verificación con NIT</a></li>
+          <li><a href="#">Ayuda</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pie__legal">
+      <span>MOVIA · Colombia</span>
+      <span>Precios en COP con IVA incluido</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
