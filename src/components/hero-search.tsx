@@ -39,7 +39,7 @@ export function HeroSearch({ activos, empresas }: { activos: number; empresas: n
 
       <div className="relative mx-auto w-full max-w-[1152px]">
         <div className="max-w-3xl">
-          <p className="text-[var(--text-label)] font-semibold uppercase tracking-[var(--tracking-label)] text-[var(--color-primary-bright)]">
+          <p className="text-[length:var(--text-label)] font-semibold uppercase tracking-[var(--tracking-label)] text-[var(--color-primary-bright)]">
             Marketplace de activos empresariales
           </p>
 

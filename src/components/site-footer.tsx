@@ -53,7 +53,7 @@ export async function SiteFooter() {
           </nav>
         </div>
 
-        <div className="mt-10 flex flex-wrap justify-between gap-3 border-t border-[var(--color-navy-line)] pt-6 text-[var(--text-label)] tracking-[0.04em] text-[var(--color-navy-muted)]">
+        <div className="mt-10 flex flex-wrap justify-between gap-3 border-t border-[var(--color-navy-line)] pt-6 text-[length:var(--text-label)] tracking-[0.04em] text-[var(--color-navy-muted)]">
           <span>
             {env.ui.brandName} - {env.locale.countryName}
           </span>
