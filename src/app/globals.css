@@ -38,9 +38,12 @@
 
   /* Seccion 5 del manual: titulo principal 32-40, titulo de seccion 24-28,
      subtitulo 18-20, texto base 14-16, texto pequeno 12-14. Los tamanos se
-     cumplen enteros. La unica desviacion de la direccion es el peso 800 en
-     los dos titulares y en las cifras de precio, donde el manual pide 700.
-     Va senalada a proposito. */
+     cumplen enteros y los titulares conservan el peso 700 del manual. La
+     unica desviacion es el peso 800 en las cifras de precio, que no son
+     texto sino el dato por el que se entra en una publicacion.
+
+     Los pasos siguen declarados aqui aunque las pantallas todavia lleven
+     medidas literales: consumirlos es el siguiente tramo de trabajo. */
   --text-display: 40px; /* h1 del inicio */
   --text-title: 34px; /* h1 de la ficha */
   --text-section: 24px; /* titulo de seccion */

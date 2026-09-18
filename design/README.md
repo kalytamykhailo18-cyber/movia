@@ -77,22 +77,28 @@ Ninguna se ha movido.
 | Funciona a 412 px | Cero desbordamiento horizontal |
 
 La escala tipográfica respeta los rangos de la sección 5 del manual: título
-principal 32-40, título de sección 24-28, subtítulo 18-20. La única desviación
-es el **peso 800** en los dos titulares y en las cifras de precio, donde el
-manual pide 700. Está señalada a propósito y es discutible.
+principal 32-40, título de sección 24-28, subtítulo 18-20. Los titulares usan
+el peso 700 que pide el manual. La única desviación es el **peso 800 en las
+cifras de precio**, que no son texto sino el dato por el que se entra en una
+publicación. Está señalada a propósito y es discutible.
 
 ---
 
 ## Pruebas
 
-La dirección vigente obliga a mover **dos** aserciones de
-`tests/e2e/design.spec.ts`, ambas a conciencia y documentadas en el commit
+La dirección vigente mueve **una sola** aserción de
+`tests/e2e/design.spec.ts`, a conciencia y documentada en el commit
 correspondiente:
 
-1. `el encabezado fijo es opaco` espera fondo blanco. El encabezado pasa a navy,
-   que es lo que la sección 4 del manual asigna a *"estructura, encabezados,
-   navegación y footer"*.
-2. `el titulo principal usa 32 a 40 px con peso 700` espera peso exacto `700`.
-   El titular mantiene el tamaño dentro de rango y sube a `800`.
+- `el encabezado fijo es opaco y no deja ver el contenido detrás` esperaba fondo
+  blanco. El encabezado pasa a navy, que es lo que la sección 4 del manual
+  asigna a *"estructura, encabezados, navegación y footer"*. Lo que la prueba
+  vigila de verdad, que la barra sea opaca y sin desenfoque, sigue verificado
+  igual.
 
-El resto de la suite debe seguir en verde sin tocarla.
+El resto de la suite pasa sin tocarla, en escritorio y en teléfono. Para
+ejecutarla:
+
+```bash
+npm run test:e2e
+```
