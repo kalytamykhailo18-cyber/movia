@@ -69,10 +69,16 @@
      ----------------------------------------------------------------------- */
   --fuente: 'Inter', 'Manrope', Arial, sans-serif;
 
-  --placa-xl: 56px;
-  --placa-l: 40px;
-  --placa-m: 30px;
-  --placa-s: 22px;
+  /* La seccion 5 del manual fija: titulo principal 32-40, titulo de seccion
+     24-28, subtitulo 18-20. Los tamanos se cumplen enteros. La unica
+     desviacion es el peso 800, y solo en los dos titulares y en las cifras
+     de precio: ahi vive el caracter de la direccion. El resto de pesos son
+     los del manual. */
+  --placa-xl: 40px;  /* h1 del inicio, peso 800 */
+  --placa-l: 34px;   /* h1 de la ficha, peso 800 */
+  --placa-m: 28px;   /* llamada de cierre, peso 600 */
+  --placa-s: 24px;   /* titulo de seccion, peso 600 */
+  --placa-sub: 18px; /* subtitulo y titulo de placa, peso 600 */
 
   --texto-l: 17px;
   --texto: 15px;

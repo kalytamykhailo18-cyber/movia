@@ -640,7 +640,7 @@ button {
 .seccion__cabeza h2 {
   margin: var(--e2) 0 0;
   font-size: var(--placa-s);
-  font-weight: 700;
+  font-weight: 600;
   line-height: var(--alto-medio);
   letter-spacing: var(--track-titulo);
 }
@@ -844,8 +844,8 @@ button {
 
 .placa__modelo {
   margin: 0;
-  font-size: var(--texto-l);
-  font-weight: 700;
+  font-size: var(--placa-sub);
+  font-weight: 600;
   line-height: var(--alto-medio);
   letter-spacing: var(--track-titulo);
   color: var(--navy);
@@ -1003,7 +1003,7 @@ button {
 }
 
 .placa--destacada .placa__modelo {
-  font-size: var(--placa-s);
+  font-size: 20px;
 }
 
 .placa--destacada .placa__precio strong {
@@ -1211,7 +1211,7 @@ button {
 .llamada h2 {
   margin: var(--e2) 0 0;
   font-size: var(--placa-m);
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: var(--track-placa);
 }
 
@@ -1517,8 +1517,8 @@ button {
   position: relative;
   margin: 0 0 var(--e4);
   padding-left: var(--e3);
-  font-size: var(--texto-l);
-  font-weight: 700;
+  font-size: var(--placa-sub);
+  font-weight: 600;
   letter-spacing: var(--track-titulo);
 }
 
@@ -1715,8 +1715,8 @@ button {
   align-items: center;
   min-height: var(--tactil);
   margin-top: var(--e1);
-  font-size: var(--texto-l);
-  font-weight: 700;
+  font-size: var(--placa-sub);
+  font-weight: 600;
   letter-spacing: var(--track-titulo);
 }
 
@@ -1909,10 +1909,13 @@ button {
 @media (max-width: 640px) {
   :root {
     --margen: 16px;
+    /* En movil el titular baja, pero el titulo de seccion y el subtitulo se
+       quedan dentro de los rangos del manual: 24-28 y 18-20. Bajarlos a 20 y
+       15 los sacaba de rango. */
     --placa-xl: 34px;
     --placa-l: 28px;
     --placa-m: 24px;
-    --placa-s: 20px;
+    --placa-s: 24px;
     --pad-placa: 12px;
     --pad-panel: 16px;
     --e16: 48px;
@@ -2027,7 +2030,7 @@ button {
 
   .placa__modelo,
   .placa--destacada .placa__modelo {
-    font-size: var(--texto);
+    font-size: var(--placa-sub);
   }
 
   .placa__modelo a {
