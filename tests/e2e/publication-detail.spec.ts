@@ -13,8 +13,14 @@ test.describe('Ficha de publicacion', () => {
 
   test('muestra titulo, precio e impuesto incluido', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
-    await expect(page.getByTestId('detail-price')).toContainText('$')
-    await expect(page.getByText(/IVA incluido/i)).toBeVisible()
+
+    // El impuesto se declara junto al precio de esta publicacion, no en las
+    // tarjetas de similares que ahora tambien lo muestran.
+    const precio = page.getByTestId('detail-price')
+    await expect(precio).toContainText('$')
+
+    const bloque = precio.locator('xpath=ancestor::*[self::div][1]')
+    await expect(bloque.getByText(/IVA incluido/i).first()).toBeVisible()
   })
 
   test('muestra la galeria con contador de imagenes', async ({ page }) => {

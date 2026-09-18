@@ -80,7 +80,7 @@ test.describe('Planes y precios', () => {
   })
 
   test('declara el impuesto incluido y desglosa la base', async ({ page }) => {
-    await expect(page.getByText(/con IVA incluido/i)).toBeVisible()
+    await expect(page.getByText(/con IVA incluido/i).first()).toBeVisible()
     await expect(page.getByTestId('plan-tax').first()).toContainText(/Base .* \+ IVA/)
   })
 
