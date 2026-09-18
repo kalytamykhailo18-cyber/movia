@@ -1,7 +1,13 @@
 import Link from 'next/link'
 import { ArrowRight, BadgeCheck } from 'lucide-react'
 import { env } from '@/lib/env'
-import { getFeatured, getLatest, getCategories, getVerifiedCompanies } from '@/server/publications'
+import {
+  getFeatured,
+  getLatest,
+  getCategories,
+  getVerifiedCompanies,
+  getFilterOptions,
+} from '@/server/publications'
 import { PublicationCard } from '@/components/publication-card'
 import { HeroSearch } from '@/components/hero-search'
 import { CategoryGrid } from '@/components/category-grid'
@@ -12,19 +18,30 @@ import { db } from '@/lib/db'
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const [featured, latest, categories, companies, totalActivos, totalEmpresas] = await Promise.all([
-    getFeatured(4),
-    getLatest(8),
-    getCategories(),
-    getVerifiedCompanies(4),
-    db.publication.count({ where: { status: 'active' } }),
-    db.company.count({ where: { verificationStatus: 'approved' } }),
-  ])
+  const [featured, latest, categories, companies, opciones, totalActivos, totalEmpresas] =
+    await Promise.all([
+      getFeatured(4),
+      getLatest(8),
+      getCategories(),
+      getVerifiedCompanies(4),
+      // Ya existia para /buscar. La entrada la reutiliza para que sus cuatro
+      // desplegables filtren de verdad, con los mismos parametros.
+      getFilterOptions(),
+      db.publication.count({ where: { status: 'active' } }),
+      db.company.count({ where: { verificationStatus: 'approved' } }),
+    ])
 
   return (
     // 32 px entre secciones en vez de 48: sostiene mejor un catalogo denso.
     <div className="space-y-8 md:space-y-12">
-      <HeroSearch activos={totalActivos} empresas={totalEmpresas} />
+      <HeroSearch
+        activos={totalActivos}
+        empresas={totalEmpresas}
+        categorias={categories}
+        ciudades={opciones.cities}
+        condiciones={opciones.conditions}
+        ultima={latest[0]}
+      />
 
       <AnimatedSection>
         <SectionHeading
