@@ -123,7 +123,10 @@ export default async function HomePage() {
       </AnimatedSection>
 
       <AnimatedSection>
-        <div className="relative overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-navy)] px-6 py-12 text-center md:px-12 md:py-16">
+        {/* Cierra como abre: navy de borde a borde. Una tarjeta navy redondeada
+            justo encima de un pie navy volvia a partir en dos una misma masa
+            de color. */}
+        <div className="movia-sangrado relative -mb-16 overflow-hidden bg-[var(--color-navy)] px-6 py-16 text-center md:px-12 md:py-20">
           <h2 className="text-[24px] font-bold tracking-[var(--tracking-tight)] text-white md:text-[28px]">
             Tenes equipo parado?
           </h2>

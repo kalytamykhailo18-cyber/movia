@@ -20,13 +20,13 @@ export function HeroSearch({ activos, empresas }: { activos: number; empresas: n
 
   return (
     // El navy deja de ser una tarjeta redondeada flotando sobre gris y pasa a
-    // ser el marco: la pagina empieza en navy y el catalogo sale de el. Los
-    // margenes negativos anulan el relleno de <main> sin desbordar el ancho.
+    // ser el marco: la barra y el bloque de entrada son una sola masa navy de
+    // borde a borde, y el catalogo sale de ella.
     <motion.section
       variants={motionEnabled ? sectionVariants : undefined}
       initial="hidden"
       animate="show"
-      className="relative -mx-4 -mt-6 overflow-hidden bg-[var(--color-navy)] px-4 py-12 md:-mx-6 md:px-6 md:py-16"
+      className="movia-sangrado relative -mt-6 overflow-hidden bg-[var(--color-navy)] px-4 py-12 md:px-6 md:py-16"
     >
       {/* El isotipo funciona como masa grafica, no como calcomania suelta.
           La prueba de identidad exige que se quede por debajo de 0.2. */}

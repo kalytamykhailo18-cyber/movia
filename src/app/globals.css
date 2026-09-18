@@ -81,6 +81,28 @@
   }
 }
 
+/* Sangrado completo desde dentro de <main>, que esta limitado a 1200 px y
+   centrado. El encabezado es navy de borde a borde, asi que un bloque navy
+   mas estrecho colgando de el se lee como un error, no como una decision.
+
+   El margen negativo saca la seccion hasta el borde de la ventana. Como 50vw
+   incluye la barra de desplazamiento, sobra el ancho de esa barra: se recorta
+   con overflow-x en el body. Tiene que ser "clip" y no "hidden", porque
+   "hidden" crea un contenedor de desplazamiento y el encabezado sticky
+   dejaria de pegarse.
+
+   El relleno interior no se recalcula: la caja interna de la seccion es
+   max-w-[1152px] centrada, que es exactamente 1200 menos los dos rellenos de
+   24 px de <main>. Asi el titular arranca en la misma vertical que el resto
+   de la pagina. */
+body {
+  overflow-x: clip;
+}
+
+.movia-sangrado {
+  margin-inline: calc(50% - 50vw);
+}
+
 /* Etiqueta tecnica. Mayusculas cortas, que el manual admite para etiquetas y
    descriptores. Encima de cada dato, es lo que convierte una pantalla en una
    ficha tecnica sin recurrir a ningun color nuevo. */
